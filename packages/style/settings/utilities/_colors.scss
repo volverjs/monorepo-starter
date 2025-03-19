@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+@use '@volverjs/style/scss/themes/dark/context' as *;
+
+$colors: map.deep-merge(
+    $colors,
+    (
+        white: color-alpha-map($color-white, 'white', $steps: 10, $scale: 0.1),
+        black: color-alpha-map($color-black, 'black', $steps: 10, $scale: 0.1),
+        alpha: color-alpha-map($color-white, 'white', $steps: 10, $scale: 0.1),
+    )
+);
+$dark-colors: map.deep-merge(
+    $dark-colors,
+    (
+        alpha: color-alpha-map($color-black, 'black', $steps: 10, $scale: 0.1),
+    )
+);

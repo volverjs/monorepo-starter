@@ -1,0 +1,15 @@
+{
+    "name": "ability",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "dependencies": {
+        "@casl/ability": "^6.7.3",
+        "@ucast/mongo2js": "^1.4.0",
+        "models": "workspace:*"
+    }
+}

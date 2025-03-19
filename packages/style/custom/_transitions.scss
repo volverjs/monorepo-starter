@@ -1,0 +1,18 @@
+// default
+.v-enter-active,
+.v-leave-active,
+.fade-in-enter-active {
+    transition: var(--transition-opacity);
+}
+
+.v-enter-from,
+.v-leave-to,
+.fade-in-enter-from,
+.fade-in-leave-to {
+    opacity: 0;
+}
+
+.fade-in-leave-active {
+    display: none;
+    position: absolute;
+}

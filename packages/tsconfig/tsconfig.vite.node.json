@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "./tsconfig.base.json",
+    "display": "ViteNode",
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "esModuleInterop": true,
+        "incremental": false,
+        "skipLibCheck": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": ["vite/client"]
+    },
+    "exclude": ["dist", "node_modules"],
+    "ts-node": {
+        // Tell ts-node CLI to install the --loader automatically, explained below
+        "esm": true
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "extends": "tsconfig/tsconfig.vite.node.json",
+    "include": [
+        "src/**/*.ts", 
+        "src/**/*.d.ts"
+    ],
+    "exclude": ["node_modules", "**/node_modules/*"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["src/*"]
+        }
+    }
+}

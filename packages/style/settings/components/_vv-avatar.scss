@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+
+$vv-avatar: map.deep-merge(
+    $vv-avatar,
+    (
+        modifier: (
+            word: (
+                background-color: var(--color-word),
+                color: var(--color-surface),
+            ),
+        ),
+    )
+);

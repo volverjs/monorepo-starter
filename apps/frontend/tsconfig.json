@@ -1,0 +1,23 @@
+{
+    "extends": "tsconfig/tsconfig.vite.json",
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "typed-router.d.ts"
+    ],
+    "exclude": ["node_modules", "**/node_modules/*"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["src/*"]
+        },
+        "types": [
+            "vite/client",
+            "vite-plugin-pwa/client",
+            "@intlify/unplugin-vue-i18n/messages",
+            "unplugin-vue-router/client"
+        ]
+    }
+}

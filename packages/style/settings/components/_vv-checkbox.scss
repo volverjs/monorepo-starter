@@ -1,0 +1,23 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+
+$vv-checkbox: map.deep-merge(
+    $vv-checkbox,
+    (
+        element: (
+            input: (
+                border-radius: var(--rounded),
+            ),
+        ),
+        modifier: (
+            no-label: (
+                margin: 0,
+                element: (
+                    input: (
+                        margin: 0,
+                    ),
+                ),
+            ),
+        ),
+    )
+);

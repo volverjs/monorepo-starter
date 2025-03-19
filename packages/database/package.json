@@ -1,0 +1,33 @@
+{
+    "name": "database",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "generate": "drizzle-kit generate",
+        "generate:custom": "drizzle-kit generate --custom",
+        "up": "drizzle-kit up",
+        "check": "drizzle-kit check",
+        "drop": "drizzle-kit drop",
+        "migrate": "drizzle-kit migrate",
+        "push": "drizzle-kit push"
+    },
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "dependencies": {
+        "models": "workspace:*"
+    },
+    "exports": {
+        ".": {
+            "import": "./src/index.ts"
+        },
+        "./schema": {
+            "import": "./src/schema/index.ts"
+        },
+        "./helpers": {
+            "import": "./src/helpers.ts"
+        }
+    }
+}

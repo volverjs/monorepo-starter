@@ -1,0 +1,29 @@
+@use 'transitions';
+@use '../settings' as *;
+
+html,
+body,
+#app {
+    height: 100dvh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.light-scrollbar {
+    &::-webkit-scrollbar {
+        width: var(--spacing-2);
+        height: var(--spacing-2);
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+        padding: 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-brand-lighten-4);
+        border: var(--spacing-0) solid transparent;
+        background-clip: content-box;
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "targetDefaults": {
+        "dev": {
+            "dependsOn": [
+                "^build"
+            ]
+        },
+        "build": {
+            "dependsOn": [
+                "^build"
+            ],
+            "outputs": [
+                "{projectRoot}/dist"
+            ]
+        }
+    },
+    "affected": {
+        "defaultBase": "main"
+    }
+}

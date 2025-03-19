@@ -1,0 +1,14 @@
+{
+    "name": "icons",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "files": [
+        "./dist/*"
+    ],
+    "main": "./dist/custom.json",
+    "scripts": {
+        "dev": "generate-icons --watch --srcPath=src --destPath=dist --prefix=custom --keepColors",
+        "build": "generate-icons --srcPath=src --destPath=dist --prefix=custom --keepColors"
+    }
+}

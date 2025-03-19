@@ -1,0 +1,13 @@
+// volver context (mixins, variables, etc)
+@use '@volverjs/style/scss/context' with (
+    $color-brand: #0277c8,
+    $zero-specificity-for-utilities: false,
+    $font-family-sans: "'Open Sans', sans-serif"
+);
+@forward '@volverjs/style/scss/context';
+
+// custom utilities settings
+@forward 'utilities';
+
+// custom components settings
+@forward 'components';

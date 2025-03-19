@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "Vue.volar",
+        "esbenp.prettier-vscode",
+        "antfu.vite",
+        "lokalise.i18n-ally",
+        "antfu.iconify",
+        "dbaeumer.vscode-eslint",
+        "csstools.postcss"
+    ]
+}

@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+
+$vv-dialog: map.deep-merge(
+    $vv-dialog,
+    (
+        modifier: (
+            medium: (
+                element: (
+                    wrapper: (
+                        width: clamp(10dvw, 50rem, 90dvw),
+                    ),
+                ),
+            ),
+            large: (
+                element: (
+                    wrapper: (
+                        width: clamp(10dvw, 80rem, 90dvw),
+                    ),
+                ),
+            ),
+        ),
+    )
+);

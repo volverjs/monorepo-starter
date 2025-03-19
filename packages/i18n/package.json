@@ -1,0 +1,14 @@
+{
+    "name": "i18n",
+    "sideEffects": false,
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "devDependencies": {
+        "tsconfig": "workspace:*"
+    }
+}

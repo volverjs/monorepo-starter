@@ -1,0 +1,9 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+
+$vv-card: map.deep-merge(
+    $vv-card,
+    (
+        box-shadow: none
+    )
+);

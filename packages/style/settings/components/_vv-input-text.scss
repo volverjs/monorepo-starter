@@ -1,0 +1,52 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+
+$vv-input-text: map.deep-merge(
+    $vv-input-text,
+    (
+        modifier: (
+            compact: (
+                --input-spacing-top: var(--spacing-6),
+                --input-spacing-bottom: var(--spacing-6),
+                margin-bottom: var(--spacing-0),
+                font-size: var(--text-14),
+                height: var(--spacing-40),
+                element: (
+                    wrapper: (
+                        border: var(--spacing-px) solid var(--color-word-5),
+                        padding-inline: 0,
+                        padding-block: 0,
+                        border-radius: var(--rounded-lg),
+                        transition: var(--transition-colors),
+                        pseudo: (
+                            before: (
+                                display: none,
+                            ),
+                            after: (
+                                display: none,
+                            ),
+                        ),
+                    ),
+                    input: (
+                        min-height: var(--spacing-40),
+                    ),
+                    icon: (
+                        height: var(--spacing-40),
+                    ),
+                    actions-group: (
+                        height: var(--spacing-40),
+                    ),
+                ),
+                state: (
+                    focus: (
+                        element: (
+                            wrapper: (
+                                border-color: var(--color-brand),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    )
+);

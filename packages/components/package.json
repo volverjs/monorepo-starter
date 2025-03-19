@@ -1,0 +1,21 @@
+{
+    "name": "components",
+    "sideEffects": false,
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "dependencies": {
+        "@tiptap/starter-kit": "^2.2.4",
+        "@tiptap/vue-3": "^2.2.4",
+        "composables": "workspace:*",
+        "models": "workspace:*",
+        "ts-dot-prop": "^2.1.3"
+    },
+    "devDependencies": {
+        "tsconfig": "workspace:*"
+    }
+}
