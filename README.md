@@ -85,39 +85,6 @@ maintained with ❤️ by
 -   [pnpm](https://pnpm.io/)
 -   [docker](https://www.docker.com/)
 
-## Quick Start
-
-```bash
-docker compose up -d
-pnpm install
-pnpm db:migrate
-pnpm dev
-```
-
-The frontend will be available at [http://localhost:8080](http://localhost:8080) and the backend  at [http://localhost:3000](http://localhost:3000).
-
-You can read the APIs documentation with Swagger at [http://localhost:3000/swagger](http://localhost:3000/swagger) or Scalar at [http://localhost:3000/scalar](http://localhost:3000/scalar).
-
-### Access to postgres:
-
--   `localhost:5432`
--   **Username:** postgres (as a default)
--   **Password:** Volverjs! (as a default)
--   **Database:** postgres (as a default)
-
-### Access to PgAdmin:
-
--   **URL:** `http://localhost:5050`
--   **Username:** pgadmin4@dpage.com (as a default)
--   **Password:** Volverjs! (as a default)
-
-### Add a new server in PgAdmin:
-
--   **Host name/address** `postgres`
--   **Port** `5432`
--   **Database** `postgres`
--   **Username** as `POSTGRES_USER`, by default: `postgres`
--   **Password** as `POSTGRES_PASSWORD`, by default `Volverjs!`
 
 ## Try it now!
 ### GitHub Template
@@ -149,13 +116,23 @@ And, enjoy :)
 
 ## Usage
 
-### Development
+### Quick Start
 
-Just run and visit http://localhost:8080
+```bash
+docker compose up -d
+pnpm install
+pnpm db:migrate
+```
+
+### Development
 
 ```bash
 pnpm dev
 ```
+
+Just run and visit [http://localhost:8080](http://localhost:8080)
+
+You can read the APIs documentation with Swagger at [http://localhost:3000/swagger](http://localhost:3000/swagger) or Scalar at [http://localhost:3000/scalar](http://localhost:3000/scalar).
 
 ### Build
 
@@ -166,6 +143,27 @@ pnpm build
 ```
 
 And you will see the generated file in `dist` that ready to be served.
+
+### Access to postgres:
+
+-   `localhost:5432`
+-   **Username:** postgres (as a default)
+-   **Password:** Volverjs! (as a default)
+-   **Database:** postgres (as a default)
+
+### Access to PgAdmin:
+
+-   **URL:** `http://localhost:5050`
+-   **Username:** pgadmin4@dpage.com (as a default)
+-   **Password:** Volverjs! (as a default)
+
+### Add a new server in PgAdmin:
+
+-   **Host name/address** `postgres`
+-   **Port** `5432`
+-   **Database** `postgres`
+-   **Username** as `POSTGRES_USER`, by default: `postgres`
+-   **Password** as `POSTGRES_PASSWORD`, by default `Volverjs!`
 
 ## Acknoledgements
 
