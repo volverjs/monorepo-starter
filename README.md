@@ -4,7 +4,7 @@
 
 ## @volverjs/monorepo-starter
 
-`vue` `volverjs` `ui` `vue3` `vite` `template` `starter` `nx` `fastify` `pwa` `drizzle` `orm` `postgres` `docker`
+`vue` `volverjs` `ui` `vue3` `vite` `template` `starter` `nx` <br /> `fastify` `pwa` `drizzle` `orm` `postgres` `docker`
 
 <br>
 
@@ -17,6 +17,7 @@ maintained with ❤️ by
 <br>
 
 </div>
+
 ## Features
 
 -   ⚡️ [Vue 3](https://github.com/vuejs/core), [Vite](https://github.com/vitejs/vite), [💾](https://pnpm.io/), [esbuild](https://github.com/evanw/esbuild) - born with fastness
@@ -97,20 +98,20 @@ The frontend will be available at [http://localhost:8080](http://localhost:8080)
 
 You can read the APIs documentation with Swagger at [http://localhost:3000/swagger](http://localhost:3000/swagger) or Scalar at [http://localhost:3000/scalar](http://localhost:3000/scalar).
 
-## Access to postgres:
+### Access to postgres:
 
 -   `localhost:5432`
 -   **Username:** postgres (as a default)
 -   **Password:** Volverjs! (as a default)
 -   **Database:** postgres (as a default)
 
-## Access to PgAdmin:
+### Access to PgAdmin:
 
 -   **URL:** `http://localhost:5050`
 -   **Username:** pgadmin4@dpage.com (as a default)
 -   **Password:** Volverjs! (as a default)
 
-## Add a new server in PgAdmin:
+### Add a new server in PgAdmin:
 
 -   **Host name/address** `postgres`
 -   **Port** `5432`
@@ -118,6 +119,7 @@ You can read the APIs documentation with Swagger at [http://localhost:3000/swagg
 -   **Username** as `POSTGRES_USER`, by default: `postgres`
 -   **Password** as `POSTGRES_PASSWORD`, by default `Volverjs!`
 
+## Try it now!
 ### GitHub Template
 
 [Create a repo from this template on GitHub](https://github.com/volverjs/monorepo-starter/generate).
