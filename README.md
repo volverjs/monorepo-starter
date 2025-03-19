@@ -108,7 +108,7 @@ When you use this template, try follow the checklist to update your info properl
 -   [ ] Change the author name in `LICENSE`
 -   [ ] Update `package.json` with your info
 -   [ ] Change `.env` settings in `apps/backend/.env` (expecially generate the [`VITE_BETTER_AUTH_SECRET`](https://better-auth.vercel.app/docs/installation#set-environment-variables))
--   [ ] CHange `.env` settings in `apps/frontend/.env`
+-   [ ] Change `.env` settings in `apps/frontend/.env`
 -   [ ] Change the favicon in `apps/frontend/public`
 -   [ ] Clean up the README
 
