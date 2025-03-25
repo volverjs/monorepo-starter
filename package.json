@@ -62,7 +62,7 @@
         "stylelint-config-standard-scss": "^14.0.0",
         "typescript": "^5.8.2",
         "unplugin-auto-import": "^19.1.1",
-        "vite": "^6.2.2",
+        "vite": "^6.2.3",
         "vite-plugin-eslint": "^1.8.1"
     },
     "pnpm": {
