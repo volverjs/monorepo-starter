@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
 import type { AppModule } from '~/types'
 import App from '~/App.vue'
-import { logger } from '~/utils/Logger'
+import { logger } from 'logger'
 
 const app = createApp(App)
 
@@ -47,8 +47,6 @@ Promise.all(
     .then(() => {
         logger.log('All modules installed')
     })
-    .catch((e) => {
-        logger.error(e)
-    })
+    .catch(logger.error)
 
 app.mount('#app')

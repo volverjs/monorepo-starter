@@ -27,26 +27,35 @@
         "passphrase": "Inserisci {passphrase} per confermare l'operazione"
     },
     "message": {
+        "success": "Successo",
         "warning": "Attenzione",
         "error": "Errore",
         "empty": "Nessun elemento trovato",
         "confirm": "Sei sicuro di voler procedere?",
         "pageNotFound": "Pagina non trovata",
-        "readError": "Errore durante la lettura"
+        "readError": "Errore durante la lettura",
+        "checkYourEmail": "Controlla la tua email per il link di verifica",
+        "passwordResetSuccess": "Password reimpostata con successo"
     },
     "action": {
         "signIn": "Accedi",
+        "signUp": "Registrati",
         "signOut": "Esci",
         "backToHome": "Torna alla Home",
+        "submit": "Invia",
         "update": "Aggiorna",
         "cancel": "Annulla",
         "next": "Avanti",
         "prev": "Indietro",
+        "back": "Torna",
         "toggleTheme": "Cambia tema",
         "proceed": "Procedi",
         "create": "Crea",
         "continue": "Continua",
-        "signInWithMicrosoft": "Accedi con Microsoft"
+        "signInWithSocialProvider": "Accedi con {provider}",
+        "forgetPassword": "Hai dimenticato la password?",
+        "createAccount": "Non hai un account?",
+        "backToSignIn": "Torna al login"
     },
     "placeholder": {
         "search": "Cerca...",
@@ -73,6 +82,7 @@
         "invalidIntersectionTypes": "I risultati non possono essere uniti",
         "notMultipleOf": "Il numero dev'essere un multiplo di {multipleOf}",
         "notFinite": "Il numero dev'essere finito",
+        "passwordsDoNotMatch": "Le password non corrispondono",
         "invalidString": {
             "email": "{validation} non valida",
             "url": "{validation} non valido",

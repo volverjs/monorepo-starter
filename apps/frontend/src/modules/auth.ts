@@ -18,12 +18,15 @@ export const install: AppModule = async ({ router }) => {
             return
         }
         if (newSession.data?.user) {
-            if (router.currentRoute.value.name === '/') {
+            if (router.currentRoute.value.name.includes('/auth/')) {
                 router.replace({ name: '/frontoffice/' })
             }
             return
         }
-        if (router.currentRoute.value.name !== '/') {
+        if (
+            router.currentRoute.value.name &&
+            !router.currentRoute.value.meta.isPublic
+        ) {
             router.replace({ name: '/' })
         }
     })
@@ -32,11 +35,15 @@ export const install: AppModule = async ({ router }) => {
         if (session.value.isPending) {
             await until(() => !session.value.isPending).toBe(true)
         }
-        if (!session.value.data?.user && to.name !== '/') {
-            next({ name: '/' })
+        if (
+            !session.value.data?.user &&
+            !to.meta?.isPublic &&
+            !to.name.includes('/auth/')
+        ) {
+            next({ name: '/auth/' })
             return
         }
-        if (session.value.data?.user && to.name === '/') {
+        if (session.value.data?.user && to.name.includes('/auth/')) {
             next({ name: '/frontoffice/' })
             return
         }

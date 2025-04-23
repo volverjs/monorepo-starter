@@ -1,0 +1,2 @@
+const performance = {}
+export { performance }

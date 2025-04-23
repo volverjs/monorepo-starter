@@ -12,6 +12,22 @@
             "outputs": [
                 "{projectRoot}/dist"
             ]
+        },
+        "build-staging": {
+            "dependsOn": [
+                "^build"
+            ],
+            "outputs": [
+                "{projectRoot}/dist"
+            ]
+        },
+        "build-production": {
+            "dependsOn": [
+                "^build"
+            ],
+            "outputs": [
+                "{projectRoot}/dist"
+            ]
         }
     },
     "affected": {

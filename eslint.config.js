@@ -21,6 +21,7 @@ export default [
             '**/*.mjs',
             '**/*.json',
             '**/*.svg',
+            '**/*.hbs',
         ],
     },
     pluginJs.configs.recommended,

@@ -31,7 +31,6 @@ export const fastifyBetterAuth = fp((fastify, _options, done) => {
 
         fastify.all(`${auth.options.basePath}/*`, async (request, reply) => {
             reply.raw.setHeaders(mapHeaders(reply.getHeaders()))
-            console.log('authHandler')
             await authHandler(request.raw, reply.raw)
         })
     })

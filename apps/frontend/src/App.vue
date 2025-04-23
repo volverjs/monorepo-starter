@@ -5,7 +5,6 @@
 
     const appName = import.meta.env.VITE_APP_NAME
     const { t, locale } = useI18n()
-    const route = useRoute()
 
     // session
     const auth = useAuth()
@@ -54,14 +53,7 @@
                 class="h-full flex items-center justify-center">
                 <!-- #region main -->
                 <main class="main">
-                    <RouterView v-slot="scope">
-                        <Transition mode="out-in">
-                            <Component
-                                :is="scope.Component"
-                                v-if="scope"
-                                :key="route.path" />
-                        </Transition>
-                    </RouterView>
+                    <RouterView />
                 </main>
                 <!-- #endregion -->
             </div>
@@ -102,6 +94,7 @@
                             {{ session.data.user.name }}
                         </span>
                         <VvButton
+                            class="ml-auto"
                             modifiers="action-quiet"
                             icon="logout"
                             :title="$t('action.signOut')"

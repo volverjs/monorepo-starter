@@ -1,0 +1,16 @@
+{
+    "name": "email",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "dependencies": {
+        "logger": "workspace:*"
+    },
+    "devDependencies": {
+        "tsconfig": "workspace:*"
+    }
+}

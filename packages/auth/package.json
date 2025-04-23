@@ -4,14 +4,15 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "migrate": "npx @better-auth/cli@latest generate --output=../database/src/schema/Auth2.ts --y --config=src/index.ts"
+        "migrate": "npx @better-auth/cli@latest generate --output=../database/src/schema/Auth.ts --y --config=src/index.ts"
     },
     "main": "src/index.ts",
     "files": [
         "src"
     ],
     "dependencies": {
-        "database": "workspace:*"
+        "database": "workspace:*",
+        "email": "workspace:*"
     },
     "devDependencies": {
         "tsconfig": "workspace:*"

@@ -10,6 +10,8 @@
         "check": "drizzle-kit check",
         "drop": "drizzle-kit drop",
         "migrate": "drizzle-kit migrate",
+        "migrate-staging": "drizzle-kit migrate --config=drizzle-staging.config.ts",
+        "migrate-production": "drizzle-kit migrate --config=drizzle-production.config.ts",
         "push": "drizzle-kit push"
     },
     "main": "src/index.ts",
@@ -17,7 +19,11 @@
         "src"
     ],
     "dependencies": {
-        "models": "workspace:*"
+        "models": "workspace:*",
+        "logger": "workspace:*"
+    },
+    "devDependencies": {
+        "tsconfig": "workspace:*"
     },
     "exports": {
         ".": {

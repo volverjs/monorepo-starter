@@ -24,29 +24,38 @@
         "rememberMe": "Remember me"
     },
     "message": {
+        "success": "Success",
         "warning": "Warning",
         "error": "Error",
         "empty": "No items found",
         "confirm": "Are you sure you want to proceed?",
         "pageNotFound": "Page not found",
-        "readError": "Error while reading"
+        "readError": "Error while reading",
+        "checkYourEmail": "Check your email for the verification link",
+        "passwordResetSuccess": "Password reset successfully"
     },
     "hint": {
         "passphrase": "Enter {passphrase} to confirm the operation"
     },
     "action": {
         "signIn": "Sign on",
+        "signUp": "Sign up",
         "signOut": "Sign out",
         "backToHome": "Back to Home",
+        "submit": "Submit",
         "update": "Update",
         "cancel": "Cancel",
         "next": "Next",
         "prev": "Previous",
+        "back": "Back",
         "toggleTheme": "Change theme",
         "proceed": "Proceed",
         "create": "Create",
         "continue": "Continue",
-        "signInWithMicrosoft": "Sign in with Microsoft"
+        "signInWithSocialProvider": "Sign in with {provider}",
+        "forgetPassword": "Do you forget the password?",
+        "createAccount": "Don't you have an account?",
+        "backToSignIn": "Back to sign in"
     },
     "placeholder": {
         "search": "Search...",
@@ -73,6 +82,7 @@
         "invalidIntersectionTypes": "The results cannot be united",
         "notMultipleOf": "The number must be a multiple of {multipleOf}",
         "notFinite": "The number must be finite",
+        "passwordsDoNotMatch": "The passwords do not match",
         "invalidString": {
             "email": "{validation} not valid",
             "url": "{validation} not valid",

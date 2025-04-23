@@ -27,17 +27,19 @@ export default defineConfig(({ mode }) => {
             alias: {
                 '~/': `${path.resolve(__dirname, 'src')}/`,
                 'style/settings': `${path.resolve(__dirname, '../../packages/style/settings')}`,
+                // WARNING: this is a workaround for drizzle-orm
+                perf_hooks: `${path.resolve(__dirname, 'src')}/polyfills`,
             },
         },
         plugins: [
-            // https://github.com/vitejs/vite-plugin-vue
-            Vue(),
-
             // https://github.com/posva/unplugin-vue-router
             VueRouter({
                 importMode: 'async',
                 exclude: ['**/_*.vue', '**/_components/**'],
             }),
+
+            // https://github.com/vitejs/vite-plugin-vue
+            Vue(),
 
             // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
             VueI18n({

@@ -1,5 +1,6 @@
 import fp from 'fastify-plugin'
 import { FastifyError } from 'fastify'
+import { logger } from 'logger'
 
 export enum ERROR_STATUS {
     NOT_FOUND = 404,
@@ -146,9 +147,7 @@ export const createError = (error: FastifyError) => {
 
 export const fastifyProblemJson = fp((fastify, _opts, done) => {
     fastify.setErrorHandler((error, _request, reply) => {
-        if (!process.env.VITE_PROD) {
-            console.error(error)
-        }
+        logger.error(error)
         const problem = createError(error)
         reply.header('Content-Type', 'application/problem+json')
         reply.status(problem.status).send(problem.toJson())

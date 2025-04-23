@@ -20,7 +20,7 @@ export default class TodosController {
             },
         },
     })
-    async read() {
+    async getPing() {
         return 'pong'
     }
 }

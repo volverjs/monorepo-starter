@@ -1,9 +1,10 @@
-import { betterAuth } from 'better-auth'
+import { type BetterAuthOptions, betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { organization, admin, openAPI } from 'better-auth/plugins'
 import { database } from 'database'
+import { sendResetPassword } from 'email'
 
-export const auth = betterAuth({
+export const config: BetterAuthOptions = {
     database: drizzleAdapter(database, {
         provider: 'pg',
     }),
@@ -11,14 +12,20 @@ export const auth = betterAuth({
         additionalFields: {
             role: {
                 type: 'string',
+                defaultValue: 'user',
+                input: false,
+                required: false,
             },
         },
     },
     plugins: [admin(), organization(), openAPI()],
     basePath: '/auth',
-    trustedOrigins: ['http://localhost:8080'],
+    trustedOrigins: process.env.VITE_FRONTEND_URL
+        ? [process.env.VITE_FRONTEND_URL]
+        : undefined,
     emailAndPassword: {
         enabled: true,
+        sendResetPassword,
     },
     socialProviders: {
         microsoft:
@@ -31,10 +38,35 @@ export const auth = betterAuth({
                       clientSecret: process.env.VITE_MICROSOFT_CLIENT_SECRET,
                   }
                 : undefined,
+        google:
+            process.env.VITE_GOOGLE_CLIENT_ID &&
+            process.env.VITE_GOOGLE_CLIENT_SECRET
+                ? {
+                      clientId: process.env.VITE_GOOGLE_CLIENT_ID,
+                      clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
+                  }
+                : undefined,
+        github:
+            process.env.VITE_GITHUB_CLIENT_ID &&
+            process.env.VITE_GITHUB_CLIENT_SECRET
+                ? {
+                      clientId: process.env.VITE_GITHUB_CLIENT_ID,
+                      clientSecret: process.env.VITE_GITHUB_CLIENT_SECRET,
+                  }
+                : undefined,
+        facebook:
+            process.env.VITE_FACEBOOK_CLIENT_ID &&
+            process.env.VITE_FACEBOOK_CLIENT_SECRET
+                ? {
+                      clientId: process.env.VITE_FACEBOOK_CLIENT_ID,
+                      clientSecret: process.env.VITE_FACEBOOK_CLIENT_SECRET,
+                  }
+                : undefined,
     },
     advanced: {
         generateId: false,
     },
-})
+}
 
+export const auth = betterAuth(config)
 export type Session = typeof auth.$Infer.Session

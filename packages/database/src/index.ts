@@ -2,17 +2,14 @@ import type { Logger } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import * as schema from './schema'
+import { debug } from 'logger'
 
 class QueryLogger implements Logger {
     logQuery(query: string, params: unknown[]): void {
-        // eslint-disable-next-line no-console
-        console.debug('___QUERY___')
-        // eslint-disable-next-line no-console
-        console.debug(query)
-        // eslint-disable-next-line no-console
-        console.debug(params)
-        // eslint-disable-next-line no-console
-        console.debug('___END_QUERY___')
+        debug('___QUERY___')
+        debug(query)
+        debug(params)
+        debug('___END_QUERY___')
     }
 }
 
