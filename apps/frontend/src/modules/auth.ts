@@ -17,16 +17,16 @@ export const install: AppModule = async ({ router }) => {
         if (newSession.isPending) {
             return
         }
+        if (!router.currentRoute.value.name) {
+            return
+        }
         if (newSession.data?.user) {
             if (router.currentRoute.value.name.includes('/auth/')) {
                 router.replace({ name: '/frontoffice/' })
             }
             return
         }
-        if (
-            router.currentRoute.value.name &&
-            !router.currentRoute.value.meta.isPublic
-        ) {
+        if (!router.currentRoute.value.meta.isPublic) {
             router.replace({ name: '/' })
         }
     })
