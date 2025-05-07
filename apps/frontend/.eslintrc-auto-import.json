@@ -319,6 +319,8 @@
     "whenever": true,
     "BetterAuthQuery": true,
     "Query": true,
-    "useUsers": true
+    "useUsers": true,
+    "Slot": true,
+    "Slots": true
   }
 }
