@@ -4,6 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import ESLint from 'vite-plugin-eslint'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import mkcert from 'vite-plugin-mkcert'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -34,8 +35,14 @@ export default ({ mode }: { mode: string }) => {
                     ? parseInt(process.env.PORT)
                     : process.env.PORT) ?? 3000,
             strictPort: true,
+
+            // problem with vite server. Resolution: https://github.com/remix-run/remix/issues/10445#issuecomment-2649629039
+            proxy: {},
         },
         plugins: [
+            // https://github.com/liuweiGL/vite-plugin-mkcert
+            mkcert(),
+
             // https://github.com/vuejs/eslint-plugin-vue
             ESLint(),
 

@@ -13,6 +13,7 @@ import { VueRouterAutoImports } from 'unplugin-vue-router'
 import packageJson from '../../package.json'
 import type { PackageJson } from 'type-fest'
 import webfontDownload from 'vite-plugin-webfont-dl'
+import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -32,6 +33,9 @@ export default defineConfig(({ mode }) => {
             },
         },
         plugins: [
+            // https://github.com/liuweiGL/vite-plugin-mkcert
+            mkcert(),
+
             // https://github.com/posva/unplugin-vue-router
             VueRouter({
                 importMode: 'async',
