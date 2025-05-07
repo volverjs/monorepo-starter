@@ -20,9 +20,9 @@
         "composables": "workspace:*",
         "i18n": "workspace:*",
         "icons": "workspace:*",
+        "logger": "workspace:*",
         "models": "workspace:*",
         "style": "workspace:*",
-        "logger": "workspace:*",
         "workbox-window": "^7.3.0"
     },
     "devDependencies": {
@@ -30,6 +30,7 @@
         "tsconfig": "workspace:*",
         "unplugin-vue-components": "^28.5.0",
         "unplugin-vue-router": "^0.12.0",
+        "vite-plugin-mkcert": "^1.17.8",
         "vite-plugin-pwa": "^1.0.0",
         "vite-plugin-stylelint": "^6.0.0",
         "vite-plugin-webfont-dl": "^3.10.4"

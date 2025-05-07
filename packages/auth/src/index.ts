@@ -65,6 +65,12 @@ export const config: BetterAuthOptions = {
     },
     advanced: {
         generateId: false,
+        defaultCookieAttributes: {
+            secure: true,
+            httpOnly: true,
+            sameSite: 'none',
+            partitioned: true,
+        },
     },
 }
 

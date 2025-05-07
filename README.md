@@ -130,9 +130,9 @@ pnpm db:migrate
 pnpm dev
 ```
 
-Just run and visit [http://localhost:8080](http://localhost:8080)
+Just run and visit [https://localhost:8080](https://localhost:8080)
 
-You can read the APIs documentation with Swagger at [http://localhost:3000/swagger](http://localhost:3000/swagger) or Scalar at [http://localhost:3000/scalar](http://localhost:3000/scalar).
+You can read the APIs documentation with Swagger at [https://localhost:3000/swagger](https://localhost:3000/swagger) or Scalar at [https://localhost:3000/scalar](https://localhost:3000/scalar).
 
 ### Build
 
@@ -153,7 +153,7 @@ And you will see the generated file in `dist` that ready to be served.
 
 ### Access to PgAdmin:
 
--   **URL:** `http://localhost:5050`
+-   **URL:** `https://localhost:5050`
 -   **Username:** pgadmin4@dpage.com (as a default)
 -   **Password:** Volverjs! (as a default)
 

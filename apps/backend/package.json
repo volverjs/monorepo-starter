@@ -14,30 +14,33 @@
         "auth:migrate": "npx @better-auth/cli@latest generate --output=src/db/tables/auth.table.ts --y --config=src/auth.ts"
     },
     "dependencies": {
-        "ability": "workspace:*",
         "@fastify/cors": "^11.0.1",
         "@fastify/multipart": "^9.0.3",
-        "@fastify/swagger-ui": "^5.2.2",
         "@fastify/swagger": "^9.5.0",
+        "@fastify/swagger-ui": "^5.2.2",
         "@microsoft/applicationinsights-web": "^3.3.6",
-        "@scalar/fastify-api-reference": "^1.28.26",
+        "@scalar/fastify-api-reference": "^1.28.32",
         "@volverjs/form-vue": "1.0.0-beta.37",
+        "ability": "workspace:*",
+        "better-auth": "1.2.7",
+        "drizzle-orm": "^0.43.1",
         "auth": "workspace:*",
-        "logger": "workspace:*",
         "brandi": "^5.0.0",
         "database": "workspace:*",
+        "fastify": "^5.3.2",
         "fastify-decorators": "^3.16.1",
         "fastify-plugin": "^5.0.1",
         "fastify-type-provider-zod": "^4.0.2",
-        "fastify": "^5.3.2",
+        "logger": "workspace:*",
         "models": "workspace:*",
         "postgres": "^3.4.5"
     },
     "devDependencies": {
-        "@types/node": "^22.15.2",
+        "@types/node": "^22.15.14",
         "@types/nodemailer": "^6.4.17",
         "openapi-types": "^12.1.3",
         "tsconfig": "workspace:*",
+        "vite-plugin-mkcert": "^1.17.8",
         "vite-plugin-node": "^5.0.1"
     }
 }
