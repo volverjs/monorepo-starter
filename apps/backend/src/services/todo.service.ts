@@ -10,6 +10,7 @@ import { TOKENS } from '~/container/tokens'
 import { EntityNotFoundError } from '~/plugins/fastifyProblemJson'
 import {
     getFilters,
+    getIdsFilter,
     getFullText,
     getOrderBy,
     getOffsetAndLimit,
@@ -78,6 +79,7 @@ export class TodoService implements CrudService {
 
         const where = and(
             ...getFilters(queryOrKey, this._table),
+            getIdsFilter(queryOrKey, this._table),
             getFullText(queryOrKey, [this._table.title]),
             eq(this._table.deleted, false),
         )
