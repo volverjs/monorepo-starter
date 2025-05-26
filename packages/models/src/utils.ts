@@ -20,8 +20,8 @@ export const makeSortEnums = <const T extends string>(input: readonly T[]) => {
 export const zodQs = {
     pagination: (defaultNumber = 1, defaultSize = 10) => {
         return {
-            'page[number]': z.number().min(1).default(defaultNumber),
-            'page[size]': z.number().min(1).default(defaultSize),
+            'page[number]': z.string().default(defaultNumber.toString()),
+            'page[size]': z.string().default(defaultSize.toString()),
         }
     },
     filter: <const T extends string>(input: T) => {
