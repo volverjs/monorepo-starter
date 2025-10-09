@@ -15,7 +15,7 @@
     const router = useRouter()
 
     const signUpSchema = z.object({
-        email: z.string().email(),
+        email: z.email(),
     })
 
     const { VvForm, VvFormField, formData } = useForm(signUpSchema, {
