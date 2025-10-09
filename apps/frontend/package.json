@@ -26,12 +26,12 @@
         "workbox-window": "^7.3.0"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "^5.2.3",
+        "@vitejs/plugin-vue": "^5.2.4",
         "tsconfig": "workspace:*",
-        "unplugin-vue-components": "^28.5.0",
+        "unplugin-vue-components": "^28.8.0",
         "unplugin-vue-router": "^0.12.0",
-        "vite-plugin-pwa": "^1.0.0",
-        "vite-plugin-stylelint": "^6.0.0",
-        "vite-plugin-webfont-dl": "^3.10.4"
+        "vite-plugin-pwa": "^1.0.3",
+        "vite-plugin-stylelint": "^6.0.2",
+        "vite-plugin-webfont-dl": "^3.11.1"
     }
 }
