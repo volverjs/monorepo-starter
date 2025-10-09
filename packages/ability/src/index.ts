@@ -52,7 +52,7 @@ export const isValidRole = (role: string): role is keyof typeof roles => {
     return role in roles
 }
 
-export const updateAbilityByUserRole = (role?: string) => {
+export const updateAbilityByUserRole = (role?: string | null) => {
     // reset ability
     if (!role || !isValidRole(role)) {
         ability.update(DEFAULT_RULES)

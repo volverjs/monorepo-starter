@@ -1,181 +1,73 @@
 {
-    "route": {
-        "home": "Home",
-        "dashboard": "Dashboard",
-        "backoffice": "Backoffice",
-        "frontoffice": "Frontoffice",
-        "users": "Users"
-    },
-    "label": {
-        "it": "IT",
-        "en": "EN",
-        "locale": "Language",
-        "totalItemsCount": "Items: {total}",
-        "itemsPerPage": "Items Per Page",
-        "totalPages": "Of {total}",
-        "passphrase": "Enter passphrase",
-        "completeName": "Full name",
-        "email": "Email",
-        "emailVerified": "Email verified",
-        "password": "Password",
-        "confirmPassword": "Confirm password",
-        "role": "Role",
-        "createdAt": "Created at",
-        "rememberMe": "Remember me"
-    },
-    "message": {
-        "success": "Success",
-        "warning": "Warning",
-        "error": "Error",
-        "empty": "No items found",
-        "confirm": "Are you sure you want to proceed?",
-        "pageNotFound": "Page not found",
-        "readError": "Error while reading",
-        "checkYourEmail": "Check your email for the verification link",
-        "passwordResetSuccess": "Password reset successfully"
-    },
-    "hint": {
-        "passphrase": "Enter {passphrase} to confirm the operation"
-    },
-    "action": {
-        "signIn": "Sign on",
-        "signUp": "Sign up",
-        "signOut": "Sign out",
-        "backToHome": "Back to Home",
-        "submit": "Submit",
-        "update": "Update",
-        "cancel": "Cancel",
-        "next": "Next",
-        "prev": "Previous",
-        "back": "Back",
-        "toggleTheme": "Change theme",
-        "proceed": "Proceed",
-        "create": "Create",
-        "continue": "Continue",
-        "signInWithSocialProvider": "Sign in with {provider}",
-        "forgetPassword": "Do you forget the password?",
-        "createAccount": "Don't you have an account?",
-        "backToSignIn": "Back to sign in"
-    },
-    "placeholder": {
-        "search": "Search...",
-        "loading": "Loading..."
-    },
-    "interval": {
-        "Y": "year | years",
-        "M": "month | months",
-        "W": "week | weeks",
-        "D": "day | days"
-    },
-    "errors": {
-        "invalidType": "Expected \"{expected}\", received \"{received}\"",
-        "invalidTypeReceivedUndefined": "Required",
-        "invalidLiteral": "The value is not valid, expected \"{expected}\"",
-        "unrecognizedKeys": "Unricognized keys: {keys}",
-        "invalidUnion": "Invalid value",
-        "invalidUnionDiscriminator": "Invalid discriminant. Expected: {options}",
-        "invalidEnumValue": "Invalid opition. Expected: {options}",
-        "invalidArguments": "Not valid function parameters",
-        "invalidReturnType": "The value returned by the function is not valid",
-        "invalidDate": "Invalid date",
-        "custom": "Invalid value",
-        "invalidIntersectionTypes": "The results cannot be united",
-        "notMultipleOf": "The number must be a multiple of {multipleOf}",
-        "notFinite": "The number must be finite",
-        "passwordsDoNotMatch": "The passwords do not match",
-        "invalidString": {
-            "email": "{validation} not valid",
-            "url": "{validation} not valid",
-            "uuid": "{validation} not valid",
-            "cuid": "{validation} not valid",
-            "regex": "The value is not valid",
-            "datetime": "{validation} not valid",
-            "startsWith": "The value is not valid: must start with \"{startsWith}\"",
-            "endsWith": "The value is not valid: must end with \"{endsWith}\""
-        },
-        "tooSmall": {
-            "array": {
-                "exact": "Insert {minimum} element/s",
-                "inclusive": "Insert at least {minimum} element/s",
-                "notInclusive": "Insert more than {minimum} element/s"
-            },
-            "string": {
-                "exact": "The length must be {minimum} character/s",
-                "inclusive": "Insert at least {minimum} character/s",
-                "notInclusive": "Insert more than {minimum} character/s"
-            },
-            "number": {
-                "exact": "The value must be {minimum}",
-                "inclusive": "Insert a value greater or equal to {minimum}",
-                "notInclusive": "Insert a value greater than {minimum}"
-            },
-            "set": {
-                "exact": "Invalid value",
-                "inclusive": "Invalid value",
-                "notInclusive": "Invalid value"
-            },
-            "date": {
-                "exact": "La data dev'essere {minimum}",
-                "inclusive": "La data dev'essere successiva o uguale al {minimum}",
-                "notInclusive": "La data dev'essere successiva al {minimum}"
-            }
-        },
-        "tooBig": {
-            "array": {
-                "exact": "Inserire {maximum} elemento/i",
-                "inclusive": "Inserire al massimo {maximum} elemento/i",
-                "notInclusive": "Inserire meno di {maximum} elemento/i"
-            },
-            "string": {
-                "exact": "La lunghezza dev'essere di {maximum} carattere/i",
-                "inclusive": "Lunghezza massima {maximum} carattere/i",
-                "notInclusive": "Inserire meno di {maximum} carattere/i"
-            },
-            "number": {
-                "exact": "Il valore dev'essere {maximum}",
-                "inclusive": "Inserire un valore minore o uguale a {maximum}",
-                "notInclusive": "Inserie un valore minore di {maximum}"
-            },
-            "set": {
-                "exact": "Valore non valido",
-                "inclusive": "Valore non valido",
-                "notInclusive": "Valore non valido"
-            },
-            "date": {
-                "exact": "La data dev'essere {maximum}",
-                "inclusive": "La data dev'essere precedente o uguale al {maximum}",
-                "notInclusive": "La data dev'essere precedente al {maximum}"
-            }
-        }
-    },
-    "validations": {
-        "email": "Email",
-        "url": "URL",
-        "uuid": "UUID",
-        "cuid": "CUID",
-        "regex": "regex",
-        "datetime": "Date and time"
-    },
-    "types": {
-        "function": "function",
-        "number": "number",
-        "string": "string",
-        "nan": "nan",
-        "integer": "integer",
-        "float": "float",
-        "boolean": "boolean",
-        "date": "date",
-        "bigint": "bigint",
-        "undefined": "undefined",
-        "symbol": "symbol",
-        "null": "null",
-        "array": "array",
-        "object": "object",
-        "unknown": "unknown",
-        "promise": "promise",
-        "void": "void",
-        "never": "never",
-        "map": "map",
-        "set": "set"
-    }
+  "action": {
+    "back": "Back",
+    "backToHome": "Back to Home",
+    "backToSignIn": "Back to sign in",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "create": "Create",
+    "createAccount": "Don't you have an account?",
+    "forgetPassword": "Do you forget the password?",
+    "next": "Next",
+    "prev": "Previous",
+    "proceed": "Proceed",
+    "signIn": "Sign in",
+    "signInWithSocialProvider": "Sign in with {provider}",
+    "signOut": "Sign out",
+    "signUp": "Sign up",
+    "submit": "Submit",
+    "toggleTheme": "Change theme",
+    "update": "Update"
+  },
+  "errors": {
+    "passwordsDoNotMatch": "The passwords do not match"
+  },
+  "hint": {
+    "passphrase": "Enter {passphrase} to confirm the operation"
+  },
+  "interval": {
+    "D": "day | days",
+    "M": "month | months",
+    "W": "week | weeks",
+    "Y": "year | years"
+  },
+  "label": {
+    "completeName": "Full name",
+    "confirmPassword": "Confirm password",
+    "createdAt": "Created at",
+    "email": "Email",
+    "emailVerified": "Email verified",
+    "en": "EN",
+    "it": "IT",
+    "itemsPerPage": "Items Per Page",
+    "locale": "Language",
+    "passphrase": "Enter passphrase",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "role": "Role",
+    "totalItemsCount": "Items: {total}",
+    "totalPages": "Of {total}"
+  },
+  "message": {
+    "checkYourEmail": "Check your email for the verification link",
+    "confirm": "Are you sure you want to proceed?",
+    "empty": "No items found",
+    "error": "Error",
+    "pageNotFound": "Page not found",
+    "passwordResetSuccess": "Password reset successfully",
+    "readError": "Error while reading",
+    "success": "Success",
+    "warning": "Warning"
+  },
+  "placeholder": {
+    "loading": "Loading...",
+    "search": "Search..."
+  },
+  "route": {
+    "backoffice": "Backoffice",
+    "dashboard": "Dashboard",
+    "frontoffice": "Frontoffice",
+    "home": "Home",
+    "users": "Users"
+  }
 }

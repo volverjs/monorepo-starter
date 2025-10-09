@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useForm } from '@volverjs/form-vue'
     import { useAlert } from '@volverjs/ui-vue/composables'
-    import { z } from 'zod'
+    import z from 'zod/v4'
 
     definePage({
         meta: {

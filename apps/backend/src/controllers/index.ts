@@ -2,7 +2,7 @@ import type { Subject, Action } from 'ability'
 import type { RouteConfig } from 'fastify-decorators'
 import type { FastifyRequest } from 'fastify'
 import { GET as BaseGET } from 'fastify-decorators'
-import { z } from 'zod'
+import z from 'zod/v4'
 import { UnauthorizedError } from '~/plugins/fastifyProblemJson'
 import { ability, subject } from 'ability'
 

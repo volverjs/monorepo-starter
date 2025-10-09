@@ -21,6 +21,7 @@ lerna-debug.log*
 
 # Linters 
 .stylelintcache
+.eslintcache
 
 # Project
 node_modules

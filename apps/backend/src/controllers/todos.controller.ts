@@ -1,7 +1,7 @@
 import type { FastifyRequest } from 'fastify'
 import type { TodoQuerystring, TodoDto } from 'models'
 import type { TodoService } from '~/services/todo.service'
-import { z } from 'zod'
+import z from 'zod/v4'
 import { TodoDtoSchema, TodoSchema, TodoQuerystringSchema } from 'models'
 import { Controller, DELETE, GET, POST, PUT } from './index'
 import { container } from '~/container'

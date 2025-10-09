@@ -23,6 +23,17 @@ export const fastifyPagination = fp(
             origin,
             exposedHeaders: [totalHeaderKey],
             credentials: true,
+            methods: [
+                'GET',
+                'HEAD',
+                'POST',
+                'PUT',
+                'PATCH',
+                'DELETE',
+                'CONNECT',
+                'OPTIONS',
+                'TRACE',
+            ],
         })
 
         // add hook to handle PagedResponse

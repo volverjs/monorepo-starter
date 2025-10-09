@@ -1,6 +1,8 @@
 import { createI18n } from 'vue-i18n'
 import it from './it.json'
+import zodIT from '@volverjs/zod-vue-i18n/locales/v4/it.json'
 import en from './en.json'
+import zodEN from '@volverjs/zod-vue-i18n/locales/v4/en.json'
 
 /*
  * Setup i18n
@@ -11,8 +13,14 @@ export const i18n = createI18n({
     globalInjection: true,
     fallbackWarn: false,
     messages: {
-        it,
-        en,
+        it: {
+            ...it,
+            ...zodIT,
+        },
+        en: {
+            ...en,
+            ...zodEN,
+        },
     },
     numberFormats: {
         it: {

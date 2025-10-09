@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useForm } from '@volverjs/form-vue'
     import { useAlert } from '@volverjs/ui-vue/composables'
-    import { z } from 'zod'
+    import z from 'zod/v4'
 
     definePage({
         meta: {
@@ -14,7 +14,7 @@
     const auth = useAuth()
 
     const signInSchema = z.object({
-        email: z.string().email(),
+        email: z.email(),
         password: z.string().min(8),
         rememberMe: z.boolean().default(false),
     })

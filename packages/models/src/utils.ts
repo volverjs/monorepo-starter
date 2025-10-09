@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod/v4'
 
 export type QueryStringFilter<T extends string = string> = `filter[${T}]`
 export type Querystring = {
