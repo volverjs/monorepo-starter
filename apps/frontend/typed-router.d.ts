@@ -20,15 +20,95 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
-    '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>>,
+    '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>, '/auth/' | '/auth/forget-password' | '/auth/reset-password' | '/auth/sign-up'>,
     '/auth/': RouteRecordInfo<'/auth/', '/auth', Record<never, never>, Record<never, never>>,
     '/auth/forget-password': RouteRecordInfo<'/auth/forget-password', '/auth/forget-password', Record<never, never>, Record<never, never>>,
     '/auth/reset-password': RouteRecordInfo<'/auth/reset-password', '/auth/reset-password', Record<never, never>, Record<never, never>>,
     '/auth/sign-up': RouteRecordInfo<'/auth/sign-up', '/auth/sign-up', Record<never, never>, Record<never, never>>,
-    '/backoffice': RouteRecordInfo<'/backoffice', '/backoffice', Record<never, never>, Record<never, never>>,
+    '/backoffice': RouteRecordInfo<'/backoffice', '/backoffice', Record<never, never>, Record<never, never>, '/backoffice/' | '/backoffice/users'>,
     '/backoffice/': RouteRecordInfo<'/backoffice/', '/backoffice', Record<never, never>, Record<never, never>>,
     '/backoffice/users': RouteRecordInfo<'/backoffice/users', '/backoffice/users', Record<never, never>, Record<never, never>>,
-    '/frontoffice': RouteRecordInfo<'/frontoffice', '/frontoffice', Record<never, never>, Record<never, never>>,
+    '/frontoffice': RouteRecordInfo<'/frontoffice', '/frontoffice', Record<never, never>, Record<never, never>, '/frontoffice/'>,
     '/frontoffice/': RouteRecordInfo<'/frontoffice/', '/frontoffice', Record<never, never>, Record<never, never>>,
   }
+
+  /**
+   * Route file to route info map by unplugin-vue-router.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * Each key is a file path relative to the project root with 2 properties:
+   * - routes: union of route names of the possible routes when in this page (passed to useRoute<...>())
+   * - views: names of nested views (can be passed to <RouterView name="...">)
+   *
+   * @internal
+   */
+  export interface _RouteFileInfoMap {
+    'src/pages/index.vue': {
+      routes: '/'
+      views: never
+    }
+    'src/pages/[...all].vue': {
+      routes: '/[...all]'
+      views: never
+    }
+    'src/pages/auth.vue': {
+      routes: '/auth' | '/auth/' | '/auth/forget-password' | '/auth/reset-password' | '/auth/sign-up'
+      views: 'default'
+    }
+    'src/pages/auth/index.vue': {
+      routes: '/auth/'
+      views: never
+    }
+    'src/pages/auth/forget-password.vue': {
+      routes: '/auth/forget-password'
+      views: never
+    }
+    'src/pages/auth/reset-password.vue': {
+      routes: '/auth/reset-password'
+      views: never
+    }
+    'src/pages/auth/sign-up.vue': {
+      routes: '/auth/sign-up'
+      views: never
+    }
+    'src/pages/backoffice.vue': {
+      routes: '/backoffice' | '/backoffice/' | '/backoffice/users'
+      views: 'default'
+    }
+    'src/pages/backoffice@nav.vue': {
+      routes: '/backoffice' | '/backoffice/' | '/backoffice/users'
+      views: 'default'
+    }
+    'src/pages/backoffice/index.vue': {
+      routes: '/backoffice/'
+      views: never
+    }
+    'src/pages/backoffice/users.vue': {
+      routes: '/backoffice/users'
+      views: never
+    }
+    'src/pages/frontoffice.vue': {
+      routes: '/frontoffice' | '/frontoffice/'
+      views: 'default'
+    }
+    'src/pages/frontoffice@nav.vue': {
+      routes: '/frontoffice' | '/frontoffice/'
+      views: 'default'
+    }
+    'src/pages/frontoffice/index.vue': {
+      routes: '/frontoffice/'
+      views: never
+    }
+  }
+
+  /**
+   * Get a union of possible route names in a certain route component file.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * @internal
+   */
+  export type _RouteNamesForFilePath<FilePath extends string> =
+    _RouteFileInfoMap extends Record<FilePath, infer Info>
+      ? Info['routes']
+      : keyof RouteNamedMap
 }

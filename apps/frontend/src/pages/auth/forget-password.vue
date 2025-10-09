@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useForm } from '@volverjs/form-vue'
     import { useAlert } from '@volverjs/ui-vue/composables'
-    import { z } from 'zod'
+    import z from 'zod/v4'
 
     definePage({
         meta: {
@@ -15,7 +15,7 @@
     const router = useRouter()
 
     const signUpSchema = z.object({
-        email: z.string().email(),
+        email: z.email(),
     })
 
     const { VvForm, VvFormField, formData } = useForm(signUpSchema, {

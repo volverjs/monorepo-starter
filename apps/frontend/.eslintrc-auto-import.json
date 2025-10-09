@@ -1,5 +1,6 @@
 {
   "globals": {
+    "BetterAuthQuery": true,
     "Component": true,
     "ComponentPublicInstance": true,
     "ComputedRef": true,
@@ -12,7 +13,11 @@
     "MaybeRef": true,
     "MaybeRefOrGetter": true,
     "PropType": true,
+    "Query": true,
     "Ref": true,
+    "ShallowRef": true,
+    "Slot": true,
+    "Slots": true,
     "VNode": true,
     "WritableComputedRef": true,
     "acceptHMRUpdate": true,
@@ -48,6 +53,7 @@
     "getActivePinia": true,
     "getCurrentInstance": true,
     "getCurrentScope": true,
+    "getCurrentWatcher": true,
     "h": true,
     "ignorableWatch": true,
     "inject": true,
@@ -57,6 +63,7 @@
     "isReactive": true,
     "isReadonly": true,
     "isRef": true,
+    "isShallow": true,
     "makeDestructurable": true,
     "mapActions": true,
     "mapGetters": true,
@@ -278,6 +285,7 @@
     "useThrottleFn": true,
     "useThrottledRefHistory": true,
     "useTimeAgo": true,
+    "useTimeAgoIntl": true,
     "useTimeout": true,
     "useTimeoutFn": true,
     "useTimeoutPoll": true,
@@ -289,6 +297,7 @@
     "useTransition": true,
     "useUrlSearchParams": true,
     "useUserMedia": true,
+    "useUsers": true,
     "useVModel": true,
     "useVModels": true,
     "useVibrate": true,
@@ -316,11 +325,6 @@
     "watchThrottled": true,
     "watchTriggerable": true,
     "watchWithFilter": true,
-    "whenever": true,
-    "BetterAuthQuery": true,
-    "Query": true,
-    "useUsers": true,
-    "Slot": true,
-    "Slots": true
+    "whenever": true
   }
 }

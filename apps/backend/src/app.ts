@@ -13,37 +13,37 @@ import { fastifyAbility } from './plugins/fastifyAbility'
 import packageJson from '../package.json'
 
 const app = async () => {
-    const fastify = Fastify({
+    const server = Fastify({
         logger: true,
     })
 
     // fastify-type-provider-zod
-    fastify.setValidatorCompiler(validatorCompiler)
-    fastify.setSerializerCompiler(serializerCompiler)
+    server.setValidatorCompiler(validatorCompiler)
+    server.setSerializerCompiler(serializerCompiler)
 
     // error handler
-    fastify.register(fastifyProblemJson)
+    server.register(fastifyProblemJson)
 
     // x-total-count header
-    fastify.register(fastifyPagination, {
+    server.register(fastifyPagination, {
         origin: process.env.VITE_FRONTEND_URL,
     })
 
     // multipart (for media upload)
-    fastify.register(fastifyMultipart)
+    server.register(fastifyMultipart)
 
     // fastify-docs (swagger and scalar)
-    fastify.register(fastifyDocs, {
+    server.register(fastifyDocs, {
         title: packageJson.name,
         description: packageJson.description,
         version: packageJson.version,
     })
 
     // auth
-    fastify.register(fastifyBetterAuth)
+    server.register(fastifyBetterAuth)
 
     // ability
-    fastify.register(fastifyAbility)
+    server.register(fastifyAbility)
 
     // controllers
     const controllers = Object.values(
@@ -51,7 +51,7 @@ const app = async () => {
             eager: true,
         }) as Record<string, { default: Class }>,
     ).map((item) => item.default)
-    fastify.register(bootstrap, {
+    server.register(bootstrap, {
         prefix: '/api',
         controllers,
     })
@@ -59,7 +59,7 @@ const app = async () => {
     // run server
     if (!process.env.VITE_LOCAL) {
         console.log('Running server')
-        fastify.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
+        server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
             if (err) {
                 console.error(err)
                 process.exit(1)
@@ -67,8 +67,8 @@ const app = async () => {
             console.log(`Server listening at ${address}`)
         })
     }
-    await fastify.ready()
-    return fastify
+    await server.ready()
+    return server
 }
 
 export const viteNodeApp = app()

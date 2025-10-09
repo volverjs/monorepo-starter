@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import { VitePluginNode } from 'vite-plugin-node'
 import AutoImport from 'unplugin-auto-import/vite'
-import ESLint from 'vite-plugin-eslint'
+import ESLint from '@nabla/vite-plugin-eslint'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import mkcert from 'vite-plugin-mkcert'
@@ -35,6 +35,7 @@ export default ({ mode }: { mode: string }) => {
                     ? parseInt(process.env.PORT)
                     : process.env.PORT) ?? 3000,
             strictPort: true,
+            cors: false,
 
             // problem with vite server. Resolution: https://github.com/remix-run/remix/issues/10445#issuecomment-2649629039
             proxy: {},
@@ -43,7 +44,7 @@ export default ({ mode }: { mode: string }) => {
             // https://github.com/liuweiGL/vite-plugin-mkcert
             mkcert(),
 
-            // https://github.com/vuejs/eslint-plugin-vue
+            // https://github.com/nabla/vite-plugin-eslint
             ESLint(),
 
             // https://github.com/antfu/unplugin-auto-import

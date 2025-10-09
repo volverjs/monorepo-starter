@@ -15,6 +15,7 @@ import {
     isNotNull,
     sql,
     eq,
+    inArray,
 } from 'drizzle-orm'
 import { type Querystring } from 'models'
 
@@ -97,6 +98,26 @@ export const getFilters = <T extends AnyTable<TableConfig> | View>(
                 params[key],
             ),
         )
+}
+
+export const getIdsFilter = <T extends AnyTable<TableConfig> | View>(
+    params: Querystring,
+    table: T,
+) => {
+    const idsParam = params['ids']
+    if (!idsParam) {
+        return undefined
+    }
+    const ids = Array.isArray(idsParam)
+        ? idsParam
+        : typeof idsParam === 'string'
+          ? idsParam.split(',').map((id) => id.trim())
+          : []
+    if (ids.length === 0) {
+        return undefined
+    }
+
+    return inArray(table['id' as keyof T] as AnyColumn, ids)
 }
 
 export const getRange = <T extends AnyTable<TableConfig> | View>(

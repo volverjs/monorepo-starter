@@ -41,8 +41,6 @@ maintained with ❤️ by
 -   [@volverjs/style](https://volverjs.github.io/style/) - The easy way to style
 -   [@volverjs/ui-vue](https://github.com/volverjs/ui-vue) - The lightweight Vue 3 component library
 -   [@volvejs/form-vue](https://github.com/volverjs/form-vue) - Form validation and submission
--   [@volverjs/auth-vue](https://github.com/volverjs/auth-vue) -
-    Simple OAuth 2 / OpenID Connect plugin
 -   [@volverjs/zod-vue-i18n](https://github.com/volverjs/zod-vue-i18n) - Zod validation with Vue 3 and i18n
 -   [@volverjs/query-vue](https://github.com/volverjs/query-vue) - Query state management
 -   [@volverjs/data](https://github.com/volverjs/data) - Tiny HttpClient based on Fetch API

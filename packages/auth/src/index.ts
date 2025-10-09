@@ -8,6 +8,7 @@ export const config: BetterAuthOptions = {
     database: drizzleAdapter(database, {
         provider: 'pg',
     }),
+    secret: process.env.VITE_BETTER_AUTH_SECRET,
     user: {
         additionalFields: {
             role: {
