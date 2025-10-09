@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import VueRouter from 'unplugin-vue-router/vite'
-import ESLint from 'vite-plugin-eslint'
+import ESLint from '@nabla/vite-plugin-eslint'
 import Stylelint from 'vite-plugin-stylelint'
 import Components from 'unplugin-vue-components/vite'
 import { VolverResolver } from '@volverjs/ui-vue/resolvers/unplugin'
@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => {
                 runtimeOnly: false,
             }),
 
-            // https://github.com/vuejs/eslint-plugin-vue
+            // https://github.com/nabla/vite-plugin-eslint
             ESLint(),
 
             // https://github.com/ModyQyW/vite-plugin-stylelint

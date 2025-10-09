@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useForm } from '@volverjs/form-vue'
     import { useAlert } from '@volverjs/ui-vue/composables'
-    import { z } from 'zod'
+    import z from 'zod/v4'
 
     definePage({
         meta: {
@@ -17,12 +17,12 @@
     const signUpSchema = z
         .object({
             name: z.string().min(1),
-            email: z.string().email(),
+            email: z.email(),
             password: z.string().min(8),
             passwordConfirmation: z.string().min(8),
             callbackURL: z.string().optional(),
         })
-        .refine((data) => data.password !== data.passwordConfirmation, {
+        .refine((data) => data.password === data.passwordConfirmation, {
             message: $t('errors.passwordsDoNotMatch'),
             path: ['passwordConfirmation'],
         })

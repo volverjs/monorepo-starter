@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import { VitePluginNode } from 'vite-plugin-node'
 import AutoImport from 'unplugin-auto-import/vite'
-import ESLint from 'vite-plugin-eslint'
+import ESLint from '@nabla/vite-plugin-eslint'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -34,9 +34,10 @@ export default ({ mode }: { mode: string }) => {
                     ? parseInt(process.env.PORT)
                     : process.env.PORT) ?? 3000,
             strictPort: true,
+            cors: false,
         },
         plugins: [
-            // https://github.com/vuejs/eslint-plugin-vue
+            // https://github.com/nabla/vite-plugin-eslint
             ESLint(),
 
             // https://github.com/antfu/unplugin-auto-import

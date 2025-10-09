@@ -1,181 +1,73 @@
 {
-    "route": {
-        "home": "Home",
-        "dashboard": "Dashboard",
-        "backoffice": "Backoffice",
-        "frontoffice": "Frontoffice",
-        "users": "Users"
-    },
-    "label": {
-        "it": "IT",
-        "en": "EN",
-        "locale": "Lingua",
-        "totalItemsCount": "Elementi: {total}",
-        "itemsPerPage": "Elementi per pagina",
-        "totalPages": "di {total}",
-        "passphrase": "Inserisci la parola chiave",
-        "completeName": "Nome e cognome",
-        "email": "Email",
-        "emailVerified": "Email verificata",
-        "password": "Password",
-        "confirmPassword": "Conferma password",
-        "role": "Ruolo",
-        "createdAt": "Creato il",
-        "rememberMe": "Ricordami"
-    },
-    "hint": {
-        "passphrase": "Inserisci {passphrase} per confermare l'operazione"
-    },
-    "message": {
-        "success": "Successo",
-        "warning": "Attenzione",
-        "error": "Errore",
-        "empty": "Nessun elemento trovato",
-        "confirm": "Sei sicuro di voler procedere?",
-        "pageNotFound": "Pagina non trovata",
-        "readError": "Errore durante la lettura",
-        "checkYourEmail": "Controlla la tua email per il link di verifica",
-        "passwordResetSuccess": "Password reimpostata con successo"
-    },
-    "action": {
-        "signIn": "Accedi",
-        "signUp": "Registrati",
-        "signOut": "Esci",
-        "backToHome": "Torna alla Home",
-        "submit": "Invia",
-        "update": "Aggiorna",
-        "cancel": "Annulla",
-        "next": "Avanti",
-        "prev": "Indietro",
-        "back": "Torna",
-        "toggleTheme": "Cambia tema",
-        "proceed": "Procedi",
-        "create": "Crea",
-        "continue": "Continua",
-        "signInWithSocialProvider": "Accedi con {provider}",
-        "forgetPassword": "Hai dimenticato la password?",
-        "createAccount": "Non hai un account?",
-        "backToSignIn": "Torna al login"
-    },
-    "placeholder": {
-        "search": "Cerca...",
-        "loading": "Caricamento..."
-    },
-    "interval": {
-        "Y": "anno | anni",
-        "M": "mese | mesi",
-        "W": "settimana | settimane",
-        "D": "giorno | giorni"
-    },
-    "errors": {
-        "invalidType": "Previsto \"{expected}\", ricevuto \"{received}\"",
-        "invalidTypeReceivedUndefined": "Obbligatorio",
-        "invalidLiteral": "Valore non valido, previsto \"{expected}\"",
-        "unrecognizedKeys": "Chiavi non riconosciute: {keys}",
-        "invalidUnion": "Valore non valido",
-        "invalidUnionDiscriminator": "Discriminatore non valido. Previsti: {options}",
-        "invalidEnumValue": "Opzione non valida. Previste: {options}",
-        "invalidArguments": "Parametri della funzione non validi",
-        "invalidReturnType": "Il valore restituito dalla funzione non è valido",
-        "invalidDate": "Data non valida",
-        "custom": "Valore non valido",
-        "invalidIntersectionTypes": "I risultati non possono essere uniti",
-        "notMultipleOf": "Il numero dev'essere un multiplo di {multipleOf}",
-        "notFinite": "Il numero dev'essere finito",
-        "passwordsDoNotMatch": "Le password non corrispondono",
-        "invalidString": {
-            "email": "{validation} non valida",
-            "url": "{validation} non valido",
-            "uuid": "{validation} non valido",
-            "cuid": "{validation} non valido",
-            "regex": "Il valore inserito non è valido",
-            "datetime": "{validation} non valide",
-            "startsWith": "Valore non valido: deve iniziare con \"{startsWith}\"",
-            "endsWith": "Valore non valido: deve terminare com \"{endsWith}\""
-        },
-        "tooSmall": {
-            "array": {
-                "exact": "Inserire {minimum} elemento/i",
-                "inclusive": "Inserire almeno {minimum} elemento/i",
-                "notInclusive": "Inserire più di {minimum} elemento/i"
-            },
-            "string": {
-                "exact": "La lunghezza dev'essere di {minimum} carattere/i",
-                "inclusive": "Lunghezza minima {minimum} carattere/i",
-                "notInclusive": "Inserire più di {minimum} carattere/i"
-            },
-            "number": {
-                "exact": "Il valore dev'essere {minimum}",
-                "inclusive": "Inserire un valore maggiore o uguale a {minimum}",
-                "notInclusive": "Inserire un valore maggiore di {minimum}"
-            },
-            "set": {
-                "exact": "Valore non valido",
-                "inclusive": "Valore non valido",
-                "notInclusive": "Valore non valido"
-            },
-            "date": {
-                "exact": "La data dev'essere {minimum}",
-                "inclusive": "La data dev'essere successiva o uguale al {minimum}",
-                "notInclusive": "La data dev'essere successiva al {minimum}"
-            }
-        },
-        "tooBig": {
-            "array": {
-                "exact": "Inserire {maximum} elemento/i",
-                "inclusive": "Inserire al massimo {maximum} elemento/i",
-                "notInclusive": "Inserire meno di {maximum} elemento/i"
-            },
-            "string": {
-                "exact": "La lunghezza dev'essere di {maximum} carattere/i",
-                "inclusive": "Lunghezza massima {maximum} carattere/i",
-                "notInclusive": "Inserire meno di {maximum} carattere/i"
-            },
-            "number": {
-                "exact": "Il valore dev'essere {maximum}",
-                "inclusive": "Inserire un valore minore o uguale a {maximum}",
-                "notInclusive": "Inserie un valore minore di {maximum}"
-            },
-            "set": {
-                "exact": "Valore non valido",
-                "inclusive": "Valore non valido",
-                "notInclusive": "Valore non valido"
-            },
-            "date": {
-                "exact": "La data dev'essere {maximum}",
-                "inclusive": "La data dev'essere precedente o uguale al {maximum}",
-                "notInclusive": "La data dev'essere precedente al {maximum}"
-            }
-        }
-    },
-    "validations": {
-        "email": "Email",
-        "url": "URL",
-        "uuid": "UUID",
-        "cuid": "CUID",
-        "regex": "regex",
-        "datetime": "Data e ora"
-    },
-    "types": {
-        "function": "function",
-        "number": "number",
-        "string": "string",
-        "nan": "nan",
-        "integer": "integer",
-        "float": "float",
-        "boolean": "boolean",
-        "date": "date",
-        "bigint": "bigint",
-        "undefined": "undefined",
-        "symbol": "symbol",
-        "null": "null",
-        "array": "array",
-        "object": "object",
-        "unknown": "unknown",
-        "promise": "promise",
-        "void": "void",
-        "never": "never",
-        "map": "map",
-        "set": "set"
-    }
+  "action": {
+    "back": "Torna",
+    "backToHome": "Torna alla Home",
+    "backToSignIn": "Torna al login",
+    "cancel": "Annulla",
+    "continue": "Continua",
+    "create": "Crea",
+    "createAccount": "Non hai un account?",
+    "forgetPassword": "Hai dimenticato la password?",
+    "next": "Avanti",
+    "prev": "Indietro",
+    "proceed": "Procedi",
+    "signIn": "Accedi",
+    "signInWithSocialProvider": "Accedi con {provider}",
+    "signOut": "Esci",
+    "signUp": "Registrati",
+    "submit": "Invia",
+    "toggleTheme": "Cambia tema",
+    "update": "Aggiorna"
+  },
+  "errors": {
+    "passwordsDoNotMatch": "Le password non corrispondono"
+  },
+  "hint": {
+    "passphrase": "Inserisci {passphrase} per confermare l'operazione"
+  },
+  "interval": {
+    "D": "giorno | giorni",
+    "M": "mese | mesi",
+    "W": "settimana | settimane",
+    "Y": "anno | anni"
+  },
+  "label": {
+    "completeName": "Nome e cognome",
+    "confirmPassword": "Conferma password",
+    "createdAt": "Creato il",
+    "email": "Email",
+    "emailVerified": "Email verificata",
+    "en": "EN",
+    "it": "IT",
+    "itemsPerPage": "Elementi per pagina",
+    "locale": "Lingua",
+    "passphrase": "Inserisci la parola chiave",
+    "password": "Password",
+    "rememberMe": "Ricordami",
+    "role": "Ruolo",
+    "totalItemsCount": "Elementi: {total}",
+    "totalPages": "di {total}"
+  },
+  "message": {
+    "checkYourEmail": "Controlla la tua email per il link di verifica",
+    "confirm": "Sei sicuro di voler procedere?",
+    "empty": "Nessun elemento trovato",
+    "error": "Errore",
+    "pageNotFound": "Pagina non trovata",
+    "passwordResetSuccess": "Password reimpostata con successo",
+    "readError": "Errore durante la lettura",
+    "success": "Successo",
+    "warning": "Attenzione"
+  },
+  "placeholder": {
+    "loading": "Caricamento...",
+    "search": "Cerca..."
+  },
+  "route": {
+    "backoffice": "Backoffice",
+    "dashboard": "Dashboard",
+    "frontoffice": "Frontoffice",
+    "home": "Home",
+    "users": "Users"
+  }
 }

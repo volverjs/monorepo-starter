@@ -1,23 +1,9 @@
 {
   "globals": {
     "Container": true,
-    "Database": true,
-    "db": true,
     "drizzle": true,
-    "entityDefaultColumns": true,
     "eq": true,
-    "getFilters": true,
-    "getFullText": true,
-    "getHas": true,
-    "getInclude": true,
-    "getOffsetAndLimit": true,
-    "getOrderBy": true,
-    "getPageNumberAndPageSize": true,
-    "getRange": true,
     "injected": true,
-    "jsonbArray": true,
-    "querystringToSelect": true,
-    "token": true,
-    "entityDefauuserltColumns": true
+    "token": true
   }
 }
