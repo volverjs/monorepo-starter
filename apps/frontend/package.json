@@ -21,14 +21,14 @@
         "models": "workspace:*",
         "style": "workspace:*",
         "logger": "workspace:*",
-        "workbox-window": "^7.3.0"
+        "workbox-window": "^7.4.0"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "^6.0.1",
+        "@vitejs/plugin-vue": "^6.0.3",
         "tsconfig": "workspace:*",
-        "unplugin-vue-components": "^29.1.0",
-        "unplugin-vue-router": "^0.15.0",
-        "vite-plugin-pwa": "^1.0.3",
+        "unplugin-vue-components": "^30.0.0",
+        "unplugin-vue-router": "^0.19.1",
+        "vite-plugin-pwa": "^1.2.0",
         "vite-plugin-stylelint": "^6.0.2",
         "vite-plugin-webfont-dl": "^3.11.1"
     }
