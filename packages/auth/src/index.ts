@@ -20,6 +20,7 @@ export const config: BetterAuthOptions = {
         },
     },
     plugins: [admin(), organization(), openAPI()],
+    baseURL: process.env.VITE_BETTER_AUTH_URL,
     basePath: '/auth',
     trustedOrigins: process.env.VITE_FRONTEND_URL
         ? [process.env.VITE_FRONTEND_URL]
@@ -65,7 +66,9 @@ export const config: BetterAuthOptions = {
                 : undefined,
     },
     advanced: {
-        generateId: false,
+        database: {
+            generateId: 'uuid',
+        },
         defaultCookieAttributes: {
             secure: true,
             httpOnly: true,
