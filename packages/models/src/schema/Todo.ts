@@ -1,9 +1,9 @@
 import z from 'zod/v4'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { schema } from 'database'
+import { todo } from 'database/schema'
 import { zodQs } from '../utils'
 
-export const TodoDtoSchema = createInsertSchema(schema.todo, {
+export const TodoDtoSchema = createInsertSchema(todo, {
     createdBy: (schema) => schema.optional().readonly(),
     updatedBy: (schema) => schema.optional().readonly(),
     createdAt: (schema) => schema.or(z.string()).optional().readonly(),
@@ -13,7 +13,7 @@ export const TodoDtoSchema = createInsertSchema(schema.todo, {
     deletedBy: (schema) => schema.optional().readonly(),
 })
 
-export const TodoSchema = createSelectSchema(schema.todo)
+export const TodoSchema = createSelectSchema(todo)
 
 export const TodoQuerystringSchema = z.object({
     ...zodQs.pagination(),
@@ -23,6 +23,6 @@ export const TodoQuerystringSchema = z.object({
     ...zodQs.ids(),
 })
 
-export type TodoDto = Zod.infer<typeof TodoDtoSchema>
-export type Todo = Zod.infer<typeof TodoSchema>
-export type TodoQuerystring = Zod.infer<typeof TodoQuerystringSchema>
+export type TodoDto = z.infer<typeof TodoDtoSchema>
+export type Todo = z.infer<typeof TodoSchema>
+export type TodoQuerystring = z.infer<typeof TodoQuerystringSchema>
