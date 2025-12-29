@@ -53,6 +53,7 @@ export const zodQs = {
     sort: <const S extends string>(sort: S[]) => {
         const sortEnums = makeSortEnums(sort) as [S, ...`-${S}`[]]
         return {
+            // @ts-expect-error workaround for zod issue
             sort: z.enum(sortEnums).optional().default(sortEnums[0]),
         }
     },

@@ -28,8 +28,6 @@ export default defineConfig(({ mode }) => {
             alias: {
                 '~/': `${path.resolve(__dirname, 'src')}/`,
                 'style/settings': `${path.resolve(__dirname, '../../packages/style/settings')}`,
-                // WARNING: this is a workaround for drizzle-orm
-                perf_hooks: `${path.resolve(__dirname, 'src')}/polyfills`,
             },
         },
         plugins: [
