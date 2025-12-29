@@ -1,5 +1,3 @@
-import { type Ref, watch } from 'vue'
-
 const isLocal =
     typeof window === 'undefined'
         ? process?.env?.VITE_LOCAL === 'true'
@@ -36,7 +34,7 @@ export const warn = (...params: unknown[]) => {
         console.warn(...params)
     }
 }
-export const assert = (condition: unknown, message: string) => {
+export const assert = (condition: boolean, message: string) => {
     if (isLocal) {
         // eslint-disable-next-line no-console
         console.assert(condition, message)
@@ -99,10 +97,4 @@ export const logger = {
     time,
     timeEnd,
     timeLog,
-}
-
-export const useErrorsLogger = (errors: Ref<Error | null | undefined>[]) => {
-    errors.forEach((error) => {
-        watch(error, logger.error)
-    })
 }

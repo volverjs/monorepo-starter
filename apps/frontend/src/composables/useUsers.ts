@@ -26,7 +26,7 @@ export const useUsers = () => {
     const read = (
         query: Query | Ref<Query>,
         options: {
-            immdeiate?: boolean
+            immediate?: boolean
         },
     ) => {
         const data = ref<UserWithRole[]>()
@@ -63,7 +63,7 @@ export const useUsers = () => {
                 await execute()
             },
             {
-                immediate: options?.immdeiate,
+                immediate: options?.immediate,
             },
         )
 

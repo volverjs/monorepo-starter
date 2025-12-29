@@ -99,7 +99,7 @@
                     modifiers="link"
                     :label="$t('action.forgetPassword')"
                     :to="{
-                        name: '/auth/forget-password',
+                        name: '/auth/request-password-reset',
                     }" />
                 <VvFormField
                     name="rememberMe"

@@ -6,6 +6,7 @@ import type { AppModule, ProblemJson } from '~/types'
 export const httpClient = createHttpClient({
     prefixUrl: import.meta.env.VITE_API_BASE_URL,
     retry: 2,
+    credentials: 'include',
     hooks: {
         beforeRetry: [
             ({ request, retryCount }) => {

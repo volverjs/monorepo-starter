@@ -154,5 +154,25 @@ export default defineConfig(({ mode }) => {
                 },
             },
         },
+
+        optimizeDeps: {
+            exclude: [
+                '@iconify/vue',
+                '@volverjs/ui-vue/vv-input-text',
+                '@volverjs/ui-vue/vv-checkbox',
+                '@volverjs/ui-vue/vv-checkbox-group',
+                '@volverjs/ui-vue/vv-combobox',
+                '@volverjs/ui-vue/vv-radio',
+                '@volverjs/ui-vue/vv-radio-group',
+                '@volverjs/ui-vue/vv-select',
+                '@volverjs/ui-vue/vv-textarea',
+            ],
+        },
+
+        build: {
+            rollupOptions: {
+                external: [],
+            },
+        },
     }
 })

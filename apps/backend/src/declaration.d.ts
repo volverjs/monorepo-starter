@@ -2,7 +2,7 @@ import type { Session } from 'auth'
 
 declare module 'fastify' {
     interface FastifyRequest {
-        user: Session['user'] | undefined
+        user: (Session['user'] & { role?: string | null }) | undefined
         session: Session['session'] | undefined
     }
 }

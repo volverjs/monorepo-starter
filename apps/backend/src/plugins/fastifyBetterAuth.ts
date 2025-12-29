@@ -1,87 +1,35 @@
-import type { HttpHeader } from 'fastify/types/utils'
-import type { FastifyReply } from 'fastify'
 import { toNodeHandler } from 'better-auth/node'
 import fp from 'fastify-plugin'
 import { auth } from 'auth'
-import type { IncomingMessage } from 'node:http'
 
 /**
- * Creates a clean headers object filtering out HTTP/2 pseudo-headers and symbols
+ * Filters headers by removing HTTP/2 pseudo-headers (those starting with ':')
+ * and converts to a Headers object compatible with better-auth
  */
-function createCleanHeaders(
-    rawHeaders: Record<string, string | string[] | undefined>,
-): Record<string, string | string[] | undefined> {
-    const cleanHeaders: Record<string, string | string[] | undefined> = {}
-    const headerKeys = Object.getOwnPropertyNames(rawHeaders)
-
-    for (const key of headerKeys) {
-        if (!key.startsWith(':')) {
-            const value = rawHeaders[key]
-            if (value != null) {
-                cleanHeaders[key.toLowerCase()] = value
-            }
-        }
-    }
-
-    return cleanHeaders
-}
-
-/**
- * Creates a Headers object from raw headers, filtering out invalid entries
- */
-function createWebHeaders(
-    rawHeaders: Record<string, string | string[] | undefined>,
-): Headers {
-    const headerEntries: [string, string][] = []
-    const headerKeys = Object.getOwnPropertyNames(rawHeaders)
-
-    for (const key of headerKeys) {
-        if (!key.startsWith(':')) {
-            const value = rawHeaders[key]
-            if (value != null) {
-                const stringValue = Array.isArray(value)
-                    ? value.join(', ')
-                    : String(value)
-                headerEntries.push([key.toLowerCase(), stringValue])
-            }
-        }
-    }
-
-    return new Headers(headerEntries)
-}
-
-/**
- * Creates a proxy for the request object that returns clean headers
- */
-function createRequestProxy(request: IncomingMessage): IncomingMessage {
-    const cleanHeaders = createCleanHeaders(request.headers)
-
-    return new Proxy(request, {
-        get(target, prop) {
-            if (prop === 'headers') {
-                return cleanHeaders
-            }
-            const value = target[prop as keyof typeof target]
-            if (typeof value === 'function') {
-                return value.bind(target)
-            }
-            return value
-        },
-    })
-}
-
-/**
- * Sets response headers from a headers object
- */
-function setResponseHeaders(
-    reply: FastifyReply,
-    headers: Record<HttpHeader, number | string | string[] | undefined>,
-): void {
+function toHeaders(headers: Record<string, unknown>): Headers {
+    const result = new Headers()
     for (const [key, value] of Object.entries(headers)) {
-        if (value != null) {
-            reply.raw.setHeader(key, value)
+        if (key[0] !== ':' && value != null) {
+            result.set(key, Array.isArray(value) ? value[0] : String(value))
         }
     }
+    return result
+}
+
+/**
+ * Filters headers by removing HTTP/2 pseudo-headers (those starting with ':')
+ * and returns a plain object for Node.js request proxy
+ */
+function toPlainHeaders(
+    headers: Record<string, unknown>,
+): Record<string, string> {
+    const result: Record<string, string> = {}
+    for (const [key, value] of Object.entries(headers)) {
+        if (key[0] !== ':' && value != null) {
+            result[key] = Array.isArray(value) ? value[0] : String(value)
+        }
+    }
+    return result
 }
 
 export const fastifyBetterAuth = fp((fastify, _options, done) => {
@@ -98,31 +46,33 @@ export const fastifyBetterAuth = fp((fastify, _options, done) => {
         )
 
         fastify.all(`${auth.options.basePath}/*`, async (request, reply) => {
-            // Create a proxy with clean headers to avoid symbol issues
-            const requestProxy = createRequestProxy(request.raw)
+            const cleanHeaders = toPlainHeaders(request.headers)
 
-            // Set response headers
-            setResponseHeaders(reply, reply.getHeaders())
+            // Create a proxy request with sanitized headers
+            const proxyRequest = Object.create(request.raw, {
+                headers: { value: cleanHeaders, writable: true },
+            })
 
-            await authHandler(requestProxy, reply.raw)
+            // Copy already set headers to the reply
+            for (const [key, value] of Object.entries(reply.getHeaders())) {
+                if (value != null) {
+                    reply.raw.setHeader(key, value)
+                }
+            }
+
+            await authHandler(proxyRequest, reply.raw)
         })
     })
 
     fastify.addHook('onRequest', async (request) => {
-        try {
-            // Create clean headers for better-auth
-            const headers = createWebHeaders(request.headers)
+        const cleanHeaders = toHeaders(request.headers)
 
-            const currentSession = await auth.api.getSession({ headers })
+        const currentSession = await auth.api.getSession({
+            headers: cleanHeaders,
+        })
 
-            request.user = currentSession?.user
-            request.session = currentSession?.session
-        } catch (error) {
-            // Log error but don't break the request flow
-            console.warn('Failed to get session:', error)
-            request.user = undefined
-            request.session = undefined
-        }
+        request.user = currentSession?.user
+        request.session = currentSession?.session
     })
 
     done()

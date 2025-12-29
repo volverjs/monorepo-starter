@@ -3,11 +3,14 @@
     "back": "Torna",
     "backToHome": "Torna alla Home",
     "backToSignIn": "Torna al login",
+    "banUser": "Banna utente",
     "cancel": "Annulla",
     "continue": "Continua",
     "create": "Crea",
     "createAccount": "Non hai un account?",
+    "delete": "Elimina",
     "forgetPassword": "Hai dimenticato la password?",
+    "impersonateUser": "Impersonifica utente",
     "next": "Avanti",
     "prev": "Indietro",
     "proceed": "Procedi",
@@ -17,6 +20,7 @@
     "signUp": "Registrati",
     "submit": "Invia",
     "toggleTheme": "Cambia tema",
+    "unbanUser": "Togli il divieto ",
     "update": "Aggiorna"
   },
   "errors": {
@@ -32,11 +36,15 @@
     "Y": "anno | anni"
   },
   "label": {
+    "admin": "Amministratore",
+    "banned": "Bannato",
     "completeName": "Nome e cognome",
     "confirmPassword": "Conferma password",
     "createdAt": "Creato il",
+    "description": "Descrizione",
     "email": "Email",
     "emailVerified": "Email verificata",
+    "enabled": "Abilitato",
     "en": "EN",
     "it": "IT",
     "itemsPerPage": "Elementi per pagina",
@@ -45,8 +53,11 @@
     "password": "Password",
     "rememberMe": "Ricordami",
     "role": "Ruolo",
+    "setUserPassword": "Cambia la password ",
     "totalItemsCount": "Elementi: {total}",
-    "totalPages": "di {total}"
+    "totalPages": "di {total}",
+    "updatedAt": "Aggiornato il",
+    "user": "Utente"
   },
   "message": {
     "checkYourEmail": "Controlla la tua email per il link di verifica",
@@ -55,13 +66,16 @@
     "error": "Errore",
     "pageNotFound": "Pagina non trovata",
     "passwordResetSuccess": "Password reimpostata con successo",
+    "passwordsDoNotMatch": "Le password non coincidono",
     "readError": "Errore durante la lettura",
+    "submitSuccess": "Operazione eseguita con successo",
     "success": "Successo",
     "warning": "Attenzione"
   },
   "placeholder": {
     "loading": "Caricamento...",
-    "search": "Cerca..."
+    "search": "Cerca...",
+    "select": "Seleziona"
   },
   "route": {
     "backoffice": "Backoffice",

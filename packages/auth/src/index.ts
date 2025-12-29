@@ -80,3 +80,4 @@ export const config: BetterAuthOptions = {
 
 export const auth = betterAuth(config)
 export type Session = typeof auth.$Infer.Session
+export type User = Session['user']
