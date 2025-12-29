@@ -4,6 +4,11 @@ import { adminClient } from 'better-auth/client/plugins'
 import type { AppModule } from '~/types'
 import type { auth } from 'auth'
 
+export enum UserRoles {
+    User = 'user',
+    Admin = 'admin',
+}
+
 export const authClient = createAuthClient({
     baseURL: import.meta.env.VITE_BACKEND_URL,
     basePath: 'auth',

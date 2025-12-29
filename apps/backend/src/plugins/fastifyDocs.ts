@@ -31,6 +31,7 @@ export const fastifyDocs = fp(
         },
         done,
     ) => {
+        // @ts-expect-error wrong better-auth types
         auth.api.generateOpenAPISchema().then((openapi) => {
             fastify.register(fastifySwagger, {
                 openapi: {

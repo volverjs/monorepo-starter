@@ -146,7 +146,7 @@ export const createError = (error: FastifyError) => {
 }
 
 export const fastifyProblemJson = fp((fastify, _opts, done) => {
-    fastify.setErrorHandler((error, _request, reply) => {
+    fastify.setErrorHandler((error: FastifyError, _request, reply) => {
         logger.error(error)
         const problem = createError(error)
         reply.header('Content-Type', 'application/problem+json')

@@ -43,7 +43,7 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>,
       | '/auth/'
-      | '/auth/forget-password'
+      | '/auth/request-password-reset'
       | '/auth/reset-password'
       | '/auth/sign-up'
     >,
@@ -54,9 +54,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/auth/forget-password': RouteRecordInfo<
-      '/auth/forget-password',
-      '/auth/forget-password',
+    '/auth/request-password-reset': RouteRecordInfo<
+      '/auth/request-password-reset',
+      '/auth/request-password-reset',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -140,7 +140,7 @@ declare module 'vue-router/auto-routes' {
       routes:
         | '/auth'
         | '/auth/'
-        | '/auth/forget-password'
+        | '/auth/request-password-reset'
         | '/auth/reset-password'
         | '/auth/sign-up'
       views:
@@ -152,9 +152,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/auth/forget-password.vue': {
+    'src/pages/auth/request-password-reset.vue': {
       routes:
-        | '/auth/forget-password'
+        | '/auth/request-password-reset'
       views:
         | never
     }

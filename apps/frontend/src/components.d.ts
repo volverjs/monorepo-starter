@@ -11,9 +11,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    PjAvatar: typeof import('./components/PjAvatar.vue')['default']
     PjHeader: typeof import('./components/PjHeader.vue')['default']
     PjMain: typeof import('./components/PjMain.vue')['default']
-    PjSearchFulltext: typeof import('./components/PjSearchFulltext.vue')['default']
     PjSearchFullText: typeof import('./components/PjSearchFullText.vue')['default']
     PkLoader: typeof import('components')['PkLoader']
     PkTableEmpty: typeof import('components')['PkTableEmpty']
@@ -33,7 +33,6 @@ declare module 'vue' {
     VvDropdown: typeof import('@volverjs/ui-vue/components')['VvDropdown']
     VvDropdownAction: typeof import('@volverjs/ui-vue/components')['VvDropdownAction']
     VvIcon: typeof import('@volverjs/ui-vue/components')['VvIcon']
-    VvInputText: typeof import('@volverjs/ui-vue/components')['VvInputText']
     VvNav: typeof import('@volverjs/ui-vue/components')['VvNav']
     VvNavItem: typeof import('@volverjs/ui-vue/components')['VvNavItem']
     VvNavSeparator: typeof import('@volverjs/ui-vue/components')['VvNavSeparator']

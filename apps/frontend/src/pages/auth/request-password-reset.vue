@@ -28,7 +28,7 @@
             return
         }
         isLoading.value = true
-        const { error } = await auth.forgetPassword({
+        const { error } = await auth.requestPasswordReset({
             email: formData.value.email,
             redirectTo: `${window.location.origin}${
                 router.resolve({

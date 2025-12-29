@@ -3,11 +3,14 @@
     "back": "Back",
     "backToHome": "Back to Home",
     "backToSignIn": "Back to sign in",
+    "banUser": "Ban user",
     "cancel": "Cancel",
     "continue": "Continue",
     "create": "Create",
     "createAccount": "Don't you have an account?",
+    "delete": "Delete",
     "forgetPassword": "Do you forget the password?",
+    "impersonateUser": "Impersonate user",
     "next": "Next",
     "prev": "Previous",
     "proceed": "Proceed",
@@ -17,6 +20,7 @@
     "signUp": "Sign up",
     "submit": "Submit",
     "toggleTheme": "Change theme",
+    "unbanUser": "Unban",
     "update": "Update"
   },
   "errors": {
@@ -32,12 +36,17 @@
     "Y": "year | years"
   },
   "label": {
+    "admin": "Admin",
+    "banned": "Banned",
     "completeName": "Full name",
     "confirmPassword": "Confirm password",
     "createdAt": "Created at",
+    "description": "Description",
     "email": "Email",
     "emailVerified": "Email verified",
+    "enabled": "Enabled",
     "en": "EN",
+    "expiresAt": "Expires at",
     "it": "IT",
     "itemsPerPage": "Items Per Page",
     "locale": "Language",
@@ -45,8 +54,11 @@
     "password": "Password",
     "rememberMe": "Remember me",
     "role": "Role",
+    "setUserPassword": "Change password",
     "totalItemsCount": "Items: {total}",
-    "totalPages": "Of {total}"
+    "totalPages": "Of {total}",
+    "updatedAt": "Updated at",
+    "user": "User"
   },
   "message": {
     "checkYourEmail": "Check your email for the verification link",
@@ -55,13 +67,16 @@
     "error": "Error",
     "pageNotFound": "Page not found",
     "passwordResetSuccess": "Password reset successfully",
+    "passwordsDoNotMatch": "The passwords do not match",
     "readError": "Error while reading",
+    "submitSuccess": "Operation performed successfully",
     "success": "Success",
     "warning": "Warning"
   },
   "placeholder": {
     "loading": "Loading...",
-    "search": "Search..."
+    "search": "Search...",
+    "select": "Select"
   },
   "route": {
     "backoffice": "Backoffice",

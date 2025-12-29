@@ -1,6 +1,7 @@
 <script setup lang="ts">
     const { t } = useI18n()
 </script>
+
 <template>
     <div class="h-full flex justify-center items-center">
         <div
