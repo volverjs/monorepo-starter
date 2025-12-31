@@ -54,7 +54,7 @@
                 <VvNavItem class="flex gap-md" :to="{ name: '/backoffice/' }">
                     <VvIcon name="settings" class="w-16 h-16" />
                     {{ $t('route.backoffice') }}
-                    <VvIcon name="chevron-right" class="w-16 w-16 ml-auto" />
+                    <VvIcon name="chevron-right" class="w-16 h-16 ml-auto" />
                 </VvNavItem>
             </template>
         </VvNav>
