@@ -27,10 +27,10 @@
 <i18n lang="json">
 {
     "en": {
-        "title": "Welcome to Volverjs"
+        "title": "Welcome to Volver.js"
     },
     "it": {
-        "title": "Benvenuto in Volverjs"
+        "title": "Benvenuto in Volver.js"
     }
 }
 </i18n>

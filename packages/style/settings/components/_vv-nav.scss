@@ -1,0 +1,28 @@
+@use 'sass:map';
+@use '@volverjs/style/scss/context' as *;
+
+$vv-nav: map.deep-merge(
+    $vv-nav,
+    (
+        modifier: (
+            sidebar: (
+                element: (
+                    item-label: (
+                        state: (
+                            current: (
+                                color: var(--color-word),
+                                background-color: var(--color-surface-2),
+                                font-weight: var(--font-bold),
+                            ),
+                            selected: (
+                                color: var(--color-word),
+                                background-color: var(--color-surface-2),
+                                font-weight: var(--font-bold),
+                            )
+                        )
+                    ),      
+                )
+            ),
+        )
+    )
+);
