@@ -81,11 +81,19 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>,
       | '/backoffice/'
+      | '/backoffice/dashboard'
       | '/backoffice/users'
     >,
     '/backoffice/': RouteRecordInfo<
       '/backoffice/',
       '/backoffice',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/backoffice/dashboard': RouteRecordInfo<
+      '/backoffice/dashboard',
+      '/backoffice/dashboard',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -103,10 +111,18 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>,
       | '/frontoffice/'
+      | '/frontoffice/dashboard'
     >,
     '/frontoffice/': RouteRecordInfo<
       '/frontoffice/',
       '/frontoffice',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/frontoffice/dashboard': RouteRecordInfo<
+      '/frontoffice/dashboard',
+      '/frontoffice/dashboard',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -174,14 +190,16 @@ declare module 'vue-router/auto-routes' {
       routes:
         | '/backoffice'
         | '/backoffice/'
+        | '/backoffice/dashboard'
         | '/backoffice/users'
       views:
         | 'default'
     }
-    'src/pages/backoffice@nav.vue': {
+    'src/pages/backoffice@sidebar.vue': {
       routes:
         | '/backoffice'
         | '/backoffice/'
+        | '/backoffice/dashboard'
         | '/backoffice/users'
       views:
         | 'default'
@@ -189,6 +207,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/backoffice/index.vue': {
       routes:
         | '/backoffice/'
+      views:
+        | never
+    }
+    'src/pages/backoffice/dashboard.vue': {
+      routes:
+        | '/backoffice/dashboard'
       views:
         | never
     }
@@ -202,19 +226,27 @@ declare module 'vue-router/auto-routes' {
       routes:
         | '/frontoffice'
         | '/frontoffice/'
+        | '/frontoffice/dashboard'
       views:
         | 'default'
     }
-    'src/pages/frontoffice@nav.vue': {
+    'src/pages/frontoffice@sidebar.vue': {
       routes:
         | '/frontoffice'
         | '/frontoffice/'
+        | '/frontoffice/dashboard'
       views:
         | 'default'
     }
     'src/pages/frontoffice/index.vue': {
       routes:
         | '/frontoffice/'
+      views:
+        | never
+    }
+    'src/pages/frontoffice/dashboard.vue': {
+      routes:
+        | '/frontoffice/dashboard'
       views:
         | never
     }

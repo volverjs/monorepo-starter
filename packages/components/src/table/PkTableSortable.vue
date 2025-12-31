@@ -361,8 +361,8 @@
             }">
             <div
                 v-if="!hideNavigation"
-                class="mt-auto grid grid-cols-3 gap-md pt-24">
-                <div class="flex items-center">
+                class="mt-auto grid grid-cols-12 gap-xs pt-24">
+                <div class="flex items-center col-span-3">
                     <label class="text-12"
                         >{{ $t('label.itemsPerPage') }}:</label
                     >
@@ -378,8 +378,8 @@
                         </option>
                     </select>
                 </div>
-                <div class="flex justify-center items-center">
-                    <VvButtonGroup>
+                <div class="flex justify-center items-center col-span-6">
+                    <VvButtonGroup class="flex-nowrap">
                         <VvButton
                             :title="$t('action.prev')"
                             :disabled="hasPrevDisabled"
@@ -399,11 +399,13 @@
                             modifiers="action-quiet"
                             @click.stop="onClickNext()" />
                     </VvButtonGroup>
-                    <small v-if="hasPageCount" class="ml-6 text-12">
+                    <small
+                        v-if="hasPageCount"
+                        class="ml-6 text-12 whitespace-nowrap">
                         {{ $t('label.totalPages', { total: hasPageCount }) }}
                     </small>
                 </div>
-                <div class="flex text-12 justify-end items-center">
+                <div class="flex text-12 justify-end items-center col-span-3">
                     {{ $t('label.totalItemsCount', { total: hasTotal }) }}
                 </div>
             </div>

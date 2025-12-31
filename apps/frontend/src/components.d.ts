@@ -15,6 +15,7 @@ declare module 'vue' {
     PjHeader: typeof import('./components/PjHeader.vue')['default']
     PjMain: typeof import('./components/PjMain.vue')['default']
     PjSearchFullText: typeof import('./components/PjSearchFullText.vue')['default']
+    PjSidebar: typeof import('./components/PjSidebar.vue')['default']
     PkLoader: typeof import('components')['PkLoader']
     PkTableEmpty: typeof import('components')['PkTableEmpty']
     PkTableError: typeof import('components')['PkTableError']

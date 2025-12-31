@@ -4,7 +4,10 @@
     import { useSettingsStore, useDialog } from 'composables'
 
     const appName = import.meta.env.VITE_APP_NAME
-    const { t, locale } = useI18n()
+    const { t, locale: lang } = useI18n()
+
+    // settings
+    const settingsStore = useSettingsStore()
 
     // session
     const auth = useAuth()
@@ -18,8 +21,10 @@
 
     // head
     useHead({
-        title: import.meta.env.VITE_APP_NAME,
-        htmlAttrs: { lang: locale },
+        title: appName,
+        htmlAttrs: {
+            lang,
+        },
     })
 
     // pwa
@@ -28,20 +33,10 @@
         offlineReady.value = false
         needRefresh.value = false
     }
-
-    // theme
-    const settingsStore = useSettingsStore()
-    const { hasThemes } = useFeatures()
-    const themeClass = computed(() => {
-        if (!hasThemes) {
-            return 'theme--light'
-        }
-        return settingsStore.hasDarkTheme ? 'theme--dark' : 'theme--light'
-    })
 </script>
 
 <template>
-    <div class="h-full theme" :class="themeClass">
+    <div class="h-full">
         <Transition mode="out-in">
             <div
                 v-if="session.isPending"
@@ -49,58 +44,18 @@
                 <PkLoader />
             </div>
             <div
-                v-else-if="!session.data?.user"
-                class="h-full flex items-center justify-center">
-                <!-- #region main -->
-                <main class="main">
-                    <RouterView />
-                </main>
-                <!-- #endregion -->
-            </div>
-            <div v-else class="parent">
+                v-else
+                class="parent"
+                :class="{
+                    'parent--sidebar': settingsStore.hasSidebar,
+                    'parent--sidebar-open': settingsStore.isSidebarOpen,
+                }">
                 <!-- #region sidebar -->
-                <div v-if="session.data?.user" class="sidebar">
-                    <VvAction
-                        class="my-md"
-                        :to="{ name: '/frontoffice/' }"
-                        :title="$t('action.backToHome')">
-                        <div class="flex gap-md mb-xs">
-                            <VvIcon
-                                name="volverjs"
-                                prefix="custom"
-                                class="w-auto h-44 text-white" />
-                            <strong class="flex-1 font-bold leading-normal">
-                                {{ appName }}
-                            </strong>
-                        </div>
-                    </VvAction>
-                    <!-- #region nav -->
-                    <RouterView v-slot="scope" name="nav">
-                        <Transition mode="out-in">
-                            <Component :is="scope.Component" v-if="scope" />
-                        </Transition>
-                    </RouterView>
-                    <!-- #endregion -->
-                    <div class="flex items-center mt-auto gap-md">
-                        <VvAvatar modifiers="rounded word">
-                            {{
-                                session.data.user.name
-                                    .split(' ')
-                                    .map((n) => n[0])
-                                    .join('')
-                            }}
-                        </VvAvatar>
-                        <span class="text-smaller">
-                            {{ session.data.user.name }}
-                        </span>
-                        <VvButton
-                            class="ml-auto"
-                            modifiers="action-quiet"
-                            icon="logout"
-                            :title="$t('action.signOut')"
-                            @click="auth.signOut" />
-                    </div>
-                </div>
+                <RouterView v-slot="scope" name="sidebar">
+                    <Transition mode="out-in">
+                        <Component :is="scope.Component" v-if="scope" />
+                    </Transition>
+                </RouterView>
                 <!-- #endregion -->
 
                 <!-- #region main -->
@@ -160,26 +115,48 @@
 </template>
 
 <style lang="scss">
+    .main {
+        background-color: var(--color-surface);
+    }
+
     .parent {
         display: grid;
         height: 100%;
-        grid-template: auto / var(--spacing-240) 1fr;
+        grid-template: 1fr / 100dvw 1fr;
+
+        &--sidebar {
+            @include media-breakpoint-up('md', $breakpoints) {
+                grid-template: auto / var(--spacing-240) 1fr;
+            }
+
+            .main {
+                overflow: auto;
+                margin-left: -100%;
+                width: 100dvw;
+
+                @include media-breakpoint-up('md', $breakpoints) {
+                    margin-left: 0;
+                    width: auto;
+                }
+            }
+        }
     }
 
     .sidebar {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        overflow: auto;
-        padding: var(--spacing-sm);
-        border-right: var(--spacing-1) solid var(--color-surface-3);
-    }
+        opacity: 0;
+        transform: translateX(-100%);
+        transition: var(--transition-all);
+        z-index: var(--z-fixed);
 
-    .main {
-        background-color: var(--color-surface);
-        overflow: hidden;
-        overflow: auto;
-        height: 100%;
+        .parent--sidebar-open & {
+            transform: none;
+            opacity: 1;
+        }
+
+        @include media-breakpoint-up('md', $breakpoints) {
+            transform: none;
+            opacity: 1;
+        }
     }
 </style>
 

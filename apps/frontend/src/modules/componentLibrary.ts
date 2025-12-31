@@ -4,7 +4,7 @@ import { normal } from '@volverjs/ui-vue/icons'
 import custom from 'icons'
 
 /*
- * Setup Volver
+ * Setup Volver.js UI Vue components library
  * https://volver.github.io/ui-vue/
  */
 export const install: AppModule = ({ app }) => {
