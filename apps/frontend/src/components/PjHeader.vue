@@ -12,15 +12,33 @@
 
 <template>
     <div class="header">
+        <VvButton
+            v-if="settingsStore.hasSidebar"
+            :icon="{
+                name: settingsStore.isSidebarOpen
+                    ? 'akar-icons:x-small'
+                    : 'akar-icons:three-line-horizontal',
+            }"
+            modifiers="action-quiet"
+            class="md:none"
+            @click="settingsStore.toggleSidebarOpen()" />
+        <VvAction
+            :to="{ name: '/' }"
+            :title="$t('action.backToHome')"
+            class="md:none flex gap-md items-center justify-center">
+            <VvIcon
+                name="volverjs"
+                prefix="custom"
+                class="w-auto h-32 text-white rounded-full" />
+            <strong class="font-bold">Volver.js</strong>
+        </VvAction>
         <div class="flex-1">
             <slot />
         </div>
         <VvButton
             v-if="hasThemes"
             :icon="
-                settingsStore.hasDarkTheme
-                    ? 'akar-icons:sun'
-                    : 'akar-icons:moon'
+                settingsStore.isDarkTheme ? 'akar-icons:sun' : 'akar-icons:moon'
             "
             modifiers="action-quiet"
             :title="$t('action.toggleTheme')"
