@@ -19,6 +19,12 @@ export const config: BetterAuthOptions = {
             },
         },
     },
+    account: {
+        accountLinking: {
+            enabled: true,
+            trustedProviders: ['microsoft', 'google', 'github', 'facebook'],
+        },
+    },
     plugins: [admin(), organization(), openAPI()],
     baseURL: process.env.VITE_BETTER_AUTH_URL,
     basePath: '/auth',

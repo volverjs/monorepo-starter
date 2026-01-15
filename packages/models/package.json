@@ -9,7 +9,7 @@
         "src"
     ],
     "dependencies": {
-        "drizzle-zod": "^0.7.1",
+        "drizzle-zod": "^0.8.3",
         "database": "workspace:*"
     }
 }

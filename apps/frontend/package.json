@@ -10,7 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@casl/vue": "^2.2.2",
+        "@casl/vue": "^2.2.5",
         "@vueuse/head": "^2.0.0",
         "ability": "workspace:*",
         "auth": "workspace:*",
@@ -26,8 +26,8 @@
     "devDependencies": {
         "@vitejs/plugin-vue": "^6.0.3",
         "tsconfig": "workspace:*",
-        "unplugin-vue-components": "^30.0.0",
-        "unplugin-vue-router": "^0.19.1",
+        "unplugin-vue-components": "^31.0.0",
+        "unplugin-vue-router": "^0.19.2",
         "vite-plugin-pwa": "^1.2.0",
         "vite-plugin-stylelint": "^6.0.2",
         "vite-plugin-webfont-dl": "^3.11.1"
