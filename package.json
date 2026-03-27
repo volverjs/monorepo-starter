@@ -32,7 +32,7 @@
         "@vueuse/router": "^14.1.0",
         "better-auth": "^1.4.13",
         "drizzle-orm": "^0.45.1",
-        "handlebars": "^4.7.8",
+        "handlebars": "^4.7.9",
         "json-schema-to-ts": "^3.1.1",
         "nodemailer": "^7.0.12",
         "pinia": "^3.0.4",
