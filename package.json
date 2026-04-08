@@ -31,7 +31,7 @@
         "@vueuse/core": "^14.1.0",
         "@vueuse/router": "^14.1.0",
         "better-auth": "^1.4.13",
-        "drizzle-orm": "^0.45.1",
+        "drizzle-orm": "^0.45.2",
         "handlebars": "^4.7.8",
         "json-schema-to-ts": "^3.1.1",
         "nodemailer": "^7.0.12",
