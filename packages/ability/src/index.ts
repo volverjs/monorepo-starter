@@ -3,6 +3,7 @@ import type {
     InferSubjects,
     RawRuleOf,
     ForcedSubject,
+    FieldMatcher,
 } from '@casl/ability'
 import type { MongoQuery } from '@ucast/mongo2js'
 import type { Action, Subject } from './types'
@@ -11,9 +12,8 @@ import {
     AbilityBuilder,
     createMongoAbility,
     buildMongoQueryMatcher,
-    PureAbility,
+    Ability as PureAbility,
     createAliasResolver,
-    FieldMatcher,
 } from '@casl/ability'
 import { roles } from './roles'
 export { subject } from '@casl/ability'
@@ -38,38 +38,50 @@ const DEFAULT_RULES: RawRuleOf<Ability>[] = [
 const conditionsMatcher = buildMongoQueryMatcher({ $or })
 const fieldMatcher: FieldMatcher = (fields) => (field) => fields.includes(field)
 
-// ability
-export const ability = new PureAbility<[Action, AbilitySubject], MongoQuery>(
-    DEFAULT_RULES,
-    {
-        conditionsMatcher,
-        resolveAction,
-        fieldMatcher,
-    },
-)
+const abilityOptions = {
+    conditionsMatcher,
+    resolveAction,
+    fieldMatcher,
+}
+
+export type AppAbility = PureAbility<[Action, AbilitySubject], MongoQuery>
 
 export const isValidRole = (role: string): role is keyof typeof roles => {
     return role in roles
 }
 
-export const updateAbilityByUserRole = (role?: string | null) => {
-    // reset ability
+const rulesForRole = (role?: string | null): RawRuleOf<Ability>[] => {
     if (!role || !isValidRole(role)) {
-        ability.update(DEFAULT_RULES)
-        return
+        return DEFAULT_RULES
     }
-
-    const { can, build } = new AbilityBuilder<Ability>(createMongoAbility)
+    const { can, rules } = new AbilityBuilder<Ability>(createMongoAbility)
     roles[role].forEach(({ action, subject, fields, condition }) => {
         can(action, subject, fields, condition)
     })
-    ability.update(
-        build({
-            conditionsMatcher,
-            resolveAction,
-            fieldMatcher,
-        }).rules,
+    return rules
+}
+
+/**
+ * A standalone ability for one role. The backend builds one per request
+ * (`plugins/fastifyAbility.ts`): a shared instance rewritten by every request
+ * would be read by the permission check of another request that awaited in
+ * between, and that request would be judged with someone else's rules.
+ */
+export const createAbility = (role?: string | null): AppAbility =>
+    new PureAbility<[Action, AbilitySubject], MongoQuery>(
+        rulesForRole(role),
+        abilityOptions,
     )
+
+/**
+ * The ability of the signed-in user in the browser: one user per tab, so one
+ * instance, updated by `updateAbilityByUserRole` when the session changes.
+ * Never use it on the server, use `request.ability` there.
+ */
+export const ability = createAbility()
+
+export const updateAbilityByUserRole = (role?: string | null) => {
+    ability.update(rulesForRole(role))
 }
 
 export * from './types'

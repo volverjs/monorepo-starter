@@ -5,21 +5,21 @@ import { logger } from 'logger'
 import { resetPasswordTemplate } from './templates'
 
 const transport = createTransport({
-    host: process.env.VITE_SMTP_HOST,
-    port: process.env.VITE_SMTP_PORT,
-    secure: process.env.VITE_SMTP_SECURE === 'true',
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE === 'true',
     auth: {
-        user: process.env.VITE_SMTP_AUTH_USERNAME,
-        pass: process.env.VITE_SMTP_AUTH_PASSWORD,
+        user: process.env.SMTP_AUTH_USERNAME,
+        pass: process.env.SMTP_AUTH_PASSWORD,
     },
 } as TransportOptions)
 
 async function sendEmail(options: Mail.Options) {
-    if (!options.from && process.env.VITE_EMAIL_FROM) {
-        options.from = process.env.VITE_EMAIL_FROM
+    if (!options.from && process.env.EMAIL_FROM) {
+        options.from = process.env.EMAIL_FROM
     }
-    if (!options.replyTo && process.env.VITE_EMAIL_REPLY_TO) {
-        options.replyTo = process.env.VITE_EMAIL_REPLY_TO
+    if (!options.replyTo && process.env.EMAIL_REPLY_TO) {
+        options.replyTo = process.env.EMAIL_REPLY_TO
     }
     try {
         await transport.sendMail(options)
@@ -38,7 +38,7 @@ const sendResetPassword = async (options: {
     const html = resetPasswordTemplate({
         ...options,
         inboxPreviewText,
-        frontendUrl: process.env.VITE_FRONTEND_URL,
+        frontendUrl: process.env.FRONTEND_URL,
     })
     await sendEmail({
         to: options.user.email,

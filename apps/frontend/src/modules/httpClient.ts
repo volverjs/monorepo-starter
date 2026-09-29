@@ -4,7 +4,7 @@ import { i18n } from 'i18n'
 import type { AppModule, ProblemJson } from '~/types'
 
 export const httpClient = createHttpClient({
-    prefixUrl: import.meta.env.VITE_API_BASE_URL,
+    prefixUrl: import.meta.env.VITE_BACKEND_URL,
     retry: 2,
     credentials: 'include',
     hooks: {
