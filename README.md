@@ -1,10 +1,10 @@
 <div align="center">
 
-[![volverjs](packages/icons/src/volverjs.svg)](https://volverjs.github.io/style)
+[![volverjs](packages/icons/src/logo.svg)](https://volverjs.github.io/style)
 
 ## @volverjs/monorepo-starter
 
-`vue` `volverjs` `ui` `vue3` `vite` `template` `starter` `nx` <br /> `fastify` `pwa` `drizzle` `orm` `postgres` `docker`
+`vue` `volverjs` `vite` `nx` `pnpm` `fastify` `drizzle` `postgres` `better-auth` `pwa` `ai-first`
 
 <br>
 
@@ -12,161 +12,137 @@ maintained with ❤️ by
 
 <br>
 
-[![8 Wave](packages/icons/src/8wave.svg)](https://8wave.it)
+[![Eight Wave](packages/icons/src/8wave.svg)](https://8wave.it)
 
 <br>
 
 </div>
 
+A full-stack web app template: a Vue 3 SPA on the Volver design system, a Fastify API, PostgreSQL
+through Drizzle ORM and authentication with better-auth, in an Nx + pnpm monorepo that coding
+agents can work in from the first commit.
+
 ## Features
 
--   ⚡️ [Vue 3](https://github.com/vuejs/core), [Vite](https://github.com/vitejs/vite), [💾](https://pnpm.io/), [esbuild](https://github.com/evanw/esbuild) - born with fastness
--   🎉 [Monorepo with Nx](https://nx.dev/)
--   😺 [Fastify](https://fastify.dev/)
--   🔑 [Better Auth](https://better-auth.vercel.app/) - the authentication framework
--   🗂 [File based routing](./apps/frontend/src/pages)
--   📦 [Components auto importing](./apps/frontend/src/components)
--   🍍 [State Management via Pinia](https://pinia.vuejs.org/)
--   📲 [PWA](https://github.com/antfu/vite-plugin-pwa)
--   🎨 [@volverjs/ui-vue](https://github.com/volverjs/ui-vue)
--   🌍 [I18n ready](./packages/i18n)
--   📥 [Auto importing](https://github.com/antfu/unplugin-auto-import) - use Composition API and others directly
--   💾 [Drizzle ORM](https://orm.drizzle.team/)
--   🦾 TypeScript, of course
+- ⚡️ [Vue 3](https://vuejs.org/), [Vite 8](https://vite.dev/), [pnpm](https://pnpm.io/) and [Nx](https://nx.dev/) with task caching
+- 😺 [Fastify 5](https://fastify.dev/) with decorator controllers, Zod validation, problem+json errors and OpenAPI docs (Swagger and Scalar)
+- 💾 [Drizzle ORM](https://orm.drizzle.team/) on PostgreSQL, with pagination, sorting, filters and full-text search on every list
+- 🔑 [Better Auth](https://www.better-auth.com/): email and password, Microsoft, Google, GitHub and Facebook sign-in, admin and organizations
+- 🛡️ [CASL](https://casl.js.org/) roles and permissions shared by API and SPA
+- 🗂 File-based routing with typed routes ([vue-router 5](https://router.vuejs.org/))
+- 🎨 [@volverjs/ui-vue](https://github.com/volverjs/ui-vue) and [@volverjs/style](https://github.com/volverjs/style), light and dark theme
+- 🌍 [Vue I18n](https://vue-i18n.intlify.dev/) in English and Italian, Zod errors included
+- 📲 [PWA](https://vite-pwa-org.netlify.app/)
+- 🧪 [Vitest](https://vitest.dev/) and a one-command Definition of Done: `pnpm verify`
+- 🤖 AI first: `AGENTS.md`, guard hooks, pinned skills and a UI tour for coding agents (below)
+- 🦾 TypeScript everywhere
 
-## Pre-packed
+### Volver
 
-### [Volverjs](https://github.com/volverjs)
+- [@volverjs/style](https://volverjs.github.io/style/): the easy way to style
+- [@volverjs/ui-vue](https://github.com/volverjs/ui-vue): the lightweight Vue 3 component library
+- [@volverjs/form-vue](https://github.com/volverjs/form-vue): forms from Zod schemas
+- [@volverjs/zod-vue-i18n](https://github.com/volverjs/zod-vue-i18n): Zod validation messages with Vue I18n
+- [@volverjs/query-vue](https://github.com/volverjs/query-vue): query state management
+- [@volverjs/data](https://github.com/volverjs/data): tiny HttpClient and repositories on the Fetch API
 
--   [@volverjs/style](https://volverjs.github.io/style/) - The easy way to style
--   [@volverjs/ui-vue](https://github.com/volverjs/ui-vue) - The lightweight Vue 3 component library
--   [@volvejs/form-vue](https://github.com/volverjs/form-vue) - Form validation and submission
--   [@volverjs/zod-vue-i18n](https://github.com/volverjs/zod-vue-i18n) - Zod validation with Vue 3 and i18n
--   [@volverjs/query-vue](https://github.com/volverjs/query-vue) - Query state management
--   [@volverjs/data](https://github.com/volverjs/data) - Tiny HttpClient based on Fetch API
+## Create a project
 
-### Plugins
+### With a coding agent
 
--   [Vue Router](https://github.com/vuejs/router)
-    -   [`unplugin-vue-router`](https://github.com/posva/unplugin-vue-router) - File system based routing
--   [Pinia](https://pinia.vuejs.org) - Intuitive, type safe, light and flexible Store for Vue using the composition api
--   [`unplugin-vue-components`](https://github.com/antfu/unplugin-vue-components) - Components auto import
--   [`unplugin-auto-import`](https://github.com/antfu/unplugin-auto-import) - Directly use Vue Composition API and others without importing
--   [`vite-plugin-pwa`](https://github.com/antfu/vite-plugin-pwa) - PWA
--   [Vue I18n](https://github.com/intlify/vue-i18n-next) - Internationalization
-    -   [`unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) - Unplugin for Vue I18n
--   [VueUse](https://github.com/antfu/vueuse) - Collection of useful composition APIs
--   [`@vueuse/head`](https://github.com/vueuse/head) - Manipulate document head reactively
-
-### Coding Style
-
--   Use Composition API with [`<script setup>` SFC syntax](https://github.com/vuejs/rfcs/pull/227)
--   [ESLint](https://eslint.org/) with typescript and vue3 recommended
--   [Stylelint](https://stylelint.io/) with recommended rules
--   [Prettier](https://prettier.io/) with single quotes, no semi, trailing comma and four spaces of tab width
-
-### Dev tools
-
--   [TypeScript](https://www.typescriptlang.org/)
--   [pnpm](https://pnpm.js.org/) - Fast, disk space efficient package manager
--   [VS Code Extensions](./.vscode/extensions.json)
-    -   [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) - Vue 3 `<script setup>` IDE support
-    -   [Iconify IntelliSense](https://marketplace.visualstudio.com/items?itemName=antfu.iconify) - Icon inline display and autocomplete
-    -   [i18n Ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) - All in one i18n support
-    -   [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-    -   [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-    -   [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
-
-## Requirements
-
--   [Node.js](https://nodejs.org/)
--   [pnpm](https://pnpm.io/)
--   [docker](https://www.docker.com/)
-
-
-## Try it now!
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/volverjs/monorepo-starter/generate).
-
-### Clone to local
-
-If you prefer to do it manually with the cleaner git history
+Install the scaffolding skill once, then ask your agent for a new project ("create a new
+project from the volverjs monorepo starter"):
 
 ```bash
-npx degit volverjs/monorepo-starter my-app
-cd my-app
-pnpm i # If you don't have pnpm installed, run: npm install -g pnpm
+npx skills add volverjs/monorepo-starter -g
 ```
 
-## Checklist
+In Claude Code the skill is also available as the `volverjs-monorepo-starter` plugin. It asks
+for the name and a description, checks for a free database port, scaffolds, installs, runs the
+whole verification and brings the app up.
 
-When you use this template, try follow the checklist to update your info properly
+### With the script
 
--   [ ] Change the author name in `LICENSE`
--   [ ] Update `package.json` with your info
--   [ ] Change `.env` settings in `apps/backend/.env` (expecially generate the [`VITE_BETTER_AUTH_SECRET`](https://better-auth.vercel.app/docs/installation#set-environment-variables))
--   [ ] Change `.env` settings in `apps/frontend/.env`
--   [ ] Change the favicon in `apps/frontend/public`
--   [ ] Clean up the README
+The skill's script works on its own too (Node.js 24.12, or 22.20, or newer):
 
-And, enjoy :)
+```bash
+git clone --depth 1 https://github.com/volverjs/monorepo-starter.git
+node monorepo-starter/skills/volverjs-monorepo-starter/scripts/scaffold.mjs \
+  --dir my-app --title "My App" --description "What my app does."
+```
 
-## Usage
+`--help` lists every option: locale, social sign-in buttons, npm scope, API URLs, database
+port, license.
 
-### Quick Start
+### By hand
+
+[Create a repository from this template on GitHub](https://github.com/volverjs/monorepo-starter/generate),
+or `npx degit volverjs/monorepo-starter my-app`, then rename it yourself: the `VITE_APP_*`
+settings in `apps/frontend/.env`, the database name in `apps/backend/.env` and
+`docker-compose.yml`, the root `package.json`, `LICENSE`, this README.
+
+## Getting started
+
+Requirements: [Node.js](https://nodejs.org/) 24.12 or newer (22.20 or newer on the 22 line), [pnpm](https://pnpm.io/),
+[Docker](https://www.docker.com/).
 
 ```bash
 docker compose up -d
 pnpm install
+echo "BETTER_AUTH_SECRET=$(openssl rand -base64 32)" >> apps/backend/.env.local
 pnpm db:migrate
-```
-
-### Development
-
-```bash
 pnpm dev
 ```
 
-Just run and visit [https://localhost:8080](https://localhost:8080)
+- Frontend: [https://localhost:8080](https://localhost:8080)
+- Backend: [https://localhost:3000](https://localhost:3000), API reference at [/swagger](https://localhost:3000/swagger) and [/scalar](https://localhost:3000/scalar)
+- PgAdmin: [http://localhost:5050](http://localhost:5050) (`pgadmin4@dpage.com`, `Volverjs!`), server `postgres`, user `postgres`, password `Volverjs!`
 
-You can read the APIs documentation with Swagger at [https://localhost:3000/swagger](https://localhost:3000/swagger) or Scalar at [https://localhost:3000/scalar](https://localhost:3000/scalar).
+Another Postgres already on 5432? `POSTGRES_PORT=5433 docker compose up -d`, and the same port in
+`DATABASE_URL` in `apps/backend/.env.local`.
 
-### Build
+## Scripts
 
-To build the App, run
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Backend and frontend dev servers |
+| `pnpm verify` | Lint, typecheck, tests, production builds and the template checks |
+| `pnpm lint` / `pnpm lint:fix` | ESLint and Stylelint |
+| `pnpm typecheck` | `tsc` for the backend, `vue-tsc` for the frontend |
+| `pnpm test` | Backend tests (Vitest) |
+| `pnpm build` | Production builds |
+| `pnpm db:generate` / `pnpm db:migrate` | Drizzle migrations |
+| `pnpm nx run frontend:ui-tour` | Screenshots of the running app in both themes, failing on console errors |
 
-```bash
-pnpm build
-```
+## AI first
 
-And you will see the generated file in `dist` that ready to be served.
+The repository is set up so a coding agent can work in it safely from the start:
 
-### Access to postgres:
+- [AGENTS.md](AGENTS.md): conventions, architecture, commands and the Definition of Done, read
+  by every agent; [CLAUDE.md](CLAUDE.md) adds what is specific to Claude Code.
+- [docs/agents/](docs/agents/): traps that already cost debugging time, and checklists (adding an
+  API resource, looking at a UI change).
+- [.claude/settings.json](.claude/settings.json) and [a guard hook](.claude/hooks/guard.mjs) that
+  refuses bypassing Nx, dashes in prose and agent signatures on commits, with tests.
+- [skills-lock.json](skills-lock.json): the third-party skills the project relies on (Vue,
+  Pinia, Vite, Vitest, pnpm, Fastify, Node, TypeScript), installed with
+  `npx skills experimental_install`; the Volver skills come with the Volver plugins.
+- [.mcp.json](.mcp.json): the Nx MCP server.
+- Rules enforced by tools rather than prose: lint refuses scoped styles and missing
+  translations, a script refuses duplicated core packages in the lockfile, and
+  `pnpm scaffold:check` keeps the scaffolding skill in step with the template.
 
--   `localhost:5432`
--   **Username:** postgres (as a default)
--   **Password:** Volverjs! (as a default)
--   **Database:** postgres (as a default)
+## Coding style
 
-### Access to PgAdmin:
+- Composition API with `<script setup>`, plain BEM styles in `<style lang="scss">`
+- [ESLint](https://eslint.org/) with the TypeScript, Vue and Vue I18n recommended rules
+- [Stylelint](https://stylelint.io/) with the standard SCSS rules
+- [Prettier](https://prettier.io/): single quotes, no semicolons, trailing commas, four spaces
 
--   **URL:** `https://localhost:5050`
--   **Username:** pgadmin4@dpage.com (as a default)
--   **Password:** Volverjs! (as a default)
+## Acknowledgements
 
-### Add a new server in PgAdmin:
-
--   **Host name/address** `postgres`
--   **Port** `5432`
--   **Database** `postgres`
--   **Username** as `POSTGRES_USER`, by default: `postgres`
--   **Password** as `POSTGRES_PASSWORD`, by default `Volverjs!`
-
-## Acknoledgements
-
-This repo is inspired by 🏕 [antfu/vitesse](https://github.com/antfu/vitesse)
+This repository is inspired by 🏕 [antfu/vitesse](https://github.com/antfu/vitesse).
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT)
+[MIT](LICENSE)
