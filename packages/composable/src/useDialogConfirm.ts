@@ -1,4 +1,5 @@
-import { h, ref, VNode } from 'vue'
+import type { VNode } from 'vue'
+import { h, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
     VvButton,

@@ -8,8 +8,8 @@
         "src"
     ],
     "dependencies": {
-        "@casl/ability": "^6.7.5",
-        "@ucast/mongo2js": "^1.4.0",
+        "@casl/ability": "^7.0.1",
+        "@ucast/mongo2js": "^2.0.0",
         "models": "workspace:*"
     }
 }

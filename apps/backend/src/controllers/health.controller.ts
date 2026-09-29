@@ -1,4 +1,4 @@
-import z from 'zod/v4'
+import * as z from 'zod'
 import { Controller, GET } from './index'
 
 @Controller({
@@ -9,7 +9,7 @@ import { Controller, GET } from './index'
         },
     ],
 })
-export default class TodosController {
+export default class HealthController {
     @GET({
         url: '/ping',
         options: {

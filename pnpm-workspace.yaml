@@ -1,3 +1,14 @@
 packages:
     - 'packages/*'
     - 'apps/*'
+# Packages whose install scripts may run (pnpm 11 replaced onlyBuiltDependencies
+# with this map and ignores the old list without a warning)
+allowBuilds:
+    '@parcel/watcher': true
+    '@swc/core': true
+    core-js-pure: true
+    esbuild: true
+    nx: true
+    protobufjs: true
+    sharp: true
+    vue-demi: true

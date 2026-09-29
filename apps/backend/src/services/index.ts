@@ -1,6 +1,6 @@
-import { User } from 'better-auth'
-import { Querystring } from 'models'
-import { PagedResponse } from '~/plugins/fastifyPagination'
+import type { User } from 'better-auth'
+import type { Querystring } from 'models'
+import type { PagedResponse } from '~/plugins/fastifyPagination'
 
 export interface CrudService<
     InputType = Record<string, unknown>,

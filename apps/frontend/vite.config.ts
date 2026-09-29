@@ -2,22 +2,31 @@ import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
-import VueRouter from 'unplugin-vue-router/vite'
+import VueRouter from 'vue-router/vite'
 import ESLint from '@nabla/vite-plugin-eslint'
 import Stylelint from 'vite-plugin-stylelint'
 import Components from 'unplugin-vue-components/vite'
 import { VolverResolver } from '@volverjs/ui-vue/resolvers/unplugin'
 import AutoImport from 'unplugin-auto-import/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import packageJson from '../../package.json'
+import { VueRouterAutoImports } from 'vue-router/unplugin'
+import packageJson from '../../package.json' with { type: 'json' }
 import type { PackageJson } from 'type-fest'
 import webfontDownload from 'vite-plugin-webfont-dl'
 import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
     const env = loadEnv(mode, process.cwd(), '')
+
+    // Without it the auth client and the HttpClient call the frontend's own
+    // origin: the build succeeds and the app cannot sign anyone in.
+    if (command === 'build' && !env.VITE_BACKEND_URL) {
+        console.warn(
+            `\n[frontend] VITE_BACKEND_URL is empty for mode "${mode}": set it in apps/frontend/.env.${mode}\n`,
+        )
+    }
+
     return {
         define: {
             'import.meta.env.VITE_APP_VERSION': JSON.stringify(
@@ -26,18 +35,19 @@ export default defineConfig(({ mode }) => {
         },
         resolve: {
             alias: {
-                '~/': `${path.resolve(__dirname, 'src')}/`,
-                'style/settings': `${path.resolve(__dirname, '../../packages/style/settings')}`,
+                '~/': `${path.resolve(import.meta.dirname, 'src')}/`,
+                'style/settings': `${path.resolve(import.meta.dirname, '../../packages/style/settings')}`,
             },
         },
         plugins: [
             // https://github.com/liuweiGL/vite-plugin-mkcert
             mkcert(),
 
-            // https://github.com/posva/unplugin-vue-router
+            // https://router.vuejs.org/file-based-routing/
             VueRouter({
                 importMode: 'async',
                 exclude: ['**/_*.vue', '**/_components/**'],
+                dts: 'src/typed-router.d.ts',
             }),
 
             // https://github.com/vitejs/vite-plugin-vue
@@ -73,11 +83,12 @@ export default defineConfig(({ mode }) => {
                     }),
                     // monorepo components packages resolver
                     (name) => {
-                        if (name.startsWith('Pk'))
+                        if (name.startsWith('Pk')) {
                             return {
                                 name,
                                 from: 'components',
                             }
+                        }
                     },
                 ],
             }),
@@ -87,7 +98,6 @@ export default defineConfig(({ mode }) => {
                 imports: [
                     'vue',
                     'vue-i18n',
-                    '@vueuse/head',
                     '@vueuse/core',
                     'pinia',
                     VueRouterAutoImports,
@@ -95,7 +105,7 @@ export default defineConfig(({ mode }) => {
                 dts: 'src/auto-imports.d.ts',
                 dirs: [
                     'src/composables',
-                    'src/store',
+                    'src/stores',
                     'src/common',
                     'src/models',
                     'src/repositories',
@@ -167,10 +177,8 @@ export default defineConfig(({ mode }) => {
             ],
         },
 
-        build: {
-            rollupOptions: {
-                external: [],
-            },
+        server: {
+            port: 8080,
         },
     }
 })

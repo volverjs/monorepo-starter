@@ -1,0 +1,20 @@
+# npm-check-updates configuration.
+#
+# `pnpm dlx npm-check-updates` lists the upgrades of the root manifest and of
+# every project in pnpm-workspace.yaml, `-u` applies them. Deliberately not
+# `deep: true`, which would also walk the generated apps/backend/dist.
+workspaces: true
+root: true
+
+# Measured on 2026-09-29 with ncu 23.1.0: `reject` is honoured in workspace mode,
+# from this file and from the command line. ncu 22.2.0 was measured doing the
+# opposite, so re-check after a major of ncu before trusting it.
+reject:
+    # TypeScript 7 ships no JavaScript compiler API: typescript-eslint still
+    # peers typescript ">=4.8.4 <6.1.0" and vue-tsc still routes through
+    # @volar/typescript. See docs/agents/gotchas/dependencies.md.
+    - typescript
+
+# Everything else is reported, the exact pins included (better-auth, the
+# @volverjs packages): read "Pinned versions" in AGENTS.md before applying
+# `-u`, then `pnpm install`, the lockfile duplicate scan and `pnpm verify`.

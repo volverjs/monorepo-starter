@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     PjAvatar: typeof import('./components/PjAvatar.vue')['default']
+    PjBrand: typeof import('./components/PjBrand.vue')['default']
     PjHeader: typeof import('./components/PjHeader.vue')['default']
     PjMain: typeof import('./components/PjMain.vue')['default']
     PjSearchFullText: typeof import('./components/PjSearchFullText.vue')['default']

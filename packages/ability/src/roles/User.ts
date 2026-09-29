@@ -3,8 +3,7 @@ import { Subject, Audience } from '../types'
 
 const User: Capability[] = [
     {
-        id: `${Audience.Frontooffice}#read:all`,
-        audience: Audience.Frontooffice,
+        audience: Audience.Frontoffice,
         subject: Subject.Todo,
         action: 'read',
     },
