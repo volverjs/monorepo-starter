@@ -1,4 +1,5 @@
 {
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "targetDefaults": {
         "dev": {
             "dependsOn": [
@@ -11,7 +12,8 @@
             ],
             "outputs": [
                 "{projectRoot}/dist"
-            ]
+            ],
+            "cache": true
         },
         "build-staging": {
             "dependsOn": [
@@ -19,18 +21,27 @@
             ],
             "outputs": [
                 "{projectRoot}/dist"
-            ]
+            ],
+            "cache": true
         },
-        "build-production": {
+        "typecheck": {
             "dependsOn": [
                 "^build"
             ],
-            "outputs": [
-                "{projectRoot}/dist"
-            ]
+            "cache": true
+        },
+        "test": {
+            "dependsOn": [
+                "^build"
+            ],
+            "cache": true
+        },
+        "lint": {
+            "cache": true
         }
     },
     "affected": {
         "defaultBase": "main"
-    }
+    },
+    "analytics": false
 }

@@ -1,7 +1,7 @@
 import type { FastifyRequest } from 'fastify'
 import type { TodoQuerystring, TodoDto } from 'models'
 import type { TodoService } from '~/services/todo.service'
-import z from 'zod/v4'
+import * as z from 'zod'
 import { TodoDtoSchema, TodoSchema, TodoQuerystringSchema } from 'models'
 import { Controller, DELETE, GET, POST, PUT } from './index'
 import { container } from '~/container'
@@ -48,6 +48,9 @@ export default class TodosController {
 
     @POST({
         url: '/',
+        permissions: {
+            create: Subject.Todo,
+        },
         options: {
             schema: {
                 body: TodoDtoSchema,
@@ -70,6 +73,9 @@ export default class TodosController {
 
     @GET({
         url: '/:id',
+        permissions: {
+            read: Subject.Todo,
+        },
         options: {
             schema: {
                 response: {
@@ -84,6 +90,9 @@ export default class TodosController {
 
     @PUT({
         url: '/:id',
+        permissions: {
+            update: Subject.Todo,
+        },
         options: {
             schema: {
                 body: TodoDtoSchema,
@@ -113,6 +122,9 @@ export default class TodosController {
 
     @DELETE({
         url: '/:id',
+        permissions: {
+            delete: Subject.Todo,
+        },
         options: {
             schema: {
                 response: {

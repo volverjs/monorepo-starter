@@ -1,14 +1,15 @@
 import fp from 'fastify-plugin'
-import { FastifyError } from 'fastify'
-import { logger } from 'logger'
+import type { FastifyError } from 'fastify'
 
 export enum ERROR_STATUS {
     NOT_FOUND = 404,
     INTERNAL_SERVER_ERROR = 500,
     BAD_REQUEST = 400,
     UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
 }
 export const UNAUTHORIZED = 'UNAUTHORIZED'
+export const FORBIDDEN = 'FORBIDDEN'
 export const ENTITY_NOT_FOUND = 'ENTITY_NOT_FOUND'
 export const FST_ERR_VALIDATION = 'FST_ERR_VALIDATION'
 export const FST_ERR_NOT_FOUND = 'FST_ERR_NOT_FOUND'
@@ -24,6 +25,14 @@ export class UnauthorizedError implements FastifyError {
     code = UNAUTHORIZED
     name = 'UnauthorizedError'
     statusCode = ERROR_STATUS.UNAUTHORIZED
+    constructor(public message: string = '') {}
+}
+
+/** Signed in, but the role does not allow it (an anonymous request is a 401) */
+export class ForbiddenError implements FastifyError {
+    code = FORBIDDEN
+    name = 'ForbiddenError'
+    statusCode = ERROR_STATUS.FORBIDDEN
     constructor(public message: string = '') {}
 }
 
@@ -124,6 +133,16 @@ export class UnauthorizedProblemJsonError extends ProblemJsonError {
     }
 }
 
+export class ForbiddenProblemJsonError extends ProblemJsonError {
+    constructor({ status, title }: IDataError) {
+        super({
+            type: 'http://test.com/forbidden',
+            title: title ?? 'Forbidden',
+            status: status ?? ERROR_STATUS.FORBIDDEN,
+        })
+    }
+}
+
 export const createError = (error: FastifyError) => {
     const { validation, message: title } = error
     const code = title === ENTITY_NOT_FOUND ? ENTITY_NOT_FOUND : error.code
@@ -135,6 +154,8 @@ export const createError = (error: FastifyError) => {
             return new NotFoundProblemJsonError({ status })
         case UNAUTHORIZED:
             return new UnauthorizedProblemJsonError({ status, title })
+        case FORBIDDEN:
+            return new ForbiddenProblemJsonError({ status, title })
         case ENTITY_NOT_FOUND:
             return new EntityNotFoundProblemJsonError({ status }, error.message)
         default:
@@ -146,9 +167,15 @@ export const createError = (error: FastifyError) => {
 }
 
 export const fastifyProblemJson = fp((fastify, _opts, done) => {
-    fastify.setErrorHandler((error: FastifyError, _request, reply) => {
-        logger.error(error)
+    fastify.setErrorHandler((error: FastifyError, request, reply) => {
         const problem = createError(error)
+        // A custom error handler replaces Fastify's own logging: 5xx are the
+        // ones production has to see, 4xx are the client's mistake.
+        if (problem.status >= 500) {
+            request.log.error(error)
+        } else {
+            request.log.info(error)
+        }
         reply.header('Content-Type', 'application/problem+json')
         reply.status(problem.status).send(problem.toJson())
     })

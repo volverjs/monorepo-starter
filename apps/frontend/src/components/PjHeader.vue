@@ -25,12 +25,8 @@
         <VvAction
             :to="{ name: '/' }"
             :title="$t('action.backToHome')"
-            class="md:none flex gap-md items-center justify-center">
-            <VvIcon
-                name="volverjs"
-                prefix="custom"
-                class="w-auto h-32 text-white rounded-full" />
-            <strong class="font-bold">Volver.js</strong>
+            class="md:none">
+            <PjBrand compact />
         </VvAction>
         <div class="flex-1">
             <slot />

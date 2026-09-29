@@ -6,13 +6,10 @@
     "scripts": {
         "generate": "drizzle-kit generate",
         "generate:custom": "drizzle-kit generate --custom",
-        "up": "drizzle-kit up",
         "check": "drizzle-kit check",
-        "drop": "drizzle-kit drop",
         "migrate": "drizzle-kit migrate",
-        "migrate-staging": "drizzle-kit migrate --config=drizzle-staging.config.ts",
-        "migrate-production": "drizzle-kit migrate --config=drizzle-production.config.ts",
-        "push": "drizzle-kit push"
+        "push": "drizzle-kit push",
+        "studio": "drizzle-kit studio"
     },
     "main": "src/index.ts",
     "files": [

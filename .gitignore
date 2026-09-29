@@ -19,9 +19,16 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-# Linters 
+# Linters
 .stylelintcache
 .eslintcache
+
+# Agents: third-party skills are installed per machine from skills-lock.json;
+# only the shared Claude Code settings and the hooks they run are committed
+.agents
+**/.claude/*
+!/.claude/settings.json
+!/.claude/hooks/
 
 # Project
 node_modules
@@ -30,3 +37,10 @@ dist-ssr
 *.local
 .nx
 **/**/vite.config.ts.*
+
+# Reference schema from `pnpm auth:generate-schema`: diff it against the
+# hand-written packages/database/src/schema/Auth.ts, never commit it
+packages/database/src/schema/Auth.generated.ts
+
+# Screenshots and Chrome profile of the UI tour (docs/agents/ui-tour.md)
+apps/frontend/.ui-tour/

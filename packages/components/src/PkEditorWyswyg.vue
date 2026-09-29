@@ -47,15 +47,11 @@
     watch(
         () => props.modelValue,
         (newValue) => {
-            let isSame = false
-
-            if (props.outputFormat === OutputFormats.json) {
-                isSame =
-                    JSON.stringify(editor.value?.getJSON()) ===
-                    JSON.stringify(newValue)
-            } else {
-                isSame = editor.value?.getHTML() === newValue
-            }
+            const isSame =
+                props.outputFormat === OutputFormats.json
+                    ? JSON.stringify(editor.value?.getJSON()) ===
+                      JSON.stringify(newValue)
+                    : editor.value?.getHTML() === newValue
 
             if (isSame) {
                 return
@@ -241,7 +237,7 @@
             justify-content: start;
             width: 100%;
             box-shadow: 0 0px 10px 2px
-                hsla(
+                hsl(
                     var(--color-shadow-hue) var(--color-shadow-saturation)
                         var(--color-shadow-lightness) / 10%
                 );

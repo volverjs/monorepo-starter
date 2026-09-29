@@ -2,7 +2,7 @@ import type { MongoQuery } from '@ucast/mongo2js'
 
 export enum Audience {
     Backoffice = 'backoffice',
-    Frontooffice = 'frontoffice',
+    Frontoffice = 'frontoffice',
 }
 
 export enum Subject {

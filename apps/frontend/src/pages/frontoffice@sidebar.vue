@@ -22,18 +22,7 @@
             class="my-md"
             :to="{ name: '/frontoffice/' }"
             :title="$t('action.backToHome')">
-            <div class="flex gap-md mb-xs">
-                <VvIcon
-                    name="volverjs"
-                    prefix="custom"
-                    class="w-auto h-44 text-white" />
-                <div class="flex-1 leading-normal">
-                    <strong class="font-bold">Volver.js</strong>
-                    <span class="text-smaller text-word-2 block">
-                        Startup Template
-                    </span>
-                </div>
-            </div>
+            <PjBrand />
         </VvAction>
         <VvNav modifiers="sidebar">
             <li class="vv-nav__item">

@@ -4,12 +4,12 @@
     import { VvDialog } from '@volverjs/ui-vue/components'
     import { useAlert } from '@volverjs/ui-vue/composables'
     import { Subject } from 'ability'
-    import type { User } from 'auth'
+    import type { UserWithRole as User } from 'better-auth/plugins'
     import type { TableColumn } from 'components'
     import { useDialogConfirm, useRoutePagination } from 'composables'
     import { useUsers } from '~/composables/useUsers'
     import { authClient, UserRoles } from '~/modules/auth'
-    import z from 'zod'
+    import * as z from 'zod'
     import { useForm } from '@volverjs/form-vue'
 
     const { t } = useI18n()
@@ -151,9 +151,7 @@
         updateUserFormData.value = {
             name: user.name,
             email: user.email,
-            role:
-                ((user as User & { role?: string }).role as UserRoles) ||
-                UserRoles.User,
+            role: (user.role as UserRoles) || UserRoles.User,
         }
         isUpdateDialogOpen.value = true
     }

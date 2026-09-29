@@ -1,4 +1,4 @@
-import z from 'zod/v4'
+import * as z from 'zod'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { todo } from 'database/schema'
 import { zodQs } from '../utils'

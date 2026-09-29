@@ -1,79 +1,114 @@
-import type { Subject, Action } from 'ability'
+import type { Subject, Action, AppAbility } from 'ability'
 import type { RouteConfig } from 'fastify-decorators'
 import type { FastifyRequest } from 'fastify'
-import { GET as BaseGET } from 'fastify-decorators'
-import z from 'zod/v4'
-import { UnauthorizedError } from '~/plugins/fastifyProblemJson'
-import { ability, subject } from 'ability'
+import {
+    DELETE as BaseDELETE,
+    GET as BaseGET,
+    PATCH as BasePATCH,
+    POST as BasePOST,
+    PUT as BasePUT,
+} from 'fastify-decorators'
+import * as z from 'zod'
+import { ForbiddenError, UnauthorizedError } from '~/plugins/fastifyProblemJson'
+import { subject } from 'ability'
 
 export * from 'fastify-decorators'
-export function GET(
-    config: RouteConfig & {
-        permissions?:
-            | Partial<Record<Action, Subject>>
-            | ((abilities: typeof ability, request: FastifyRequest) => void)
-    },
-) {
-    // check if permissions are set
-    if (!config.options) {
-        config.options = {}
+
+export type RouteConfigWithPermissions = RouteConfig & {
+    /**
+     * Who may call the route. An anonymous request is refused first, with a
+     * 401. A map is then checked action by action against the request body when
+     * there is one (so conditions see the payload, which the client controls),
+     * against the bare subject otherwise, and refuses with a 403. A function
+     * receives the request's ability and throws or rejects to refuse, usually
+     * with a `ForbiddenError`: it is awaited before the handler runs.
+     */
+    permissions?:
+        | Partial<Record<Action, Subject>>
+        | ((
+              ability: AppAbility,
+              request: FastifyRequest,
+          ) => void | Promise<void>)
+}
+
+const checkPermissions = async (
+    permissions: NonNullable<RouteConfigWithPermissions['permissions']>,
+    request: FastifyRequest,
+) => {
+    if (!request.user) {
+        throw new UnauthorizedError("You're not authorized to access this")
     }
-    const preHandler = config.options.preHandler
-    config.options.preHandler = function (request, reply, done) {
-        if (config.permissions) {
-            if (!request.user) {
-                throw new UnauthorizedError(
-                    "You're not authorized to access this",
-                )
-            }
-            if (typeof config.permissions === 'function') {
-                config.permissions(ability, request)
-            } else {
-                let action: keyof typeof config.permissions
-                for (action in config.permissions) {
-                    const actionSubject = config.permissions[action]
-                    if (!actionSubject) {
-                        continue
-                    }
-                    if (
-                        !ability.can(
-                            action,
-                            request.body
-                                ? subject(actionSubject, request.body)
-                                : actionSubject,
-                        )
-                    ) {
-                        throw new UnauthorizedError(
-                            "You're not authorized to access this",
-                        )
-                    }
-                }
-            }
-        }
-        if (preHandler && typeof preHandler === 'function') {
-            preHandler.bind(this)(request, reply, done)
-            return
-        }
-        done()
+    if (typeof permissions === 'function') {
+        await permissions(request.ability, request)
+        return
     }
-    // parse url params
+    let action: keyof typeof permissions
+    for (action in permissions) {
+        const actionSubject = permissions[action]
+        if (!actionSubject) {
+            continue
+        }
+        if (
+            !request.ability.can(
+                action,
+                request.body
+                    ? subject(actionSubject, request.body as object)
+                    : actionSubject,
+            )
+        ) {
+            throw new ForbiddenError("You're not allowed to do this")
+        }
+    }
+}
+
+/**
+ * Adds the permission check in front of the route's own preHandler hooks and,
+ * when the route declares no params schema, one string param per `:name` in the
+ * url. Exported for the tests.
+ */
+export const withPermissions = (
+    config: RouteConfigWithPermissions,
+): RouteConfig => {
+    config.options = config.options ?? {}
+    const { permissions } = config
+    if (permissions) {
+        // An array, so Fastify runs every hook of the route itself, callback
+        // style or async, one after the other and only if the check passed.
+        const own = config.options.preHandler
+        config.options.preHandler = [
+            async (request: FastifyRequest) => {
+                await checkPermissions(permissions, request)
+            },
+            ...(Array.isArray(own) ? own : own ? [own] : []),
+        ]
+    }
     const params = config.url.match(/\/?:[_A-Z]\w*\??/gi)
-    if (params && !config.options?.schema?.params) {
-        config.options = config.options || {}
-        config.options.schema = config.options.schema || {}
+    if (params && !config.options.schema?.params) {
+        config.options.schema = config.options.schema ?? {}
         config.options.schema.params = z.object(
-            params.reduce<Record<string, z.ZodString>>((acc, param) => {
-                const toReturn = z.string()
-                let name = param.replace(/\/?:|\?/g, '')
-                const optional = param.endsWith('?')
-                if (optional) {
-                    name = name.replace('?', '')
-                    toReturn.optional()
-                }
-                acc[name] = toReturn
-                return acc
-            }, {}),
+            Object.fromEntries(
+                params.map((param) => {
+                    const name = param.replace(/\/?:|\?/g, '')
+                    return [
+                        name,
+                        param.endsWith('?')
+                            ? z.string().optional()
+                            : z.string(),
+                    ]
+                }),
+            ),
         )
     }
-    return BaseGET(config)
+    return config
 }
+
+export const GET = (config: RouteConfigWithPermissions) =>
+    BaseGET(withPermissions(config))
+export const POST = (config: RouteConfigWithPermissions) =>
+    BasePOST(withPermissions(config))
+export const PUT = (config: RouteConfigWithPermissions) =>
+    BasePUT(withPermissions(config))
+export const PATCH = (config: RouteConfigWithPermissions) =>
+    BasePATCH(withPermissions(config))
+export const DELETE = (config: RouteConfigWithPermissions) =>
+    BaseDELETE(withPermissions(config))

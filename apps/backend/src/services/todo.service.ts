@@ -16,7 +16,7 @@ import {
     getOffsetAndLimit,
 } from 'database/helpers'
 import { PagedResponse } from '~/plugins/fastifyPagination'
-import { CrudService } from '.'
+import type { CrudService } from '.'
 
 export class TodoService implements CrudService {
     private _table = todo
@@ -72,7 +72,7 @@ export class TodoService implements CrudService {
                 where: (table, { eq }) => eq(table.id, queryOrKey),
             })
             if (!item) {
-                throw new EntityNotFoundError()
+                throw new EntityNotFoundError(queryOrKey)
             }
             return item
         }
@@ -112,6 +112,9 @@ export class TodoService implements CrudService {
                 .where(eq(this._table.id, itemKey))
                 .returning()
         )[0]
+        if (!toReturn) {
+            throw new EntityNotFoundError(itemKey)
+        }
 
         await this._snapshotsService.create(
             itemKey,

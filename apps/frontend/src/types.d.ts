@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import type { Router } from 'vue-router'
-import type { HeadClient } from '@vueuse/head'
+import type { HeadClient } from '@unhead/vue/client'
 import type { Pinia } from 'pinia'
 
 interface AppContext<HasRouter extends boolean = true> {
