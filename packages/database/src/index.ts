@@ -27,4 +27,6 @@ const database = drizzle(queryClient, {
 })
 
 export type Database = typeof database
+/** What `database.transaction()` hands its callback: same query API. */
+export type Transaction = Parameters<Parameters<Database['transaction']>[0]>[0]
 export { database, schema }

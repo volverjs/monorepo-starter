@@ -1,5 +1,5 @@
 import type { Action } from 'ability'
-import type { Database } from 'database'
+import type { Database, Transaction } from 'database'
 import type { Todo, TodoDto, TodoQuerystring } from 'models'
 import type { SnapshotService } from '~/services/snapshot.service'
 import type { Actor, CrudService } from '.'
@@ -46,7 +46,12 @@ export class TodoService implements CrudService<
         )
     }
 
+    /**
+     * Records the write in the same transaction: a snapshot that fails rolls
+     * the write back, so no change is ever stored without its copy.
+     */
     private _snapshot(
+        tx: Transaction,
         row: Row,
         scope: 'create' | 'update' | 'delete',
         { user }: Actor,
@@ -57,6 +62,7 @@ export class TodoService implements CrudService<
             JSON.stringify(row),
             scope,
             user,
+            tx,
         )
     }
 
@@ -96,12 +102,14 @@ export class TodoService implements CrudService<
         }
         // The row as it will be stored, not the body: see `assertCan`.
         assertCan(actor.ability, 'create', Subject.Todo, value)
-        const [created] = await this._db
-            .insert(this._table)
-            .values(value)
-            .returning()
-        await this._snapshot(created, 'create', actor)
-        return created
+        return this._db.transaction(async (tx) => {
+            const [created] = await tx
+                .insert(this._table)
+                .values(value)
+                .returning()
+            await this._snapshot(tx, created, 'create', actor)
+            return created
+        })
     }
 
     async update(id: string, item: TodoDto, actor: Actor) {
@@ -109,46 +117,54 @@ export class TodoService implements CrudService<
         // see it but not change it.
         const current = await this.get(id, actor)
         assertCan(actor.ability, 'update', Subject.Todo, current)
-        const [updated] = await this._db
-            .update(this._table)
-            .set({ ...item, updatedBy: actor.user.id, updatedAt: new Date() })
-            // Checked again in SQL: the row may have been deleted meanwhile.
-            .where(
-                and(
-                    eq(this._table.id, current.id),
-                    this._visible(actor, 'update'),
-                ),
-            )
-            .returning()
-        if (!updated) {
-            throw new EntityNotFoundError(id)
-        }
-        await this._snapshot(updated, 'update', actor)
-        return updated
+        return this._db.transaction(async (tx) => {
+            const [updated] = await tx
+                .update(this._table)
+                .set({
+                    ...item,
+                    updatedBy: actor.user.id,
+                    updatedAt: new Date(),
+                })
+                // Checked again in SQL: the row may have been deleted meanwhile.
+                .where(
+                    and(
+                        eq(this._table.id, current.id),
+                        this._visible(actor, 'update'),
+                    ),
+                )
+                .returning()
+            if (!updated) {
+                throw new EntityNotFoundError(id)
+            }
+            await this._snapshot(tx, updated, 'update', actor)
+            return updated
+        })
     }
 
     async delete(id: string, actor: Actor) {
         const current = await this.get(id, actor)
         assertCan(actor.ability, 'delete', Subject.Todo, current)
-        const [deleted] = await this._db
-            .update(this._table)
-            .set({
-                deleted: true,
-                deletedBy: actor.user.id,
-                deletedAt: new Date(),
-            })
-            .where(
-                and(
-                    eq(this._table.id, current.id),
-                    this._visible(actor, 'delete'),
-                ),
-            )
-            .returning()
-        if (!deleted) {
-            throw new EntityNotFoundError(id)
-        }
-        await this._snapshot(deleted, 'delete', actor)
-        return true
+        return this._db.transaction(async (tx) => {
+            const [deleted] = await tx
+                .update(this._table)
+                .set({
+                    deleted: true,
+                    deletedBy: actor.user.id,
+                    deletedAt: new Date(),
+                })
+                .where(
+                    and(
+                        eq(this._table.id, current.id),
+                        this._visible(actor, 'delete'),
+                    ),
+                )
+                .returning()
+            if (!deleted) {
+                throw new EntityNotFoundError(id)
+            }
+            await this._snapshot(tx, deleted, 'delete', actor)
+            return true
+        })
     }
 }
 

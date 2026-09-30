@@ -64,7 +64,9 @@ Copy `todo.service.ts`. What it does, so that the copy keeps doing it:
   write touched nothing;
 - `create` sets `createdBy` / `updatedBy` from the actor and checks the row it is about to
   insert: never judge a condition on the request body, the client wrote it;
-- every write records a snapshot; delete is soft (`deleted`, `deletedAt`, `deletedBy`);
+- every write records a snapshot in the same `this._db.transaction()`, the `tx` passed on to
+  `SnapshotService.create`: a snapshot that fails rolls the write back, so no change is stored
+  without its copy; delete is soft (`deleted`, `deletedAt`, `deletedBy`);
 - `injected(ItemService, TOKENS.database, TOKENS.snapshotService)` at the bottom, the token in
   `container/tokens.ts`, the binding in `container/index.ts`.
 
@@ -88,7 +90,7 @@ database the suite recreates and migrates once per run (`<database>_test` next t
 `DATABASE_URL`), with real sessions from `signUp()` in `tests/integration/helpers.ts`. Keep its cases: the owner set by
 the server whatever the body says, a 400 for an invalid body, a list limited to the caller with
 `X-Total-Count`, filters and sort, 404 for someone else's row on read, update and delete, the
-admin path, soft delete, snapshots, a 400 for a malformed id. Test files run in parallel on
+admin path, soft delete, snapshots and their rollback, a 400 for a malformed id. Test files run in parallel on
 the same database: sign up fresh users and assert on their rows only.
 
 In `tests/unit/server.test.ts`, add the new routes to the `/swagger/json` list.

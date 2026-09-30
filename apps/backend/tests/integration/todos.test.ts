@@ -1,9 +1,13 @@
 import type { FastifyInstance } from 'fastify'
+import type { SnapshotService } from '~/services/snapshot.service'
+import { randomUUID } from 'node:crypto'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { eq } from 'drizzle-orm'
+import { createAbility } from 'ability'
 import { database } from 'database'
-import { snapshot } from 'database/schema'
+import { snapshot, todo as todoTable, user } from 'database/schema'
 import { buildServer } from '~/app'
+import { TodoService } from '~/services/todo.service'
 import { type SignedIn, signUp } from './helpers'
 
 // The reference resource end to end: routes, permissions, service and SQL on
@@ -189,6 +193,44 @@ describe('todos', () => {
             { scope: 'update', createdBy: alice.id },
             { scope: 'delete', createdBy: alice.id },
         ])
+    })
+
+    it('rolls a write back when its snapshot fails', async () => {
+        // The service without the HTTP layer, with a snapshot that always fails
+        const failing = {
+            create: () => Promise.reject(new Error('snapshot failed')),
+        } as unknown as SnapshotService
+        const service = new TodoService(database, failing)
+        const owner = await database.query.user.findFirst({
+            where: eq(user.id, alice.id),
+        })
+        if (!owner) {
+            throw new Error('alice is not in the database')
+        }
+        const actor = { user: owner, ability: createAbility(owner) }
+        const title = `Rolled back ${randomUUID()}`
+
+        await expect(service.create({ title }, actor)).rejects.toThrow(
+            'snapshot failed',
+        )
+        expect(
+            await database.$count(todoTable, eq(todoTable.title, title)),
+        ).toBe(0)
+
+        const kept = await createTitled(alice, 'Kept as it was')
+        await expect(service.update(kept.id, { title }, actor)).rejects.toThrow(
+            'snapshot failed',
+        )
+        await expect(service.delete(kept.id, actor)).rejects.toThrow(
+            'snapshot failed',
+        )
+        const stored = await database.query.todo.findFirst({
+            where: eq(todoTable.id, kept.id),
+        })
+        expect(stored).toMatchObject({
+            title: 'Kept as it was',
+            deleted: false,
+        })
     })
 
     it('refuses an id that is not a uuid with a 400', async () => {
