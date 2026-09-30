@@ -33,7 +33,11 @@ failure that already happened once.
 <!-- starter-only -->
 - **This repository publishes one skill**, [skills/volverjs-monorepo-starter/](skills/volverjs-monorepo-starter/),
   which scaffolds a new project from this template. It is listed as a plugin by
-  [.claude-plugin/plugin.json](.claude-plugin/plugin.json). Change it here: a copy edited
+  [.claude-plugin/plugin.json](.claude-plugin/plugin.json), read from `main` by the
+  `volverjs/claude-plugins` and `volverjs/claude-plugins-org` marketplaces. The manifest has no
+  `version` on purpose: with one, installs update only when it is bumped; without, every commit
+  on `main` is an update. The marketplace entries declare no skills and no `strict: false`, or
+  the two manifests conflict and the plugin does not load. Change the skill here: a copy edited
   anywhere else is lost at the next update. When the template changes (a package renamed, an
   env variable added, a script moved), update the skill and its `scripts/scaffold.mjs` in the
   same change: `pnpm verify` runs `pnpm scaffold:check`, which scaffolds a throwaway copy of
