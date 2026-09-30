@@ -78,7 +78,10 @@
         undefined,
         { immediate: false },
     )
-    const { execute: executeRemove } = remove(undefined, { immediate: false })
+    const { execute: executeRemove, isLoading: isRemoving } = remove(
+        undefined,
+        { immediate: false },
+    )
 
     const onToggleDone = async (todo: Todo, done: boolean) => {
         const { isSuccess } = await executeSubmit({
@@ -210,6 +213,7 @@
                     v-if="canOn('delete', row)"
                     icon="trash"
                     modifiers="action-quiet"
+                    :disabled="isRemoving"
                     :aria-label="$t('action.delete')"
                     @click="onRemove(row)" />
             </template>

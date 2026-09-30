@@ -109,7 +109,8 @@ Invoke `volverjs-style`, `volverjs-ui-vue` and `volverjs-form-vue` first. Copy t
 - `index.vue`: `PkTableSortable` on `read(params, { autoExecute: true })`, with page, sort and
   filters in the route query (`useRoutePagination`, `useRouteQuery`) so a link reopens the same
   view; the total from `metadata.total`; a create dialog on `ItemDtoSchema.pick(...)`; a
-  delete behind `useDialogConfirm`; every write followed by `execute(true)` on the list;
+  delete behind `useDialogConfirm`, its button disabled while the request runs (a second click
+  would send a second DELETE, answered 404); every write followed by `execute(true)` on the list;
 - `[id].vue`: `read({ id })`, the form seeded through `:model-value` (not by writing
   `formData`, see [the frontend gotchas](gotchas/frontend.md)), read-only when
   `can('update', subject(...))` is false, a custom component (`PkEditorWyswyg`) through the
