@@ -4,12 +4,12 @@
     import { VvDialog } from '@volverjs/ui-vue/components'
     import { useAlert } from '@volverjs/ui-vue/composables'
     import { Subject } from 'ability'
-    import type { User } from 'auth'
+    import type { UserWithRole as User } from 'better-auth/plugins'
     import type { TableColumn } from 'components'
     import { useDialogConfirm, useRoutePagination } from 'composables'
     import { useUsers } from '~/composables/useUsers'
     import { authClient, UserRoles } from '~/modules/auth'
-    import z from 'zod'
+    import * as z from 'zod'
     import { useForm } from '@volverjs/form-vue'
 
     const { t } = useI18n()
@@ -60,7 +60,7 @@
     ])
 
     const { page, limit, sort, order } = useRoutePagination({
-        defaultSort: 'lastName',
+        defaultSort: 'name',
         defaultOrder: 'asc',
     })
 
@@ -95,6 +95,16 @@
             },
         ]
     })
+
+    // helper: handle an error. better-auth answers `{ error }` instead of
+    // throwing, and its client shows nothing: the alert is up to the caller.
+    const handleError = (error: { message?: string; statusText: string }) => {
+        addAlert({
+            modifiers: 'danger',
+            title: $t('message.error'),
+            content: error.message ?? error.statusText,
+        })
+    }
 
     // helper: handle success
     const handleSuccess = async () => {
@@ -137,10 +147,12 @@
         const { error } = await authClient.admin.createUser(
             createUserFormData.value as unknown as CreateUser,
         )
-        if (!error) {
-            await handleSuccess()
+        if (error) {
+            handleError(error)
+            return
         }
         isCreateDialogOpen.value = false
+        await handleSuccess()
     }
 
     // action: update user
@@ -151,9 +163,7 @@
         updateUserFormData.value = {
             name: user.name,
             email: user.email,
-            role:
-                ((user as User & { role?: string }).role as UserRoles) ||
-                UserRoles.User,
+            role: (user.role as UserRoles) || UserRoles.User,
         }
         isUpdateDialogOpen.value = true
     }
@@ -175,10 +185,12 @@
             userId: updateUserId.value as string,
             data: updateUserFormData.value as unknown as UpdateUser,
         })
-        if (!error) {
-            await handleSuccess()
+        if (error) {
+            handleError(error)
+            return
         }
         isUpdateDialogOpen.value = false
+        await handleSuccess()
     }
 
     // action: remove user
@@ -190,9 +202,11 @@
         const { error } = await authClient.admin.removeUser({
             userId: user.id,
         })
-        if (!error) {
-            await handleSuccess()
+        if (error) {
+            handleError(error)
+            return
         }
+        await handleSuccess()
     }
 
     // action: ban / unban user
@@ -204,9 +218,11 @@
         const { error } = await authClient.admin.banUser({
             userId: user.id,
         })
-        if (!error) {
-            await handleSuccess()
+        if (error) {
+            handleError(error)
+            return
         }
+        await handleSuccess()
     }
     const onUnbanUser = async (user: User) => {
         const proceed = await openDialogConfirm()
@@ -216,9 +232,11 @@
         const { error } = await authClient.admin.unbanUser({
             userId: user.id,
         })
-        if (!error) {
-            await handleSuccess()
+        if (error) {
+            handleError(error)
+            return
         }
+        await handleSuccess()
     }
 
     // action: set user password
@@ -255,10 +273,12 @@
             newPassword: newPasswordFormData.value
                 ?.password as unknown as string,
         })
-        if (!error) {
-            await handleSuccess()
+        if (error) {
+            handleError(error)
+            return
         }
         isNewPasswordDialogOpen.value = false
+        await handleSuccess()
     }
 
     // action: impersonate user
@@ -266,9 +286,11 @@
         const { error } = await authClient.admin.impersonateUser({
             userId: userId,
         })
-        if (!error) {
-            window.location.reload()
+        if (error) {
+            handleError(error)
+            return
         }
+        window.location.reload()
     }
 </script>
 
@@ -345,7 +367,7 @@
                         v-bind="{
                             modifiers: 'action-quiet',
                             icon: {
-                                name: 'akar-icons:more-vertical',
+                                name: 'more-vertical',
                             },
                         }" />
                     <template #items>
@@ -398,7 +420,7 @@
                                 ) && row.id !== session.data?.user.id
                             "
                             @click="onImpersonateUser(row.id)">
-                            <VvIcon name="hugeicons:user-switch" />
+                            <VvIcon name="user-badge" />
                             {{ $t('action.impersonateUser') }}
                         </VvDropdownAction>
                     </template>
@@ -418,7 +440,7 @@
         <VvDialog
             v-model="isCreateDialogOpen"
             :title="t('title.createUser')"
-            size="small">
+            modifiers="small">
             <FormCreateUser
                 id="form-create-user"
                 class="p-sm"
@@ -468,7 +490,7 @@
         <VvDialog
             v-model="isUpdateDialogOpen"
             :title="t('title.updateUser')"
-            size="small">
+            modifiers="small">
             <FormUpdateUser
                 id="form-update-user"
                 class="p-sm"
@@ -509,7 +531,7 @@
         <VvDialog
             v-model="isNewPasswordDialogOpen"
             :title="t('title.resetUserPassword')"
-            size="small">
+            modifiers="small">
             <div class="p-sm">
                 <FormNewPassword
                     id="form-new-password"

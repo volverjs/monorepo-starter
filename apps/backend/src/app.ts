@@ -1,32 +1,38 @@
-import Fastify from 'fastify'
+import Fastify, { type FastifyServerOptions } from 'fastify'
 import { fastifyMultipart } from '@fastify/multipart'
 import { bootstrap } from 'fastify-decorators'
+import { validatorCompiler } from 'fastify-type-provider-zod'
 import { fastifyProblemJson } from './plugins/fastifyProblemJson'
 import { fastifyPagination } from './plugins/fastifyPagination'
 import { fastifyDocs } from './plugins/fastifyDocs'
 import { fastifyBetterAuth } from './plugins/fastifyBetterAuth'
-import {
-    serializerCompiler,
-    validatorCompiler,
-} from 'fastify-type-provider-zod'
 import { fastifyAbility } from './plugins/fastifyAbility'
+import { parseSerializerCompiler } from './utils/responseSerializer'
 import packageJson from '../package.json'
 
-const app = async () => {
+/**
+ * Build the Fastify instance with every plugin and controller registered, and
+ * wait for it to be ready. It never listens: `main.ts` does that in production,
+ * vite-plugin-node in development, and tests call `server.inject()` on it.
+ */
+export const buildServer = async (options: FastifyServerOptions = {}) => {
     const server = Fastify({
         logger: true,
+        ...options,
     })
 
-    // fastify-type-provider-zod
+    // fastify-type-provider-zod. Responses are serialized by parsing them with
+    // the route schema, see ~/utils/responseSerializer.ts for why the library
+    // default (encode-based since v7) is not used.
     server.setValidatorCompiler(validatorCompiler)
-    server.setSerializerCompiler(serializerCompiler)
+    server.setSerializerCompiler(parseSerializerCompiler)
 
     // error handler
     server.register(fastifyProblemJson)
 
     // x-total-count header
     server.register(fastifyPagination, {
-        origin: process.env.VITE_FRONTEND_URL,
+        origin: process.env.FRONTEND_URL,
     })
 
     // multipart (for media upload)
@@ -56,19 +62,6 @@ const app = async () => {
         controllers,
     })
 
-    // run server
-    if (!process.env.VITE_LOCAL) {
-        console.log('Running server')
-        server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
-            if (err) {
-                console.error(err)
-                process.exit(1)
-            }
-            console.log(`Server listening at ${address}`)
-        })
-    }
     await server.ready()
     return server
 }
-
-export const viteNodeApp = app()

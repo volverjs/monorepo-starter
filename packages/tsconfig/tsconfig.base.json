@@ -4,7 +4,7 @@
     "exclude": ["node_modules", "**/node_modules/*", "dist"],
     "compilerOptions": {
         /* Bundler mode */
-        "moduleResolution": "bundler",
+        "moduleResolution": "Bundler",
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,

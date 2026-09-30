@@ -13,11 +13,12 @@ class QueryLogger implements Logger {
     }
 }
 
-// create a new query logger if we are not in production
-const logger = process.env.VITE_PROD ? undefined : new QueryLogger()
+// log queries in development only (the shared logger is silent in a production build)
+const logger = import.meta.env?.DEV ? new QueryLogger() : undefined
 
-// create a new postgres client
-const queryClient = postgres(process.env.VITE_DATABASE_URL)
+// create a new postgres client: it connects on the first query, and the
+// backend checks at boot that DATABASE_URL is set (apps/backend/src/main.ts)
+const queryClient = postgres(process.env.DATABASE_URL as string)
 
 // create a new drizzle instance
 const database = drizzle(queryClient, {
@@ -26,4 +27,6 @@ const database = drizzle(queryClient, {
 })
 
 export type Database = typeof database
+/** What `database.transaction()` hands its callback: same query API. */
+export type Transaction = Parameters<Parameters<Database['transaction']>[0]>[0]
 export { database, schema }

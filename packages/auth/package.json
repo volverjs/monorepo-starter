@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "migrate": "npx @better-auth/cli@latest generate --output=../database/src/schema/Auth.ts --y --config=src/index.ts"
+        "generate-schema": "pnpm dlx auth@$(node -p \"require('../../package.json').dependencies['better-auth']\") generate --config=src/index.ts --output=../database/src/schema/Auth.generated.ts --yes"
     },
     "main": "src/index.ts",
     "files": [

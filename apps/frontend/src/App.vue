@@ -1,5 +1,6 @@
 <script lang="ts" setup>
     import { useRegisterSW } from 'virtual:pwa-register/vue'
+    import { useHead } from '@unhead/vue'
     import { useAlert } from '@volverjs/ui-vue/composables'
     import { useSettingsStore, useDialog } from 'composables'
 

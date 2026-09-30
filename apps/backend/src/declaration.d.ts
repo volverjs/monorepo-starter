@@ -1,9 +1,12 @@
+import type { AppAbility } from 'ability'
 import type { Session } from 'auth'
 
 declare module 'fastify' {
     interface FastifyRequest {
-        user: (Session['user'] & { role?: string | null }) | undefined
+        user: Session['user'] | undefined
         session: Session['session'] | undefined
+        /** The permissions of this request's user, see `plugins/fastifyAbility.ts` */
+        ability: AppAbility
     }
 }
 

@@ -1,19 +1,30 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            NODE_ENV: 'development' | 'production'
-            PORT?: number | string
-            VITE_DATABASE_URL: string
-            VITE_BLOB_STORAGE_ACCOUNT: string
-            VITE_BLOB_STORAGE_KEY: string
-            VITE_BLOB_STORAGE_CONTAINER: string
-            VITE_MICROSOFT_TENANT_ID: string
-            VITE_MICROSOFT_CLIENT_ID: string
-            VITE_MICROSOFT_CLIENT_SECRET: string
-            VITE_MICROSOFT_SCOPE: string
-            VITE_KEYVAULT_URL: string
-            VITE_OAUTH_URL: string
-            VITE_OAUTH_ISSUER_URL: string
+            NODE_ENV?: 'development' | 'production' | 'test'
+            PORT?: string
+            DATABASE_URL: string
+            /** Integration tests only, default `<DATABASE_URL>_test` (tests/setup/database.ts) */
+            TEST_DATABASE_URL?: string
+            BETTER_AUTH_SECRET?: string
+            BETTER_AUTH_URL?: string
+            FRONTEND_URL?: string
+            MICROSOFT_TENANT_ID?: string
+            MICROSOFT_CLIENT_ID?: string
+            MICROSOFT_CLIENT_SECRET?: string
+            GOOGLE_CLIENT_ID?: string
+            GOOGLE_CLIENT_SECRET?: string
+            GITHUB_CLIENT_ID?: string
+            GITHUB_CLIENT_SECRET?: string
+            FACEBOOK_CLIENT_ID?: string
+            FACEBOOK_CLIENT_SECRET?: string
+            SMTP_HOST?: string
+            SMTP_PORT?: string
+            SMTP_SECURE?: string
+            SMTP_AUTH_USERNAME?: string
+            SMTP_AUTH_PASSWORD?: string
+            EMAIL_FROM?: string
+            EMAIL_REPLY_TO?: string
         }
     }
 }

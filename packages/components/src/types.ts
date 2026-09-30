@@ -14,5 +14,4 @@ export type TableColumnRecord<T = Record<string, unknown>> = {
 }
 
 export type TableColumn<T = Record<string, unknown>> =
-    | TableColumnRecord<T>
-    | string
+    TableColumnRecord<T> | string

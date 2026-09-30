@@ -4,20 +4,26 @@
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
-        "src/**/*.vue",
-        "typed-router.d.ts"
+        "src/**/*.vue"
     ],
     "exclude": ["node_modules", "**/node_modules/*"],
     "compilerOptions": {
-        "baseUrl": ".",
+        // Read by the vue-router Volar plugin to type `useRoute()` per page
+        "rootDir": ".",
         "paths": {
-            "~/*": ["src/*"]
+            "~/*": ["./src/*"]
         },
         "types": [
+            "node",
             "vite/client",
             "vite-plugin-pwa/client",
-            "@intlify/unplugin-vue-i18n/messages",
-            "unplugin-vue-router/client"
+            "@intlify/unplugin-vue-i18n/messages"
+        ]
+    },
+    "vueCompilerOptions": {
+        "plugins": [
+            "vue-router/volar/sfc-typed-router",
+            "vue-router/volar/sfc-route-blocks"
         ]
     }
 }

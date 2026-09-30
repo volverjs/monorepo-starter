@@ -3,6 +3,7 @@ import { inferAdditionalFields } from 'better-auth/client/plugins'
 import { adminClient } from 'better-auth/client/plugins'
 import type { AppModule } from '~/types'
 import type { auth } from 'auth'
+import { createAbility } from 'ability'
 
 export enum UserRoles {
     User = 'user',
@@ -36,7 +37,8 @@ export const install: AppModule = async ({ router }) => {
         }
     })
 
-    router.beforeEach(async (to, _from, next) => {
+    // vue-router 5: a guard returns the redirect instead of calling `next()`
+    router.beforeEach(async (to) => {
         if (session.value.isPending) {
             await until(() => !session.value.isPending).toBe(true)
         }
@@ -45,13 +47,19 @@ export const install: AppModule = async ({ router }) => {
             !to.meta?.isPublic &&
             !to.name.includes('/auth/')
         ) {
-            next({ name: '/auth/' })
-            return
+            return { name: '/auth/' }
         }
         if (session.value.data?.user && to.name.includes('/auth/')) {
-            next({ name: '/frontoffice/' })
-            return
+            return { name: '/frontoffice/' }
         }
-        next()
+        // An ability built from the session just resolved: the shared one is
+        // updated by a watcher, which may not have run yet.
+        if (
+            session.value.data?.user &&
+            to.meta.can &&
+            !createAbility(session.value.data.user).can(...to.meta.can)
+        ) {
+            return { name: '/frontoffice/' }
+        }
     })
 }

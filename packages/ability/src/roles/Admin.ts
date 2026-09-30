@@ -1,20 +1,10 @@
-import type { Capability } from '../types'
+import type { Role } from '../types'
 import { Subject, Audience } from '../types'
 
-const Admin: Capability[] = [
+const Admin: Role = () => [
     {
         audience: Audience.Backoffice,
         subject: Subject.All,
-        action: 'manage',
-    },
-    {
-        audience: Audience.Backoffice,
-        subject: Subject.User,
-        action: 'manage',
-    },
-    {
-        audience: Audience.Backoffice,
-        subject: Subject.Todo,
         action: 'manage',
     },
 ]

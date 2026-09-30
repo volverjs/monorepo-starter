@@ -1,12 +1,19 @@
-import type { Capability } from '../types'
+import type { Role } from '../types'
 import { Subject, Audience } from '../types'
 
-const User: Capability[] = [
+const User: Role = (user) => [
     {
-        id: `${Audience.Frontooffice}#read:all`,
-        audience: Audience.Frontooffice,
+        audience: Audience.Frontoffice,
         subject: Subject.Todo,
-        action: 'read',
+        action: 'create',
+    },
+    // Only the todos the user created: anyone else's is a 404 on read and is
+    // missing from every list.
+    {
+        audience: Audience.Frontoffice,
+        subject: Subject.Todo,
+        action: 'modify',
+        condition: { createdBy: user.id },
     },
 ]
 export default User

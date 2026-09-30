@@ -1,7 +1,7 @@
 <script setup lang="ts">
     definePage({
         redirect: {
-            name: '/backoffice/dashboard',
+            name: '/backoffice/users',
         },
     })
 </script>

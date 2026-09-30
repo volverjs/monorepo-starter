@@ -14,32 +14,22 @@
     <div class="header">
         <VvButton
             v-if="settingsStore.hasSidebar"
-            :icon="{
-                name: settingsStore.isSidebarOpen
-                    ? 'akar-icons:x-small'
-                    : 'akar-icons:three-line-horizontal',
-            }"
+            :icon="settingsStore.isSidebarOpen ? 'close' : 'menu'"
             modifiers="action-quiet"
             class="md:none"
             @click="settingsStore.toggleSidebarOpen()" />
         <VvAction
             :to="{ name: '/' }"
             :title="$t('action.backToHome')"
-            class="md:none flex gap-md items-center justify-center">
-            <VvIcon
-                name="volverjs"
-                prefix="custom"
-                class="w-auto h-32 text-white rounded-full" />
-            <strong class="font-bold">Volver.js</strong>
+            class="md:none">
+            <PjBrand compact />
         </VvAction>
         <div class="flex-1">
             <slot />
         </div>
         <VvButton
             v-if="hasThemes"
-            :icon="
-                settingsStore.isDarkTheme ? 'akar-icons:sun' : 'akar-icons:moon'
-            "
+            :icon="settingsStore.isDarkTheme ? 'light-on' : 'light-off'"
             modifiers="action-quiet"
             :title="$t('action.toggleTheme')"
             class="ml-auto"
@@ -47,7 +37,7 @@
         <VvDropdown arrow offset="6">
             <VvButton
                 :title="$t('label.locale')"
-                icon="carbon:language"
+                icon="language"
                 modifiers="action-quiet" />
             <template #items>
                 <vv-dropdown-action

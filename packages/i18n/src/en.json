@@ -1,87 +1,110 @@
 {
-  "action": {
-    "back": "Back",
-    "backToHome": "Back to Home",
-    "backToSignIn": "Back to sign in",
-    "banUser": "Ban user",
-    "cancel": "Cancel",
-    "continue": "Continue",
-    "create": "Create",
-    "createAccount": "Don't you have an account?",
-    "delete": "Delete",
-    "forgetPassword": "Do you forget the password?",
-    "impersonateUser": "Impersonate user",
-    "next": "Next",
-    "prev": "Previous",
-    "proceed": "Proceed",
-    "signIn": "Sign in",
-    "signInWithSocialProvider": "Sign in with {provider}",
-    "signOut": "Sign out",
-    "signUp": "Sign up",
-    "submit": "Submit",
-    "toggleTheme": "Change theme",
-    "unbanUser": "Unban",
-    "update": "Update"
-  },
-  "errors": {
-    "passwordsDoNotMatch": "The passwords do not match"
-  },
-  "hint": {
-    "passphrase": "Enter {passphrase} to confirm the operation"
-  },
-  "interval": {
-    "D": "day | days",
-    "M": "month | months",
-    "W": "week | weeks",
-    "Y": "year | years"
-  },
-  "label": {
-    "admin": "Admin",
-    "banned": "Banned",
-    "completeName": "Full name",
-    "confirmPassword": "Confirm password",
-    "createdAt": "Created at",
-    "description": "Description",
-    "email": "Email",
-    "emailVerified": "Email verified",
-    "enabled": "Enabled",
-    "en": "EN",
-    "it": "IT",
-    "itemsPerPage": "Per page",
-    "locale": "Language",
-    "passphrase": "Enter passphrase",
-    "password": "Password",
-    "rememberMe": "Remember me",
-    "role": "Role",
-    "setUserPassword": "Change password",
-    "totalItemsCount": "Items: {total}",
-    "totalPages": "Of {total}",
-    "updatedAt": "Updated at",
-    "user": "User"
-  },
-  "message": {
-    "checkYourEmail": "Check your email for the verification link",
-    "confirm": "Are you sure you want to proceed?",
-    "empty": "No items found",
-    "error": "Error",
-    "pageNotFound": "Page not found",
-    "passwordResetSuccess": "Password reset successfully",
-    "passwordsDoNotMatch": "The passwords do not match",
-    "readError": "Error while reading",
-    "submitSuccess": "Operation performed successfully",
-    "success": "Success",
-    "warning": "Warning"
-  },
-  "placeholder": {
-    "loading": "Loading...",
-    "search": "Search...",
-    "select": "Select"
-  },
-  "route": {
-    "backoffice": "Backoffice",
-    "dashboard": "Dashboard",
-    "frontoffice": "Frontoffice",
-    "home": "Home",
-    "users": "Users"
-  }
+    "action": {
+        "back": "Back",
+        "backToHome": "Back to Home",
+        "backToSignIn": "Back to sign in",
+        "banUser": "Ban user",
+        "cancel": "Cancel",
+        "continue": "Continue",
+        "create": "Create",
+        "createAccount": "Don't you have an account?",
+        "delete": "Delete",
+        "forgetPassword": "Do you forget the password?",
+        "impersonateUser": "Impersonate user",
+        "next": "Next",
+        "prev": "Previous",
+        "proceed": "Proceed",
+        "signIn": "Sign in",
+        "signInWithSocialProvider": "Sign in with {provider}",
+        "signOut": "Sign out",
+        "signUp": "Sign up",
+        "stopImpersonation": "Stop impersonating",
+        "submit": "Submit",
+        "toggleTheme": "Change theme",
+        "unbanUser": "Unban",
+        "update": "Update"
+    },
+    "editor": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "heading": "Heading",
+        "paragraph": "Paragraph",
+        "bulletList": "Bulleted list",
+        "orderedList": "Numbered list",
+        "clearFormat": "Clear formatting"
+    },
+    "errors": {
+        "passwordsDoNotMatch": "The passwords do not match"
+    },
+    "hint": {
+        "passphrase": "Enter {passphrase} to confirm the operation"
+    },
+    "interval": {
+        "D": "day | days",
+        "M": "month | months",
+        "W": "week | weeks",
+        "Y": "year | years"
+    },
+    "label": {
+        "admin": "Admin",
+        "banned": "Banned",
+        "completeName": "Full name",
+        "confirmPassword": "Confirm password",
+        "createdAt": "Created at",
+        "description": "Description",
+        "done": "Done",
+        "email": "Email",
+        "emailVerified": "Email verified",
+        "en": "EN",
+        "enabled": "Enabled",
+        "impersonated": "impersonated",
+        "it": "IT",
+        "itemsPerPage": "Per page",
+        "locale": "Language",
+        "notes": "Notes",
+        "passphrase": "Enter passphrase",
+        "password": "Password",
+        "rememberMe": "Remember me",
+        "role": "Role",
+        "setUserPassword": "Change password",
+        "title": "Title",
+        "totalItemsCount": "Items: {total}",
+        "totalPages": "Of {total}",
+        "updatedAt": "Updated at",
+        "user": "User"
+    },
+    "message": {
+        "checkYourEmail": "Check your email for the verification link",
+        "confirm": "Are you sure you want to proceed?",
+        "empty": "No items found",
+        "error": "Error",
+        "pageNotFound": "Page not found",
+        "passwordResetSuccess": "Password reset successfully",
+        "passwordsDoNotMatch": "The passwords do not match",
+        "readError": "Error while reading",
+        "submitSuccess": "Operation performed successfully",
+        "success": "Success",
+        "warning": "Warning"
+    },
+    "placeholder": {
+        "loading": "Loading...",
+        "search": "Search...",
+        "select": "Select"
+    },
+    "problems": {
+        "entity-not-found": "This item does not exist, or it was deleted.",
+        "forbidden": "You are not allowed to do this.",
+        "internal-server-error": "Something went wrong on the server. Try again later.",
+        "not-found": "This address does not exist.",
+        "unauthorized": "Your session has expired: sign in again.",
+        "validation-error": "Some fields are not valid."
+    },
+    "route": {
+        "backoffice": "Backoffice",
+        "dashboard": "Dashboard",
+        "frontoffice": "Frontoffice",
+        "home": "Home",
+        "todos": "Todos",
+        "users": "Users"
+    }
 }

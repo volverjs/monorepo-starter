@@ -22,59 +22,64 @@ const replaceTag = (
 }
 
 export const fastifyDocs = fp(
-    (
+    async (
         fastify,
         options: {
             title: string
             description: string
             version: string
         },
-        done,
     ) => {
-        // @ts-expect-error wrong better-auth types
-        auth.api.generateOpenAPISchema().then((openapi) => {
-            fastify.register(fastifySwagger, {
-                openapi: {
-                    components: {
-                        schemas: openapi.components.schemas,
-                    },
-                    paths: Object.keys(
-                        openapi.paths,
-                    ).reduce<OpenAPIV3_1.PathsObject>((acc, path) => {
-                        const data = openapi.paths[
-                            path
-                        ] as unknown as OpenAPIV3_1.PathItemObject
-                        replaceTag(data, 'Default', 'Auth')
-                        acc[`${auth.options.basePath}${path}`] = data
-                        return acc
-                    }, {}),
-                },
-                transform: (data) => {
-                    const { url, schema } = jsonSchemaTransform(data)
-                    const toReturn = { ...schema }
-                    if (url.includes(`${auth.options.basePath}/*`)) {
-                        toReturn.hide = true
-                    }
-                    return {
-                        schema: toReturn,
-                        url,
-                    }
-                },
-            })
-            // Serve an OpenAPI file
-            fastify.register(fastifySwaggerUi, {
-                routePrefix: '/swagger',
-                theme: {
+        const openapi = await auth.api.generateOpenAPISchema()
+
+        fastify.register(fastifySwagger, {
+            openapi: {
+                info: {
                     title: options.title,
+                    description: options.description,
+                    version: options.version,
                 },
-            })
-            fastify.register(fastifyScalar, {
-                routePrefix: '/scalar',
-                configuration: {
-                    title: options.title,
+                components: {
+                    schemas: openapi.components.schemas as Record<
+                        string,
+                        OpenAPIV3_1.SchemaObject
+                    >,
                 },
-            })
-            done()
+                paths: Object.keys(
+                    openapi.paths,
+                ).reduce<OpenAPIV3_1.PathsObject>((acc, path) => {
+                    const data = openapi.paths[
+                        path
+                    ] as unknown as OpenAPIV3_1.PathItemObject
+                    replaceTag(data, 'Default', 'Auth')
+                    acc[`${auth.options.basePath}${path}`] = data
+                    return acc
+                }, {}),
+            },
+            transform: (data) => {
+                const { url, schema } = jsonSchemaTransform(data)
+                const toReturn = { ...schema }
+                if (url.includes(`${auth.options.basePath}/*`)) {
+                    toReturn.hide = true
+                }
+                return {
+                    schema: toReturn,
+                    url,
+                }
+            },
+        })
+        // Serve an OpenAPI file
+        fastify.register(fastifySwaggerUi, {
+            routePrefix: '/swagger',
+            theme: {
+                title: options.title,
+            },
+        })
+        fastify.register(fastifyScalar, {
+            routePrefix: '/scalar',
+            configuration: {
+                title: options.title,
+            },
         })
     },
 )

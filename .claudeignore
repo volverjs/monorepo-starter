@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-ssr/
+.nx/
+pnpm-lock.yaml
+*.lock
+coverage/
+apps/frontend/src/auto-imports.d.ts
+apps/frontend/src/components.d.ts
+apps/frontend/src/typed-router.d.ts
+apps/backend/src/auto-imports.d.ts
+packages/database/drizzle/meta/

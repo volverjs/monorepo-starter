@@ -1,7 +1,7 @@
-const isLocal =
-    typeof window === 'undefined'
-        ? process?.env?.VITE_LOCAL === 'true'
-        : import.meta.env?.VITE_LOCAL
+// Console output for development only: a production build of the frontend or
+// of the backend prints nothing through this logger. Server-side errors that
+// must reach production logs go through Fastify's `request.log` instead.
+const isLocal = import.meta.env?.DEV === true
 
 export const log = (...params: unknown[]) => {
     if (isLocal) {

@@ -3,16 +3,15 @@ import { VitePluginNode } from 'vite-plugin-node'
 import AutoImport from 'unplugin-auto-import/vite'
 import ESLint from '@nabla/vite-plugin-eslint'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import mkcert from 'vite-plugin-mkcert'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
 export default ({ mode }: { mode: string }) => {
-    process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
+    // Every variable of the .env files, not only the VITE_ ones: the backend
+    // reads its configuration from process.env at runtime.
+    process.env = { ...process.env, ...loadEnv(mode, process.cwd(), '') }
 
     return defineConfig({
-        cacheDir: '../../node_modules/.vite/api',
+        cacheDir: '../../node_modules/.vite/backend',
         build: {
             target: 'esnext',
         },
@@ -20,12 +19,12 @@ export default ({ mode }: { mode: string }) => {
             __PUBLIC_PATH__: JSON.stringify(
                 mode === 'production'
                     ? ''
-                    : `${path.resolve(`${__dirname}/public`)}/`,
+                    : `${path.resolve(`${import.meta.dirname}/public`)}/`,
             ),
         },
         resolve: {
             alias: {
-                '~/': `${path.resolve(`${__dirname}/src`)}/`,
+                '~/': `${path.resolve(`${import.meta.dirname}/src`)}/`,
             },
         },
         server: {
@@ -57,7 +56,7 @@ export default ({ mode }: { mode: string }) => {
                 dirs: ['src/db', 'src/models', 'src/common', 'src/helpers'],
                 eslintrc: {
                     filepath: `${path.resolve(
-                        `${__dirname}`,
+                        `${import.meta.dirname}`,
                     )}/.eslintrc-auto-import.json`,
                     enabled: true,
                 },
@@ -71,7 +70,7 @@ export default ({ mode }: { mode: string }) => {
                 adapter: 'fastify',
 
                 // tell the plugin where is your project entry
-                appPath: './src/app.ts',
+                appPath: './src/main.ts',
 
                 // output format, default is 'cjs'
                 outputFormat: 'es',

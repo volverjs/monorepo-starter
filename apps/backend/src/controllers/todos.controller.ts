@@ -1,14 +1,19 @@
 import type { FastifyRequest } from 'fastify'
 import type { TodoQuerystring, TodoDto } from 'models'
 import type { TodoService } from '~/services/todo.service'
-import z from 'zod/v4'
+import * as z from 'zod'
 import { TodoDtoSchema, TodoSchema, TodoQuerystringSchema } from 'models'
-import { Controller, DELETE, GET, POST, PUT } from './index'
+import { Subject } from 'ability'
+import { Controller, DELETE, GET, POST, PUT, getActor } from './index'
 import { container } from '~/container'
 import { TOKENS } from '~/container/tokens'
-import { Subject } from 'ability'
-import { UnauthorizedError } from '~/plugins/fastifyProblemJson'
 
+/**
+ * The reference controller: routes, schemas and permissions only, every rule
+ * about rows lives in the service. `permissions` refuses an anonymous request
+ * (401) and a role with no rule on todos (403); which todos a role may touch
+ * is the service's call.
+ */
 @Controller({
     route: '/v1/todos',
     tags: [
@@ -38,16 +43,33 @@ export default class TodosController {
             },
         },
     })
-    async read(
-        request: FastifyRequest<{
-            Querystring: TodoQuerystring
-        }>,
-    ) {
-        return await this._service.read(request.query)
+    async list(request: FastifyRequest<{ Querystring: TodoQuerystring }>) {
+        return await this._service.list(request.query, getActor(request))
+    }
+
+    @GET({
+        url: '/:id',
+        permissions: {
+            read: Subject.Todo,
+        },
+        options: {
+            schema: {
+                params: z.object({ id: z.uuid() }),
+                response: {
+                    200: TodoSchema,
+                },
+            },
+        },
+    })
+    async get(request: FastifyRequest<{ Params: { id: string } }>) {
+        return await this._service.get(request.params.id, getActor(request))
     }
 
     @POST({
         url: '/',
+        permissions: {
+            create: Subject.Todo,
+        },
         options: {
             schema: {
                 body: TodoDtoSchema,
@@ -57,35 +79,18 @@ export default class TodosController {
             },
         },
     })
-    async create(
-        request: FastifyRequest<{
-            Body: TodoDto
-        }>,
-    ) {
-        if (!request.user) {
-            throw new UnauthorizedError()
-        }
-        return await this._service.create(request.body, request.user)
-    }
-
-    @GET({
-        url: '/:id',
-        options: {
-            schema: {
-                response: {
-                    200: TodoSchema,
-                },
-            },
-        },
-    })
-    async readId(request: FastifyRequest<{ Params: { id: string } }>) {
-        return await this._service.read(request.params.id)
+    async create(request: FastifyRequest<{ Body: TodoDto }>) {
+        return await this._service.create(request.body, getActor(request))
     }
 
     @PUT({
         url: '/:id',
+        permissions: {
+            update: Subject.Todo,
+        },
         options: {
             schema: {
+                params: z.object({ id: z.uuid() }),
                 body: TodoDtoSchema,
                 response: {
                     200: TodoSchema,
@@ -94,27 +99,23 @@ export default class TodosController {
         },
     })
     async update(
-        request: FastifyRequest<{
-            Body: TodoDto
-            Params: {
-                id: string
-            }
-        }>,
+        request: FastifyRequest<{ Body: TodoDto; Params: { id: string } }>,
     ) {
-        if (!request.user) {
-            throw new UnauthorizedError()
-        }
         return await this._service.update(
             request.params.id,
             request.body,
-            request.user,
+            getActor(request),
         )
     }
 
     @DELETE({
         url: '/:id',
+        permissions: {
+            delete: Subject.Todo,
+        },
         options: {
             schema: {
+                params: z.object({ id: z.uuid() }),
                 response: {
                     200: z.boolean(),
                 },
@@ -122,9 +123,6 @@ export default class TodosController {
         },
     })
     async delete(request: FastifyRequest<{ Params: { id: string } }>) {
-        if (!request.user) {
-            throw new UnauthorizedError()
-        }
-        return await this._service.delete(request.params.id, request.user)
+        return await this._service.delete(request.params.id, getActor(request))
     }
 }

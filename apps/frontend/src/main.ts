@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
-import { createHead } from '@vueuse/head'
+import { createHead } from '@unhead/vue/client'
 import type { Router } from 'vue-router'
-import { createRouter, createWebHistory } from 'vue-router/auto'
+import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
 import type { AppModule } from '~/types'
 import App from '~/App.vue'
@@ -47,6 +47,8 @@ Promise.all(
     .then(() => {
         logger.log('All modules installed')
     })
-    .catch(logger.error)
+    .catch((error) => {
+        logger.error(error)
+    })
 
 app.mount('#app')

@@ -1,87 +1,110 @@
 {
-  "action": {
-    "back": "Torna",
-    "backToHome": "Torna alla Home",
-    "backToSignIn": "Torna al login",
-    "banUser": "Banna utente",
-    "cancel": "Annulla",
-    "continue": "Continua",
-    "create": "Crea",
-    "createAccount": "Non hai un account?",
-    "delete": "Elimina",
-    "forgetPassword": "Hai dimenticato la password?",
-    "impersonateUser": "Impersonifica utente",
-    "next": "Avanti",
-    "prev": "Indietro",
-    "proceed": "Procedi",
-    "signIn": "Accedi",
-    "signInWithSocialProvider": "Accedi con {provider}",
-    "signOut": "Esci",
-    "signUp": "Registrati",
-    "submit": "Invia",
-    "toggleTheme": "Cambia tema",
-    "unbanUser": "Togli il divieto ",
-    "update": "Aggiorna"
-  },
-  "errors": {
-    "passwordsDoNotMatch": "Le password non corrispondono"
-  },
-  "hint": {
-    "passphrase": "Inserisci {passphrase} per confermare l'operazione"
-  },
-  "interval": {
-    "D": "giorno | giorni",
-    "M": "mese | mesi",
-    "W": "settimana | settimane",
-    "Y": "anno | anni"
-  },
-  "label": {
-    "admin": "Amministratore",
-    "banned": "Bannato",
-    "completeName": "Nome e cognome",
-    "confirmPassword": "Conferma password",
-    "createdAt": "Creato il",
-    "description": "Descrizione",
-    "email": "Email",
-    "emailVerified": "Email verificata",
-    "enabled": "Abilitato",
-    "en": "EN",
-    "it": "IT",
-    "itemsPerPage": "Per pagina",
-    "locale": "Lingua",
-    "passphrase": "Inserisci la parola chiave",
-    "password": "Password",
-    "rememberMe": "Ricordami",
-    "role": "Ruolo",
-    "setUserPassword": "Cambia la password ",
-    "totalItemsCount": "Elementi: {total}",
-    "totalPages": "di {total}",
-    "updatedAt": "Aggiornato il",
-    "user": "Utente"
-  },
-  "message": {
-    "checkYourEmail": "Controlla la tua email per il link di verifica",
-    "confirm": "Sei sicuro di voler procedere?",
-    "empty": "Nessun elemento trovato",
-    "error": "Errore",
-    "pageNotFound": "Pagina non trovata",
-    "passwordResetSuccess": "Password reimpostata con successo",
-    "passwordsDoNotMatch": "Le password non coincidono",
-    "readError": "Errore durante la lettura",
-    "submitSuccess": "Operazione eseguita con successo",
-    "success": "Successo",
-    "warning": "Attenzione"
-  },
-  "placeholder": {
-    "loading": "Caricamento...",
-    "search": "Cerca...",
-    "select": "Seleziona"
-  },
-  "route": {
-    "backoffice": "Backoffice",
-    "dashboard": "Dashboard",
-    "frontoffice": "Frontoffice",
-    "home": "Home",
-    "users": "Users"
-  }
+    "action": {
+        "back": "Torna",
+        "backToHome": "Torna alla Home",
+        "backToSignIn": "Torna al login",
+        "banUser": "Banna utente",
+        "cancel": "Annulla",
+        "continue": "Continua",
+        "create": "Crea",
+        "createAccount": "Non hai un account?",
+        "delete": "Elimina",
+        "forgetPassword": "Hai dimenticato la password?",
+        "impersonateUser": "Impersonifica utente",
+        "next": "Avanti",
+        "prev": "Indietro",
+        "proceed": "Procedi",
+        "signIn": "Accedi",
+        "signInWithSocialProvider": "Accedi con {provider}",
+        "signOut": "Esci",
+        "signUp": "Registrati",
+        "stopImpersonation": "Termina impersonificazione",
+        "submit": "Invia",
+        "toggleTheme": "Cambia tema",
+        "unbanUser": "Togli il divieto ",
+        "update": "Aggiorna"
+    },
+    "editor": {
+        "bold": "Grassetto",
+        "italic": "Corsivo",
+        "heading": "Titolo",
+        "paragraph": "Paragrafo",
+        "bulletList": "Elenco puntato",
+        "orderedList": "Elenco numerato",
+        "clearFormat": "Rimuovi formattazione"
+    },
+    "errors": {
+        "passwordsDoNotMatch": "Le password non corrispondono"
+    },
+    "hint": {
+        "passphrase": "Inserisci {passphrase} per confermare l'operazione"
+    },
+    "interval": {
+        "D": "giorno | giorni",
+        "M": "mese | mesi",
+        "W": "settimana | settimane",
+        "Y": "anno | anni"
+    },
+    "label": {
+        "admin": "Amministratore",
+        "banned": "Bannato",
+        "completeName": "Nome e cognome",
+        "confirmPassword": "Conferma password",
+        "createdAt": "Creato il",
+        "description": "Descrizione",
+        "done": "Fatto",
+        "email": "Email",
+        "emailVerified": "Email verificata",
+        "en": "EN",
+        "enabled": "Abilitato",
+        "impersonated": "impersonificato",
+        "it": "IT",
+        "itemsPerPage": "Per pagina",
+        "locale": "Lingua",
+        "notes": "Note",
+        "passphrase": "Inserisci la parola chiave",
+        "password": "Password",
+        "rememberMe": "Ricordami",
+        "role": "Ruolo",
+        "setUserPassword": "Cambia la password ",
+        "title": "Titolo",
+        "totalItemsCount": "Elementi: {total}",
+        "totalPages": "di {total}",
+        "updatedAt": "Aggiornato il",
+        "user": "Utente"
+    },
+    "message": {
+        "checkYourEmail": "Controlla la tua email per il link di verifica",
+        "confirm": "Sei sicuro di voler procedere?",
+        "empty": "Nessun elemento trovato",
+        "error": "Errore",
+        "pageNotFound": "Pagina non trovata",
+        "passwordResetSuccess": "Password reimpostata con successo",
+        "passwordsDoNotMatch": "Le password non coincidono",
+        "readError": "Errore durante la lettura",
+        "submitSuccess": "Operazione eseguita con successo",
+        "success": "Successo",
+        "warning": "Attenzione"
+    },
+    "placeholder": {
+        "loading": "Caricamento...",
+        "search": "Cerca...",
+        "select": "Seleziona"
+    },
+    "problems": {
+        "entity-not-found": "Questo elemento non esiste, oppure è stato eliminato.",
+        "forbidden": "Non hai i permessi per farlo.",
+        "internal-server-error": "Qualcosa è andato storto sul server. Riprova più tardi.",
+        "not-found": "Questo indirizzo non esiste.",
+        "unauthorized": "La sessione è scaduta: accedi di nuovo.",
+        "validation-error": "Alcuni campi non sono validi."
+    },
+    "route": {
+        "backoffice": "Backoffice",
+        "dashboard": "Dashboard",
+        "frontoffice": "Frontoffice",
+        "home": "Home",
+        "todos": "Todo",
+        "users": "Utenti"
+    }
 }
