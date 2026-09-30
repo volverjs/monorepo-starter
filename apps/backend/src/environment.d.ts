@@ -4,6 +4,8 @@ declare global {
             NODE_ENV?: 'development' | 'production' | 'test'
             PORT?: string
             DATABASE_URL: string
+            /** Integration tests only, default `<DATABASE_URL>_test` (tests/setup/database.ts) */
+            TEST_DATABASE_URL?: string
             BETTER_AUTH_SECRET?: string
             BETTER_AUTH_URL?: string
             FRONTEND_URL?: string
