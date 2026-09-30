@@ -13,7 +13,7 @@ here is also what a new project starts with.
 | Need | Where |
 | --- | --- |
 | Traps that already cost debugging time, one file per area | [docs/agents/gotchas.md](docs/agents/gotchas.md) |
-| Adding an API resource end to end (table, model, permissions, service, controller) | [docs/agents/new-resource.md](docs/agents/new-resource.md) |
+| Adding a resource end to end by copying `todo` (table, models, permissions, service, controller, tests, store, pages) | [docs/agents/new-resource.md](docs/agents/new-resource.md) |
 | Seeing a UI change on the running app, both themes, console errors included | [docs/agents/ui-tour.md](docs/agents/ui-tour.md) |
 | Human-facing overview | [README.md](README.md) |
 
@@ -61,7 +61,7 @@ Prerequisites: Node.js 24.12 or newer (22.20 or newer on the 22 line), pnpm (the
 is fetched automatically), Docker.
 
 ```bash
-docker compose up -d        # Postgres 18 on 5432, PgAdmin on 5050
+docker compose up -d postgres   # Postgres 18 (PgAdmin too: docker compose up -d)
 pnpm install
 echo "BETTER_AUTH_SECRET=$(openssl rand -base64 32)" >> apps/backend/.env.local
 pnpm db:migrate             # the local database is never migrated automatically
@@ -72,8 +72,9 @@ Frontend `https://localhost:8080`, backend `https://localhost:3000`, API referen
 `https://localhost:3000/swagger` and `https://localhost:3000/scalar`. Both dev servers use
 certificates from vite-plugin-mkcert.
 
-Another project already on 5432? Start this one with `POSTGRES_PORT=5433 docker compose up -d`
-and put the same port in `DATABASE_URL` in `apps/backend/.env.local`.
+Port taken by another project? Start this one with `POSTGRES_PORT=<free port> docker compose up
+-d postgres` and put the same port in `DATABASE_URL` in `apps/backend/.env.local`: the integration
+tests follow it.
 
 ## Commands
 
@@ -82,10 +83,11 @@ pnpm verify                 # the Definition of Done, see below
 pnpm dev                    # backend and frontend dev servers
 pnpm lint                   # ESLint + Stylelint (pnpm lint:fix to autofix)
 pnpm typecheck              # tsc (backend, tests included) and vue-tsc (frontend)
-pnpm test                   # Vitest, backend
+pnpm test                   # Vitest, backend: unit, and integration on Postgres (docker compose up -d)
 pnpm build                  # production builds
 
 pnpm nx run backend:test -- tests/unit/ability.test.ts    # a single test file
+pnpm nx run backend:test -- --project unit                # the unit tests only, no database
 pnpm nx run frontend:ui-tour                              # screenshots + console errors, docs/agents/ui-tour.md
 
 pnpm db:generate            # a migration from schema changes (needs a real terminal for renames)
@@ -100,7 +102,10 @@ pnpm deps:duplicates        # packages the lockfile resolves twice
 
 Before reporting work complete, run `pnpm verify` and report its outcome. It runs, in order:
 the lockfile duplicate check, ESLint and Stylelint, `typecheck` for both apps, the backend
-tests and both production builds.
+tests and both production builds. The integration tests need the Postgres of
+`docker-compose.yml`: at every run they drop, recreate and migrate `<database>_test` on the
+server of `DATABASE_URL` (or the database of `TEST_DATABASE_URL`, whose name must end in
+`_test`), and fail with a clear message when it is not reachable.
 
 - Vitest strips types without checking them: a green `test` says nothing about types, which is
   why `typecheck` is part of the same command.
@@ -140,8 +145,9 @@ no package build step except `icons`.
 ### Backend
 
 **Fastify 5** with class controllers from **fastify-decorators** in
-`apps/backend/src/controllers/*.controller.ts`, registered automatically under `/api` (a new
-file needs a dev server restart). Import the route decorators from `controllers/index.ts`, not
+`apps/backend/src/controllers/*.controller.ts`, registered automatically under `/api` with the
+versioned route each one declares (`/v1/todos`: `/api/v1/todos`; a new file needs a dev server
+restart). Import the route decorators from `controllers/index.ts`, not
 from `fastify-decorators`: they add the `permissions` option and derive the params schema from
 the url.
 
@@ -175,11 +181,18 @@ into SQL by `packages/database/src/helpers.ts`: `page[number]`, `page[size]`, `s
 credentials are set. The tables of better-auth and its plugins are written by hand in
 `packages/database/src/schema/Auth.ts`.
 
-**CASL** (`packages/ability`): roles `admin` and `user`, capabilities in `src/roles/`. The
-backend builds one ability per request (`request.ability`); the browser keeps a single
-`ability`, updated from the session, read with `useAbility()` of `@casl/vue`. A route without
-`permissions` is public; with them, an anonymous request gets a 401 and a signed-in user whose
-role lacks the capability a 403.
+**CASL** (`packages/ability`): roles `admin` and `user`, capabilities in `src/roles/`. A role is
+a function of the user, so a rule can be limited to the user's own rows
+(`condition: { createdBy: user.id }`). The backend builds one ability per request
+(`request.ability`); the browser keeps a single `ability`, updated from the session, read with
+`useAbility()` of `@casl/vue`, which only hides what the API would refuse.
+
+- A route without `permissions` is public; with them, an anonymous request gets a 401 and a
+  signed-in role with no rule for the action a 403.
+- Conditions are applied by the service, never on the request body: `accessibleBy()` puts them
+  in the WHERE of every query and `assertCan()` checks the stored row before a write
+  (`apps/backend/src/utils/permissions.ts`). A row the user may not read is a 404, like a
+  missing one.
 
 ### Frontend
 
@@ -191,9 +204,11 @@ role lacks the capability a 403.
 - Auto-imports: Vue, vue-i18n, VueUse, Pinia, vue-router and the folders listed in
   `vite.config.ts`. Components register themselves: `Vv*` from `@volverjs/ui-vue`, `Pk*` from
   `packages/components`, and the app's own `Pj*` in `src/components/`.
-- HTTP through the `@volverjs/data` HttpClient (`modules/httpClient.ts`), which turns a
-  problem+json response into an alert. Auth through the better-auth Vue client
-  (`modules/auth.ts`), which also holds the navigation guard.
+- HTTP through the `@volverjs/data` HttpClient (`modules/httpClient.ts`), which turns a 403 or
+  5xx problem+json response into an alert. One store per API resource in `src/stores/`: a
+  `RepositoryHttp` wrapped by `defineStoreRepository` of `@volverjs/query-vue`
+  (`useTodoStore.ts`). Auth through the better-auth Vue client (`modules/auth.ts`), which also
+  holds the navigation guard.
 - i18n: global messages in `packages/i18n`, page-specific ones in `<i18n>` blocks. Zod
   validation errors are translated by `@volverjs/zod-vue-i18n` (`modules/i18n.ts`).
 
@@ -209,6 +224,9 @@ role lacks the capability a 403.
   `packages/style/custom/_index.scss`.
 - A `VvButton` takes its text from `:label`, not from the default slot, which replaces what the
   `loading` state renders. Pair `:loading` with `:disabled`.
+- Icons by bundled name (`trash`, `edit`, `search`) or from the custom collection of
+  `packages/icons`. A name with a collection prefix (`mdi:home`) is downloaded from the public
+  Iconify API at runtime: only the social sign-in logos (`logos:*`) do that.
 - Every user-facing string goes through i18n, in **both** `en` and `it`: lint refuses a key
   missing from one locale (`packages/i18n/src/*.json` and the `<i18n>` blocks alike) and warns
   on a `$t` key that exists in none.
@@ -218,7 +236,8 @@ role lacks the capability a 403.
 - Backend: `apps/backend/.env` is committed and holds no secret, only defaults and empty
   placeholders; `apps/backend/.env.local` (git ignored) fills in the secrets and is loaded over
   it. A variable set in the shell wins over both. Minimum for development: `DATABASE_URL` and
-  `BETTER_AUTH_SECRET`.
+  `BETTER_AUTH_SECRET`. The integration tests derive their database from `DATABASE_URL`
+  (`<database>_test`, same server); `TEST_DATABASE_URL` overrides it.
 - Frontend: `.env`, `.env.development`, `.env.staging`, `.env.production` are committed and hold
   public `VITE_*` settings only. `VITE_BACKEND_URL` must be set for every mode that is built;
   the build warns when it is empty.

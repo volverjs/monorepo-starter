@@ -21,6 +21,15 @@ const SOCIAL_PROVIDERS = ['microsoft', 'google', 'github', 'facebook']
 const TEMPLATE_ROOT = path.resolve(import.meta.dirname, '../../..')
 // Only the template publishes the scaffolding skill and carries the maintainer's logo.
 const TEMPLATE_ONLY = ['skills', '.claude-plugin', 'packages/icons/src/8wave.svg']
+// The verify script of the template once scaffold:check is removed: without
+// Docker the script runs it step by step, and fails when the template's differs.
+const VERIFY_STEPS = [
+    'pnpm deps:duplicates',
+    'node --test .claude/hooks/guard.test.mjs',
+    'pnpm lint',
+    'nx run-many --targets=typecheck,test,build',
+]
+
 // Never copied from a local working tree, whatever .gitignore says.
 const NEVER_COPY = /(^|\/)(node_modules|\.git|\.nx|dist|\.ui-tour|\.agents)(\/|$)|(^|\/)\.claude\/(skills|settings\.local\.json)|\.local$/
 
@@ -165,6 +174,10 @@ for (const value of [title, shortName, args.tagline, description]) {
 }
 const packageName = args.scope ? `${args.scope}/${slug}` : slug
 const database = slug.replace(/-/g, '_')
+// Postgres cuts identifiers at 63 bytes, and the integration tests add `_test`
+if (database.length > 58) {
+    fail(`"${slug}" is too long for a database name: 58 characters at most`)
+}
 const source = args.from ?? DEFAULT_SOURCE
 const today = new Date().toISOString().slice(0, 10)
 
@@ -250,10 +263,16 @@ function editJson(relative, edit) {
 }
 
 function run(command, commandArgs, options = {}) {
+    // A session opened in the template (an editor, an agent) may export
+    // NX_WORKSPACE_ROOT_PATH, which Nx prefers to the working directory: every
+    // Nx task of the new project would run on the template. No daemon either,
+    // it would outlive the script.
+    const env = { ...process.env, NX_DAEMON: 'false', ...options.env }
+    delete env.NX_WORKSPACE_ROOT_PATH
     const result = spawnSync(command, commandArgs, {
         cwd: target,
         stdio: args.json ? 'pipe' : 'inherit',
-        env: { ...process.env, ...options.env },
+        env,
     })
     if (result.status !== 0) {
         fail(`\`${command} ${commandArgs.join(' ')}\` failed in ${target}`)
@@ -320,6 +339,10 @@ editJson('package.json', (pkg) => {
     }
     delete pkg.scripts['scaffold:check']
     pkg.scripts.verify = pkg.scripts.verify.replace(' && pnpm scaffold:check', '')
+    // Without Docker the script runs these steps one by one (section 5)
+    if (pkg.scripts.verify !== VERIFY_STEPS.join(' && ')) {
+        fail('template changed: the verify script is not the one scripts/scaffold.mjs runs without Docker. Update VERIFY_STEPS.')
+    }
 })
 step(`root package renamed to ${packageName}`)
 
@@ -371,12 +394,12 @@ ${intro}
 
 - [Node.js](https://nodejs.org/) 24.12 or newer (22.20 or newer on the 22 line)
 - [pnpm](https://pnpm.io/): the version in \`packageManager\` is fetched automatically
-- [Docker](https://www.docker.com/) for the local database
+- [Docker](https://www.docker.com/) for the local database, which the integration tests use too
 
 ## Getting started
 
 \`\`\`bash
-docker compose up -d
+docker compose up -d postgres
 pnpm install
 pnpm db:migrate
 pnpm dev
@@ -384,7 +407,7 @@ pnpm dev
 
 - Frontend: https://localhost:8080
 - Backend: https://localhost:3000, API reference at \`/swagger\` and \`/scalar\`
-- PgAdmin: http://localhost:5050
+- PgAdmin (\`docker compose up -d pgadmin\`): http://localhost:5050
 
 Local secrets live in \`apps/backend/.env.local\` (git ignored): the scaffold generated
 \`BETTER_AUTH_SECRET\` there. Every other backend setting, and a placeholder for each secret, is
@@ -395,7 +418,7 @@ documented in \`apps/backend/.env\`; the public frontend settings are in \`apps/
 | Command | What it does |
 | --- | --- |
 | \`pnpm dev\` | Backend and frontend dev servers |
-| \`pnpm verify\` | Lint, typecheck, tests and production builds: run it before every commit |
+| \`pnpm verify\` | Lint, typecheck, tests and production builds, with Postgres up: run it before every commit |
 | \`pnpm build\` | Production builds (\`apps/*/dist\`) |
 | \`pnpm db:generate\` | A migration from schema changes |
 | \`pnpm db:migrate\` | Apply the migrations to \`DATABASE_URL\` |
@@ -404,7 +427,9 @@ documented in \`apps/backend/.env\`; the public frontend settings are in \`apps/
 
 [AGENTS.md](AGENTS.md) holds the conventions, the architecture and the Definition of Done, and
 [docs/agents/](docs/agents/) the traps and checklists: both are loaded by coding agents, and are
-worth a read for humans too. [CLAUDE.md](CLAUDE.md) adds what is specific to Claude Code.
+worth a read for humans too. [CLAUDE.md](CLAUDE.md) adds what is specific to Claude Code. The
+\`todo\` resource is the worked example of every layer: a new resource starts as a copy of it
+([docs/agents/new-resource.md](docs/agents/new-resource.md)).
 `,
 )
 step('README.md written for the project')
@@ -476,8 +501,39 @@ if (!args['keep-migrations']) {
 }
 
 if (!args['skip-verify']) {
-    run('pnpm', ['verify'])
-    step('pnpm verify passed')
+    // The integration tests of `pnpm verify` run on the project's own Postgres
+    // (docker-compose.yml, on the chosen port).
+    if (spawnSync('docker', ['info'], { stdio: 'ignore' }).status === 0) {
+        run('docker', ['compose', 'up', '--detach', '--wait', 'postgres'])
+        step(`Postgres started on localhost:${postgresPort} (docker compose)`)
+        run('pnpm', ['verify'])
+        step('pnpm verify passed')
+        // Nx does not print the output of a task that passed: the database the
+        // suite creates is the proof that the integration tests ran here.
+        const probe = spawnSync(
+            'docker',
+            ['compose', 'exec', '-T', 'postgres', 'sh', '-c', `psql -U "$POSTGRES_USER" -tAc "select 1 from pg_database where datname = '${database}_test'"`],
+            { cwd: target, encoding: 'utf8' },
+        )
+        step(
+            probe.stdout?.trim() === '1'
+                ? `integration tests ran on localhost:${postgresPort} (database ${database}_test)`
+                : `NOT CONFIRMED: no database ${database}_test on localhost:${postgresPort}, the integration tests ran elsewhere or not at all`,
+        )
+    } else {
+        // `pnpm verify` step by step, with the unit tests only
+        for (const verifyStep of VERIFY_STEPS) {
+            const [command, ...commandArgs] = verifyStep.split(' ')
+            if (verifyStep.startsWith('nx run-many')) {
+                run('pnpm', ['nx', 'run-many', '--targets=typecheck,build'])
+                run('pnpm', ['nx', 'run', 'backend:test', '--', '--project', 'unit'])
+            } else {
+                run(command, commandArgs)
+            }
+        }
+        step('pnpm verify passed, without the integration tests')
+        step('NOT RUN: the integration tests (no Docker). Start Docker, then `docker compose up -d postgres` and `pnpm verify`')
+    }
 }
 
 if (args.json) {
@@ -489,8 +545,8 @@ if (args.json) {
 Done: ${target}
 
 Next steps:
-  cd ${path.relative(process.cwd(), target) || '.'}
-  docker compose up -d${postgresPort === 5432 ? '' : `   # Postgres on ${postgresPort}`}
+  cd ${target}
+  docker compose up -d postgres   # Postgres on ${postgresPort}, PgAdmin: docker compose up -d pgadmin
   pnpm db:migrate
   pnpm dev
 ${social.length ? `\nSocial sign-in (${social.join(', ')}): put the credentials in apps/backend/.env.local.` : ''}

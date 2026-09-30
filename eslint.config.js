@@ -117,7 +117,7 @@ export default [
                     paths: [
                         {
                             name: 'ability',
-                            importNames: ['ability', 'updateAbilityByUserRole'],
+                            importNames: ['ability', 'updateAbility'],
                             message:
                                 'Use request.ability on the server (see packages/ability/src/index.ts).',
                         },

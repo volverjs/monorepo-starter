@@ -29,15 +29,18 @@ the inputs, run it, handle what it reports and bring the project up.
 node --version   # 24.12 or newer, or 22.20 or newer
 pnpm --version   # any: the template's packageManager version is fetched automatically
 git --version
-docker info --format '{{.ServerVersion}}'   # optional: only to run the app
+docker info --format '{{.ServerVersion}}'   # the local database and the integration tests
 ```
 
 Missing Node or pnpm: stop and say what to install. Missing Docker: scaffolding still works,
-the local database does not.
+but the local database does not, and the verification skips the integration tests (the script
+says so: report it, do not call the project verified).
 
 Check the local Postgres port before choosing one: another project's container often sits on
 5432 (`docker ps --format '{{.Names}} {{.Ports}}'`, `lsof -iTCP:5432 -sTCP:LISTEN`). If it is
-taken, pick a free port (5433, 5434...) and pass it as `--postgres-port`.
+taken, pick a free port (5433, 5434...) and pass it as `--postgres-port`. The script starts
+Postgres only: PgAdmin (5050) and the dev servers (3000, 8080) may be busy too, step 4 says what
+to do then.
 
 ## 2. Gather the inputs
 
@@ -73,8 +76,9 @@ node <this skill's directory>/scripts/scaffold.mjs \
   from a branch, pass `--from <path>` or `--from <git url> --ref <branch>`.
 - `node scaffold.mjs --help` lists every option.
 - It takes a few minutes: it installs the dependencies, replaces the migration history with one
-  `0000_init.sql` and runs `pnpm verify` (lint, typecheck, tests, production builds) inside the
-  new project. Do not skip the verification unless the user asks.
+  `0000_init.sql`, starts the project's Postgres with `docker compose` (the integration tests
+  need it) and runs `pnpm verify` (lint, typecheck, tests, production builds) inside the new
+  project. Do not skip the verification unless the user asks.
 
 When it stops with **`template changed: ...`**, the template moved and the script no longer
 matches it. Do not finish the renaming by hand: the half-made project is not trustworthy.
@@ -87,26 +91,41 @@ Node version, a port), and rerun into an empty directory.
 
 ## 4. Bring it up (when Docker is available)
 
-In the new project:
+In the new project, with `NX_WORKSPACE_ROOT_PATH` unset: an editor or an agent session opened
+in another Nx workspace exports it, and Nx prefers it to the working directory, so every command
+below would run on that workspace instead (the script already drops it for its own steps).
 
 ```bash
-docker compose up -d        # POSTGRES_PORT is already the one chosen
+unset NX_WORKSPACE_ROOT_PATH
+docker compose up -d postgres   # already running if the script found Docker
 pnpm db:migrate
-pnpm dev                    # frontend https://localhost:8080, backend https://localhost:3000
+pnpm dev                        # frontend https://localhost:8080, backend https://localhost:3000
 ```
 
-Then prove the app works instead of assuming it: sign up a user through the API and run the UI
-tour, which signs in through the real form and fails on any console error.
+With 3000 or 8080 taken, run the two servers on other ports from the shell:
+`PORT=13000 BETTER_AUTH_URL=https://localhost:13000 FRONTEND_URL=https://localhost:18080 pnpm nx run backend:dev`
+and `VITE_BACKEND_URL=https://localhost:13000 pnpm nx run frontend:dev -- --port 18080`, then
+`UI_TOUR_BASE_URL=https://localhost:18080` for the tour and those URLs below. PgAdmin is
+`docker compose up -d pgadmin`, with `PGADMIN_PORT` when 5050 is taken.
+
+Then prove the app works instead of assuming it: sign up a user through the API, create a todo
+with the session, and run the UI tour, which signs in through the real form and fails on any
+console error.
 
 ```bash
-curl -sk -H 'Origin: https://localhost:8080' -H 'Content-Type: application/json' \
+curl -sk -c .cookies.local -H 'Origin: https://localhost:8080' -H 'Content-Type: application/json' \
   -d '{"name":"First User","email":"first@example.com","password":"change-me-please"}' \
   https://localhost:3000/auth/sign-up/email
-UI_TOUR_EMAIL=first@example.com UI_TOUR_PASSWORD=change-me-please pnpm nx run frontend:ui-tour
+curl -sk -b .cookies.local -H 'Origin: https://localhost:8080' -H 'Content-Type: application/json' \
+  -d '{"title":"First todo"}' https://localhost:3000/api/v1/todos
+UI_TOUR_EMAIL=first@example.com UI_TOUR_PASSWORD=change-me-please \
+  pnpm nx run frontend:ui-tour -- /frontoffice/dashboard /frontoffice/todos /frontoffice/todos/<id>
+rm .cookies.local
 ```
 
-Look at one or two screenshots in `apps/frontend/.ui-tour/`: the new name must be in the header
-and the sidebar. The backoffice needs an `admin`: tell the user how to promote their account
+Look at one or two screenshots in `apps/frontend/.ui-tour/`: the new name must be in the sidebar
+and the page title (the header shows it on narrow screens only). The backoffice needs an
+`admin`, and sends anyone else to the frontoffice: tell the user how to promote their account
 (`update "user" set role = 'admin' where email = '...'`) rather than doing it on their behalf.
 
 Stop the dev servers when you are done, unless the user wants them running.

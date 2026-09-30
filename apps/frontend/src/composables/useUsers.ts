@@ -1,7 +1,7 @@
 import type { UserWithRole } from 'better-auth/plugins'
 
 export type BetterAuthQuery = {
-    searchFieald?: 'email' | 'name'
+    searchField?: 'email' | 'name'
     searchOperator?: 'contains' | 'starts_with' | 'ends_with'
     searchValue?: string
     limit?: number
@@ -43,18 +43,26 @@ export const useUsers = () => {
             isLoading.value = true
             error.value = undefined
             const currentQuery = customQuery ?? unref(query)
+            const limit = Number(currentQuery.limit)
+            // better-auth pages by row offset, the table by page number
             const betterAuthQuery: BetterAuthQuery = {
-                limit: Number(currentQuery.limit),
-                offset: Number(currentQuery.page) - 1,
-                sortBy: customQuery?.sort,
-                sortDirection: customQuery?.order,
+                limit,
+                offset: (Number(currentQuery.page) - 1) * limit,
+                sortBy: currentQuery.sort,
+                sortDirection: currentQuery.order,
             }
             const result = await auth.admin.listUsers({
                 query: betterAuthQuery,
             })
             isLoading.value = false
-            data.value = result.data?.users
-            total.value = result.data?.total
+            if (result.error) {
+                error.value = new Error(
+                    result.error.message ?? result.error.statusText,
+                )
+                return
+            }
+            data.value = result.data.users
+            total.value = result.data.total
         }
 
         watch(

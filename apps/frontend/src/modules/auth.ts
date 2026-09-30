@@ -3,6 +3,7 @@ import { inferAdditionalFields } from 'better-auth/client/plugins'
 import { adminClient } from 'better-auth/client/plugins'
 import type { AppModule } from '~/types'
 import type { auth } from 'auth'
+import { createAbility } from 'ability'
 
 export enum UserRoles {
     User = 'user',
@@ -49,6 +50,15 @@ export const install: AppModule = async ({ router }) => {
             return { name: '/auth/' }
         }
         if (session.value.data?.user && to.name.includes('/auth/')) {
+            return { name: '/frontoffice/' }
+        }
+        // An ability built from the session just resolved: the shared one is
+        // updated by a watcher, which may not have run yet.
+        if (
+            session.value.data?.user &&
+            to.meta.can &&
+            !createAbility(session.value.data.user).can(...to.meta.can)
+        ) {
             return { name: '/frontoffice/' }
         }
     })

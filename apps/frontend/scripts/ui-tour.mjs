@@ -5,7 +5,7 @@
 //
 //   pnpm nx run frontend:ui-tour                     public pages only
 //   UI_TOUR_EMAIL=… UI_TOUR_PASSWORD=… pnpm nx run frontend:ui-tour
-//   pnpm nx run frontend:ui-tour -- /backoffice/users /frontoffice/dashboard
+//   pnpm nx run frontend:ui-tour -- /backoffice/users /frontoffice/todos/<id>
 import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -20,7 +20,7 @@ const EMAIL = process.env.UI_TOUR_EMAIL
 const PASSWORD = process.env.UI_TOUR_PASSWORD
 const PAGES = process.argv.slice(2).filter((arg) => arg.startsWith('/'))
 const DEFAULT_PAGES = EMAIL
-    ? ['/frontoffice/dashboard', '/backoffice/dashboard', '/backoffice/users', '/not-a-page']
+    ? ['/frontoffice/dashboard', '/frontoffice/todos', '/backoffice/users', '/not-a-page']
     : ['/auth', '/auth/sign-up', '/auth/request-password-reset', '/not-a-page']
 
 const CHROME_CANDIDATES = [

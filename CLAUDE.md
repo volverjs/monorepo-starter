@@ -18,9 +18,6 @@ loads twice, so keep one channel per skill.
   public marketplace and installs the plugins it needs.
 - **Vendored** third-party skills from `skills-lock.json` are installed into `.claude/skills/`
   by `npx skills experimental_install` (git ignored).
-- **Eight Wave** team members also get the `eightwave` plugin (`review-with-codex`,
-  `codex-thinking-partner`, `new-spec`, `changelog`, `agent-config-audit`) from the
-  organization; nothing in this repository depends on it.
 <!-- starter-only -->
 - **The scaffolding skill** of this repository is read from `skills/` when you work here. To
   scaffold from anywhere else, install it once: as the `volverjs-monorepo-starter` plugin, or

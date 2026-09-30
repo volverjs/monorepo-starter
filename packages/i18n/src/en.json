@@ -24,6 +24,15 @@
         "unbanUser": "Unban",
         "update": "Update"
     },
+    "editor": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "heading": "Heading",
+        "paragraph": "Paragraph",
+        "bulletList": "Bulleted list",
+        "orderedList": "Numbered list",
+        "clearFormat": "Clear formatting"
+    },
     "errors": {
         "passwordsDoNotMatch": "The passwords do not match"
     },
@@ -43,6 +52,7 @@
         "confirmPassword": "Confirm password",
         "createdAt": "Created at",
         "description": "Description",
+        "done": "Done",
         "email": "Email",
         "emailVerified": "Email verified",
         "en": "EN",
@@ -51,11 +61,13 @@
         "it": "IT",
         "itemsPerPage": "Per page",
         "locale": "Language",
+        "notes": "Notes",
         "passphrase": "Enter passphrase",
         "password": "Password",
         "rememberMe": "Remember me",
         "role": "Role",
         "setUserPassword": "Change password",
+        "title": "Title",
         "totalItemsCount": "Items: {total}",
         "totalPages": "Of {total}",
         "updatedAt": "Updated at",
@@ -79,11 +91,20 @@
         "search": "Search...",
         "select": "Select"
     },
+    "problems": {
+        "entity-not-found": "This item does not exist, or it was deleted.",
+        "forbidden": "You are not allowed to do this.",
+        "internal-server-error": "Something went wrong on the server. Try again later.",
+        "not-found": "This address does not exist.",
+        "unauthorized": "Your session has expired: sign in again.",
+        "validation-error": "Some fields are not valid."
+    },
     "route": {
         "backoffice": "Backoffice",
         "dashboard": "Dashboard",
         "frontoffice": "Frontoffice",
         "home": "Home",
+        "todos": "Todos",
         "users": "Users"
     }
 }

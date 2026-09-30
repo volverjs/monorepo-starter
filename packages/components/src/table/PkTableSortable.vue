@@ -243,8 +243,7 @@
                                                           : 'arrow-down',
                                               }
                                             : {
-                                                  prefix: 'siv',
-                                                  name: 'filter',
+                                                  name: 'reorder',
                                               }
                                     " />
                             </button>

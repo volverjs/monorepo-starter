@@ -33,7 +33,8 @@ agents can work in from the first commit.
 - 🎨 [@volverjs/ui-vue](https://github.com/volverjs/ui-vue) and [@volverjs/style](https://github.com/volverjs/style), light and dark theme
 - 🌍 [Vue I18n](https://vue-i18n.intlify.dev/) in English and Italian, Zod errors included
 - 📲 [PWA](https://vite-pwa-org.netlify.app/)
-- 🧪 [Vitest](https://vitest.dev/) and a one-command Definition of Done: `pnpm verify`
+- 📋 A worked example of every layer: the `todo` resource, from the table to the list and detail pages, with per-user ownership
+- 🧪 [Vitest](https://vitest.dev/), with integration tests on a real Postgres, and a one-command Definition of Done: `pnpm verify`
 - 🤖 AI first: `AGENTS.md`, guard hooks, pinned skills and a UI tour for coding agents (below)
 - 🦾 TypeScript everywhere
 
@@ -109,7 +110,7 @@ Another Postgres already on 5432? `POSTGRES_PORT=5433 docker compose up -d`, and
 | `pnpm verify` | Lint, typecheck, tests, production builds and the template checks |
 | `pnpm lint` / `pnpm lint:fix` | ESLint and Stylelint |
 | `pnpm typecheck` | `tsc` for the backend, `vue-tsc` for the frontend |
-| `pnpm test` | Backend tests (Vitest) |
+| `pnpm test` | Backend tests (Vitest): unit, and integration on the Docker Postgres |
 | `pnpm build` | Production builds |
 | `pnpm db:generate` / `pnpm db:migrate` | Drizzle migrations |
 | `pnpm nx run frontend:ui-tour` | Screenshots of the running app in both themes, failing on console errors |

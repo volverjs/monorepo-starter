@@ -1,6 +1,6 @@
 import type { AppModule } from '~/types'
 import { abilitiesPlugin } from '@casl/vue'
-import { ability, updateAbilityByUserRole } from 'ability'
+import { ability, updateAbility } from 'ability'
 
 export const install: AppModule = ({ app }) => {
     app.use(abilitiesPlugin, ability)
@@ -9,7 +9,7 @@ export const install: AppModule = ({ app }) => {
     watch(
         session,
         (session) => {
-            updateAbilityByUserRole(session.data?.user?.role)
+            updateAbility(session.data?.user)
         },
         {
             immediate: true,

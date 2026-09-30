@@ -4,11 +4,6 @@
     })
     const items = computed(() => [
         {
-            to: { name: '/backoffice/dashboard' },
-            label: $t('route.dashboard'),
-            icon: 'dashboard',
-        },
-        {
             to: { name: '/backoffice/users' },
             label: $t('route.users'),
             icon: 'user',

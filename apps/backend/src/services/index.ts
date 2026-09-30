@@ -1,24 +1,27 @@
-import type { User } from 'better-auth'
+import type { AppAbility } from 'ability'
+import type { User } from 'auth'
 import type { Querystring } from 'models'
 import type { PagedResponse } from '~/plugins/fastifyPagination'
 
-export interface CrudService<
-    InputType = Record<string, unknown>,
-    OutputType = Record<string, unknown>,
-> {
-    create(item: InputType, currentUser: User): Promise<OutputType>
+/**
+ * Who is calling a service: the user writes the audit columns, the ability
+ * decides which rows they see and change. Controllers build it with
+ * `getActor(request)`.
+ */
+export type Actor = {
+    user: User
+    ability: AppAbility
+}
 
-    read(queryOrKey: unknown): Promise<OutputType>
-    read(queryOrKey: Querystring): Promise<PagedResponse<OutputType>>
-    read(
-        queryOrKey: Querystring | unknown,
-    ): Promise<OutputType | PagedResponse<OutputType>>
-
-    update(
-        itemKey: unknown,
-        item: InputType,
-        currentUser: User,
-    ): Promise<OutputType>
-
-    delete(itemKey: string, currentUser: User): Promise<boolean>
+/**
+ * The shape of a resource service, see `todo.service.ts`. `get`, `update` and
+ * `delete` answer 404 for a row the actor may not read, as if it did not
+ * exist, and 403 for a row they may read but not change.
+ */
+export interface CrudService<Dto, Item, Query extends Querystring> {
+    list(query: Query, actor: Actor): Promise<PagedResponse<Item>>
+    get(id: string, actor: Actor): Promise<Item>
+    create(item: Dto, actor: Actor): Promise<Item>
+    update(id: string, item: Dto, actor: Actor): Promise<Item>
+    delete(id: string, actor: Actor): Promise<boolean>
 }

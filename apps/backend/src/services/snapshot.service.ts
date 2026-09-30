@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { injected } from 'brandi'
 import { snapshot } from 'database/schema'
-import type { Database } from 'database'
+import type { Database, Transaction } from 'database'
 import type { User } from 'better-auth'
 import { TOKENS } from '~/container/tokens'
 
@@ -17,12 +17,17 @@ export class SnapshotService {
             .where(eq(this._table.entityId, id))
     }
 
+    /**
+     * Pass the transaction of the write being recorded as `executor`: the
+     * write and its snapshot then commit together, or neither does.
+     */
     async create(
         entityId: string,
         entityName: string,
         content: string,
         scope: string,
         currentUser: User,
+        executor: Database | Transaction = this._db,
     ): Promise<boolean> {
         if (!entityId || !entityName || !content) {
             return false
@@ -35,7 +40,7 @@ export class SnapshotService {
             createdBy: currentUser.id,
             updatedBy: currentUser.id,
         }
-        const toReturn = await this._db
+        const toReturn = await executor
             .insert(this._table)
             .values(itemToSave)
             .returning()

@@ -43,7 +43,7 @@
                 v-if="isImpersonating"
                 modifiers="action-quiet"
                 class="ml-auto"
-                icon="hugeicons:user-switch"
+                icon="user-badge"
                 :title="$t('action.stopImpersonation')"
                 @click="stopImpersonating" />
             <VvButton

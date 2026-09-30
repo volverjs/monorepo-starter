@@ -1,156 +1,170 @@
-import type { User } from 'better-auth'
-import type { TodoDto, Todo, TodoQuerystring } from 'models'
-import type { Database } from 'database'
+import type { Action } from 'ability'
+import type { Database, Transaction } from 'database'
+import type { Todo, TodoDto, TodoQuerystring } from 'models'
 import type { SnapshotService } from '~/services/snapshot.service'
-import { and, eq, sql } from 'drizzle-orm'
+import type { Actor, CrudService } from '.'
+import { and, eq } from 'drizzle-orm'
 import { injected } from 'brandi'
 import { todo } from 'database/schema'
+import {
+    getFilters,
+    getFullText,
+    getIdsFilter,
+    getOffsetAndLimit,
+    getOrderBy,
+} from 'database/helpers'
 import { Subject } from 'ability'
 import { TOKENS } from '~/container/tokens'
 import { EntityNotFoundError } from '~/plugins/fastifyProblemJson'
-import {
-    getFilters,
-    getIdsFilter,
-    getFullText,
-    getOrderBy,
-    getOffsetAndLimit,
-} from 'database/helpers'
 import { PagedResponse } from '~/plugins/fastifyPagination'
-import type { CrudService } from '.'
+import { accessibleBy, assertCan } from '~/utils/permissions'
 
-export class TodoService implements CrudService {
+type Row = typeof todo.$inferSelect
+
+/**
+ * The reference resource service: a new resource copies it
+ * (docs/agents/new-resource.md). Every query goes through `_visible`, so a
+ * soft deleted row, or one the actor may not read, never leaves this class.
+ */
+export class TodoService implements CrudService<
+    TodoDto,
+    Todo,
+    TodoQuerystring
+> {
     private _table = todo
 
     constructor(
         private _db: Database,
-        private _snapshotsService: SnapshotService,
+        private _snapshotService: SnapshotService,
     ) {}
 
-    private _removeMetadata(item: TodoDto) {
-        const {
-            createdBy,
-            updatedBy,
-            createdAt,
-            updatedAt,
-            deleted,
-            deletedAt,
-            deletedBy,
-            ...rest
-        } = item
-        return rest
-    }
-
-    async create(item: TodoDto, currentUser: User) {
-        const value = {
-            ...this._removeMetadata(item),
-            createdBy: currentUser.id,
-            updatedBy: currentUser.id,
-        }
-
-        const toReturn = (
-            await this._db.insert(this._table).values(value).returning()
-        )[0]
-
-        await this._snapshotsService.create(
-            toReturn.id,
-            Subject.Todo,
-            JSON.stringify(toReturn),
-            'create',
-            currentUser,
-        )
-
-        return toReturn
-    }
-
-    async read(queryOrKey: string): Promise<Todo>
-    async read(queryOrKey: TodoQuerystring): Promise<PagedResponse<Todo>>
-    async read(
-        queryOrKey: TodoQuerystring | string,
-    ): Promise<Todo | PagedResponse<Todo>> {
-        if (typeof queryOrKey === 'string') {
-            const item = await this._db.query.todo.findFirst({
-                where: (table, { eq }) => eq(table.id, queryOrKey),
-            })
-            if (!item) {
-                throw new EntityNotFoundError(queryOrKey)
-            }
-            return item
-        }
-
-        const where = and(
-            ...getFilters(queryOrKey, this._table),
-            getIdsFilter(queryOrKey, this._table),
-            getFullText(queryOrKey, [this._table.title]),
+    /** The rows the actor may `action`, soft deleted ones excluded. */
+    private _visible({ ability }: Actor, action: Action = 'read') {
+        return and(
             eq(this._table.deleted, false),
+            accessibleBy(ability, action, Subject.Todo, this._table),
         )
-
-        const total = await this._db
-            .select({ count: sql<number>`count(*)` })
-            .from(this._table)
-            .where(where)
-
-        const items = await this._db.query.todo.findMany({
-            ...getOffsetAndLimit(queryOrKey),
-            orderBy: getOrderBy(queryOrKey, this._table),
-            where,
-        })
-        const toReturn = new PagedResponse(items, total[0].count)
-        return toReturn
     }
 
-    async update(itemKey: string, item: TodoDto, currentUser: User) {
-        const value = {
-            ...this._removeMetadata(item),
-            updatedBy: currentUser.id,
-            updatedAt: new Date(),
-        }
-
-        const toReturn = (
-            await this._db
-                .update(this._table)
-                .set(value)
-                .where(eq(this._table.id, itemKey))
-                .returning()
-        )[0]
-        if (!toReturn) {
-            throw new EntityNotFoundError(itemKey)
-        }
-
-        await this._snapshotsService.create(
-            itemKey,
+    /**
+     * Records the write in the same transaction: a snapshot that fails rolls
+     * the write back, so no change is ever stored without its copy.
+     */
+    private _snapshot(
+        tx: Transaction,
+        row: Row,
+        scope: 'create' | 'update' | 'delete',
+        { user }: Actor,
+    ) {
+        return this._snapshotService.create(
+            row.id,
             Subject.Todo,
-            JSON.stringify(toReturn),
-            'update',
-            currentUser,
+            JSON.stringify(row),
+            scope,
+            user,
+            tx,
         )
-        return toReturn
     }
 
-    async delete(itemKey: string, currentUser: User): Promise<boolean> {
-        const item = await this.read(itemKey)
-        if (item.deleted) {
-            return true
+    async list(query: TodoQuerystring, actor: Actor) {
+        const where = and(
+            this._visible(actor),
+            ...getFilters(query, this._table),
+            getIdsFilter(query, this._table),
+            getFullText(query, [this._table.title]),
+        )
+        const [items, total] = await Promise.all([
+            this._db.query.todo.findMany({
+                ...getOffsetAndLimit(query),
+                orderBy: getOrderBy(query, this._table),
+                where,
+            }),
+            this._db.$count(this._table, where),
+        ])
+        return new PagedResponse(items, total)
+    }
+
+    async get(id: string, actor: Actor) {
+        const item = await this._db.query.todo.findFirst({
+            where: and(eq(this._table.id, id), this._visible(actor)),
+        })
+        if (!item) {
+            throw new EntityNotFoundError(id)
         }
-        const toReturn = (
-            await this._db
+        return item
+    }
+
+    async create(item: TodoDto, actor: Actor) {
+        const value = {
+            ...item,
+            createdBy: actor.user.id,
+            updatedBy: actor.user.id,
+        }
+        // The row as it will be stored, not the body: see `assertCan`.
+        assertCan(actor.ability, 'create', Subject.Todo, value)
+        return this._db.transaction(async (tx) => {
+            const [created] = await tx
+                .insert(this._table)
+                .values(value)
+                .returning()
+            await this._snapshot(tx, created, 'create', actor)
+            return created
+        })
+    }
+
+    async update(id: string, item: TodoDto, actor: Actor) {
+        // A 404 when the actor may not even see the row, a 403 when they may
+        // see it but not change it.
+        const current = await this.get(id, actor)
+        assertCan(actor.ability, 'update', Subject.Todo, current)
+        return this._db.transaction(async (tx) => {
+            const [updated] = await tx
+                .update(this._table)
+                .set({
+                    ...item,
+                    updatedBy: actor.user.id,
+                    updatedAt: new Date(),
+                })
+                // Checked again in SQL: the row may have been deleted meanwhile.
+                .where(
+                    and(
+                        eq(this._table.id, current.id),
+                        this._visible(actor, 'update'),
+                    ),
+                )
+                .returning()
+            if (!updated) {
+                throw new EntityNotFoundError(id)
+            }
+            await this._snapshot(tx, updated, 'update', actor)
+            return updated
+        })
+    }
+
+    async delete(id: string, actor: Actor) {
+        const current = await this.get(id, actor)
+        assertCan(actor.ability, 'delete', Subject.Todo, current)
+        return this._db.transaction(async (tx) => {
+            const [deleted] = await tx
                 .update(this._table)
                 .set({
                     deleted: true,
-                    deletedBy: currentUser.id,
+                    deletedBy: actor.user.id,
                     deletedAt: new Date(),
                 })
-                .where(eq(this._table.id, itemKey))
+                .where(
+                    and(
+                        eq(this._table.id, current.id),
+                        this._visible(actor, 'delete'),
+                    ),
+                )
                 .returning()
-        )[0]
-
-        await this._snapshotsService.create(
-            itemKey,
-            Subject.Todo,
-            JSON.stringify(toReturn),
-            'delete',
-            currentUser,
-        )
-        return toReturn.deleted
+            if (!deleted) {
+                throw new EntityNotFoundError(id)
+            }
+            await this._snapshot(tx, deleted, 'delete', actor)
+            return true
+        })
     }
 }
 

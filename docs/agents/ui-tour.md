@@ -17,11 +17,11 @@ With the dev servers up (`pnpm dev`) and the local database migrated:
 # public pages only (sign-in, sign-up, password reset, 404)
 pnpm nx run frontend:ui-tour
 
-# signed in: frontoffice, backoffice, users, 404
+# signed in: dashboard, todos, users, 404
 UI_TOUR_EMAIL=you@example.com UI_TOUR_PASSWORD=... pnpm nx run frontend:ui-tour
 
-# chosen pages
-UI_TOUR_EMAIL=... UI_TOUR_PASSWORD=... pnpm nx run frontend:ui-tour -- /backoffice/users
+# chosen pages, a detail page by its id
+UI_TOUR_EMAIL=... UI_TOUR_PASSWORD=... pnpm nx run frontend:ui-tour -- /frontoffice/todos/<id>
 ```
 
 Screenshots land in `apps/frontend/.ui-tour/` (git ignored) as `<theme>-<page>.png`: open the
@@ -38,8 +38,12 @@ change that renders fine but warns is not done.
 The backoffice pages need an `admin`: promote a local user with
 `update "user" set role = 'admin' where email = '...'`.
 
+It visits pages and clicks nothing: a form, a toggle or a delete still needs trying by hand.
+
 ## What it caught
 
 On 2026-09-29 it found a production build that answered 404 to its own sign-in, because
 `VITE_BACKEND_URL` was empty for the `production` mode ([the frontend gotchas](gotchas/frontend.md)),
-and the `next()` deprecation warning of vue-router 5 on every navigation.
+and the `next()` deprecation warning of vue-router 5 on every navigation. On the same day it
+showed the todo detail form empty and a pressed filter button unreadable in the dark theme
+([the frontend gotchas](gotchas/frontend.md)).

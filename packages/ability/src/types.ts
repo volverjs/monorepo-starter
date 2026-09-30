@@ -11,12 +11,13 @@ export enum Subject {
     User = 'user',
 }
 
-// action
+// action (`modify` is an alias of read, update and delete, see index.ts)
 export type Action =
     | 'create'
     | 'read'
     | 'update'
     | 'delete'
+    | 'modify'
     | 'manage'
     | 'impersonate'
     | 'access'
@@ -27,5 +28,20 @@ export type Capability = {
     action: Action
     subject: Subject
     fields?: string[]
-    condition?: MongoQuery<never>
+    /**
+     * Matched against the record, with the field names of the Zod models
+     * (`createdBy`, not `created_by`). The backend applies it twice: to the
+     * stored row before a write, and as the WHERE clause of every list
+     * (apps/backend/src/utils/permissions.ts).
+     */
+    condition?: MongoQuery
 }
+
+/** Who the rules are built for: the signed-in user, or nobody. */
+export type AbilityUser = {
+    id: string
+    role?: string | null
+}
+
+/** A role is a function of the user, so a condition can name the user's own id. */
+export type Role = (user: AbilityUser) => Capability[]

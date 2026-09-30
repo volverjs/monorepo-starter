@@ -14,10 +14,16 @@ export const httpClient = createHttpClient({
             },
         ],
         afterResponse: [
+            // An alert for a 403, a 5xx and every failed write. A failed read
+            // is left to the page, which shows it in place (an empty table, a
+            // "not found"); a 401 to the auth guard.
             async (request, options, response) => {
+                const isWrite = request.method !== 'GET'
                 if (
                     !response.ok &&
-                    (response.status === 403 || response.status >= 500) &&
+                    (response.status === 403 ||
+                        response.status >= 500 ||
+                        (isWrite && response.status !== 401)) &&
                     response.headers
                         .get('content-type')
                         ?.includes('application/problem+json')

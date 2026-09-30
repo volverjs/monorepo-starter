@@ -27,3 +27,21 @@ body,
         background-clip: content-box;
     }
 }
+
+// @volverjs/style 0.1.28: the dark theme restyles the hover and active states
+// of a secondary button, not the pressed one, which keeps the light background
+// under the light text of the dark theme: a toggle VvButtonGroup becomes
+// unreadable. Same selectors as the theme; remove once the library themes it.
+:where(:host, :root, .theme):not(.theme--light) {
+    @media (prefers-color-scheme: dark) {
+        --vv-button-modifier-secondary-state-pressed-background: var(
+            --color-gray-darken-4
+        );
+    }
+}
+
+:where(.theme.theme--dark) {
+    --vv-button-modifier-secondary-state-pressed-background: var(
+        --color-gray-darken-4
+    );
+}

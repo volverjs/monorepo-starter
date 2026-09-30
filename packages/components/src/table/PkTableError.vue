@@ -6,9 +6,7 @@
     <div
         class="flex flex-col items-center justify-center w-full text-md p-md leading-normal">
         <div class="mb-4">
-            <VvIcon
-                name="akar-icons:triangle-alert-fill"
-                class="text-32 text-word-2" />
+            <VvIcon name="warning" class="text-32 text-word-2" />
         </div>
         <strong class="font-bold">
             {{ $t('message.warning') }}

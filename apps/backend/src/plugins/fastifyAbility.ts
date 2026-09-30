@@ -9,7 +9,7 @@ export const fastifyAbility = fp((fastify, _options, done) => {
     // Registered after fastifyBetterAuth, so `request.user` is already set.
     // One instance per request, see `createAbility`.
     fastify.addHook('onRequest', async (request) => {
-        request.ability = createAbility(request.user?.role)
+        request.ability = createAbility(request.user)
     })
 
     done()
