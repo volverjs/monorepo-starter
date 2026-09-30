@@ -23,8 +23,8 @@ role of whichever request was passing, and the route decorators read it later in
 could overwrite the rules first: a `user` could pass an `admin` check and the other way round.
 
 **Do:** read `request.ability`, built per request by `plugins/fastifyAbility.ts` with
-`createAbility(role)`. ESLint refuses importing the shared `ability` (or
-`updateAbilityByUserRole`) anywhere under `apps/backend`: that one belongs to the browser.
+`createAbility(request.user)`. ESLint refuses importing the shared `ability` (or
+`updateAbility`) anywhere under `apps/backend`: that one belongs to the browser.
 `tests/unit/ability.test.ts` covers the factory.
 
 ## A route without `permissions` is public
@@ -51,15 +51,29 @@ after the handler had written.
 a `preHandler` array and Fastify runs every hook of the route after it.
 `tests/unit/permissions.test.ts` covers each shape.
 
-## A permissions map with conditions judges the request body
+## A permissions map judged ownership on the request body
 
-A map checks `ability.can(action, subject(Subject.X, request.body))` when there is a body. That
-is right for rules on what may be written, and wrong for ownership: the client writes the body,
-so a rule such as `{ createdBy: user.id }` would be satisfied by whatever id the client sends.
-No role here uses conditions yet.
+Until 2026-09-29 the map checked `ability.can(action, subject(Subject.X, request.body))` when
+there was a body. For ownership that is wrong both ways: the client writes the body, so
+`{ createdBy: user.id }` was satisfied by whatever id it sent, and a body without `createdBy`
+(every PUT from the SPA) refused the owner. Without a body the map checked the bare subject
+type, where CASL ignores conditions, so a user could reach anyone's row.
 
-**Do:** check a rule about the stored row against the stored row: in the service, or in a
-permissions function that loads it and throws `ForbiddenError`.
+**Do:** the map checks the subject type only (does the role have any rule for the action).
+The service checks the row: `accessibleBy()` in the WHERE of every query, and `assertCan()` on
+the stored row before a write ([apps/backend/src/utils/permissions.ts](../../apps/backend/src/utils/permissions.ts),
+[todo.service.ts](../../apps/backend/src/services/todo.service.ts)). A condition on create is
+judged on the row the server is about to insert.
+
+## A boolean filter in the querystring matched the false rows
+
+`zodQs.filters(['done'])` declared `filter[done]` as a string, so the service compared the
+boolean column with the string `'true'`. postgres-js serializes a boolean parameter as
+`value === true ? 't' : 'f'`: any string is `'f'`, and `filter[done]=true` returned the open
+todos. No error anywhere; the integration suite caught it.
+
+**Do:** give a non-text filter its schema, `zodQs.filter('done', z.stringbool())` or
+`z.coerce.number()`, so the service receives the typed value.
 
 ## A package the bundle imports must be a dependency of `apps/backend`
 

@@ -37,9 +37,10 @@ database, so `pnpm db:migrate` would have created this project's tables inside a
 project's instance, and `docker compose up` failed to bind the port.
 
 **Do:** the database is named after the project (`POSTGRES_DB` in `docker-compose.yml`, the
-same name in `DATABASE_URL`) and the port is configurable: `POSTGRES_PORT=5433 docker compose up -d`, with
-the same port in `DATABASE_URL`. Before migrating, check which server `DATABASE_URL` points at
-(`apps/backend/.env.local` wins over `.env`, and the shell wins over both).
+same name in `DATABASE_URL`) and the port is configurable: `POSTGRES_PORT=5433 docker compose
+up -d postgres`, with the same port in `DATABASE_URL`. Before migrating or testing, check which
+server `DATABASE_URL` points at (`apps/backend/.env.local` wins over `.env`, and the shell wins
+over both): the integration tests create and drop `<database>_test` on that same server.
 
 `POSTGRES_DB` only names the database the first time the volume is created. A volume made
 before the rename (the template used `postgres` until 2026-09-29) or before a later change of

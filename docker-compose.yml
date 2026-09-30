@@ -11,8 +11,9 @@ services:
         volumes:
             - postgres:/data/postgres
         ports:
-            # Another project already on 5432? `POSTGRES_PORT=5433 docker compose up -d`
-            # and the same port in DATABASE_URL (apps/backend/.env.local).
+            # Port taken by another project? `POSTGRES_PORT=<free port> docker compose
+            # up -d postgres`, and the same port in DATABASE_URL (apps/backend/.env.local):
+            # the integration tests follow it.
             - '${POSTGRES_PORT:-5432}:5432'
         networks:
             - postgres
@@ -32,6 +33,7 @@ services:
         volumes:
             - pgadmin:/var/lib/pgadmin
         ports:
+            # Optional, and not started with `docker compose up -d postgres`
             - '${PGADMIN_PORT:-5050}:80'
         networks:
             - postgres

@@ -26,7 +26,8 @@ a section here).
 - [One ability for the whole process judged each request with someone else's rules](gotchas/backend.md#one-ability-for-the-whole-process-judged-each-request-with-someone-elses-rules)
 - [A route without `permissions` is public](gotchas/backend.md#a-route-without-permissions-is-public)
 - [The permission check used to swallow the route's own hooks](gotchas/backend.md#the-permission-check-used-to-swallow-the-routes-own-hooks)
-- [A permissions map with conditions judges the request body](gotchas/backend.md#a-permissions-map-with-conditions-judges-the-request-body)
+- [A permissions map judged ownership on the request body](gotchas/backend.md#a-permissions-map-judged-ownership-on-the-request-body)
+- [A boolean filter in the querystring matched the false rows](gotchas/backend.md#a-boolean-filter-in-the-querystring-matched-the-false-rows)
 - [A package the bundle imports must be a dependency of `apps/backend`](gotchas/backend.md#a-package-the-bundle-imports-must-be-a-dependency-of-appsbackend)
 - [Annotating the better-auth config erases the plugins from the types](gotchas/backend.md#annotating-the-better-auth-config-erases-the-plugins-from-the-types)
 - [A custom error handler logs nothing, and the shared logger is silent in production](gotchas/backend.md#a-custom-error-handler-logs-nothing-and-the-shared-logger-is-silent-in-production)
@@ -36,6 +37,9 @@ a section here).
 - [vue-router 5 absorbed unplugin-vue-router](gotchas/frontend.md#vue-router-5-absorbed-unplugin-vue-router)
 - [A missing `VITE_` variable is `undefined`, not an error](gotchas/frontend.md#a-missing-vite_-variable-is-undefined-not-an-error)
 - [ESLint `ignores` are globs, and a catch-all page is not a plain path](gotchas/frontend.md#eslint-ignores-are-globs-and-a-catch-all-page-is-not-a-plain-path)
+- [A form seeded before it mounts starts empty](gotchas/frontend.md#a-form-seeded-before-it-mounts-starts-empty)
+- [A toggle button is pressed by its `name`, not its `value`](gotchas/frontend.md#a-toggle-button-is-pressed-by-its-name-not-its-value)
+- [The dark theme leaves a pressed secondary button unreadable](gotchas/frontend.md#the-dark-theme-leaves-a-pressed-secondary-button-unreadable)
 
 ## [Tooling](gotchas/tooling.md)
 
