@@ -14,11 +14,7 @@
     <div class="header">
         <VvButton
             v-if="settingsStore.hasSidebar"
-            :icon="{
-                name: settingsStore.isSidebarOpen
-                    ? 'akar-icons:x-small'
-                    : 'akar-icons:three-line-horizontal',
-            }"
+            :icon="settingsStore.isSidebarOpen ? 'close' : 'menu'"
             modifiers="action-quiet"
             class="md:none"
             @click="settingsStore.toggleSidebarOpen()" />
@@ -33,9 +29,7 @@
         </div>
         <VvButton
             v-if="hasThemes"
-            :icon="
-                settingsStore.isDarkTheme ? 'akar-icons:sun' : 'akar-icons:moon'
-            "
+            :icon="settingsStore.isDarkTheme ? 'light-on' : 'light-off'"
             modifiers="action-quiet"
             :title="$t('action.toggleTheme')"
             class="ml-auto"
@@ -43,7 +37,7 @@
         <VvDropdown arrow offset="6">
             <VvButton
                 :title="$t('label.locale')"
-                icon="carbon:language"
+                icon="language"
                 modifiers="action-quiet" />
             <template #items>
                 <vv-dropdown-action
