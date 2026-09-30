@@ -34,7 +34,7 @@
     "dependencies": {
         "@volverjs/data": "2.0.5",
         "@volverjs/form-vue": "1.1.7",
-        "@volverjs/query-vue": "2.0.8",
+        "@volverjs/query-vue": "2.1.0",
         "@volverjs/ui-vue": "0.0.24",
         "@volverjs/zod-vue-i18n": "0.0.10",
         "@vueuse/core": "^15.0.0",
