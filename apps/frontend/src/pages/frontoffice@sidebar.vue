@@ -13,6 +13,11 @@
             label: $t('route.dashboard'),
             icon: 'dashboard',
         },
+        {
+            to: { name: '/frontoffice/todos/' },
+            label: $t('route.todos'),
+            icon: 'checkbox',
+        },
     ])
 </script>
 

@@ -89,19 +89,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>,
       | '/backoffice/'
-      | '/backoffice/dashboard'
       | '/backoffice/users'
     >,
     '/backoffice/': RouteRecordInfo<
       '/backoffice/',
       '/backoffice',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/backoffice/dashboard': RouteRecordInfo<
-      '/backoffice/dashboard',
-      '/backoffice/dashboard',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -120,6 +112,8 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | '/frontoffice/'
       | '/frontoffice/dashboard'
+      | '/frontoffice/todos/'
+      | '/frontoffice/todos/[id]'
     >,
     '/frontoffice/': RouteRecordInfo<
       '/frontoffice/',
@@ -133,6 +127,20 @@ declare module 'vue-router/auto-routes' {
       '/frontoffice/dashboard',
       Record<never, never>,
       Record<never, never>,
+      | never
+    >,
+    '/frontoffice/todos/': RouteRecordInfo<
+      '/frontoffice/todos/',
+      '/frontoffice/todos',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/frontoffice/todos/[id]': RouteRecordInfo<
+      '/frontoffice/todos/[id]',
+      '/frontoffice/todos/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
       | never
     >,
   }
@@ -212,7 +220,6 @@ declare module 'vue-router/auto-routes' {
       routes:
         | '/backoffice'
         | '/backoffice/'
-        | '/backoffice/dashboard'
         | '/backoffice/users'
       views:
         | 'default'
@@ -223,7 +230,6 @@ declare module 'vue-router/auto-routes' {
       routes:
         | '/backoffice'
         | '/backoffice/'
-        | '/backoffice/dashboard'
         | '/backoffice/users'
       views:
         | 'default'
@@ -233,14 +239,6 @@ declare module 'vue-router/auto-routes' {
     'src/pages/backoffice/index.vue': {
       routes:
         | '/backoffice/'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'src/pages/backoffice/dashboard.vue': {
-      routes:
-        | '/backoffice/dashboard'
       views:
         | never
       pathParamNames:
@@ -259,6 +257,8 @@ declare module 'vue-router/auto-routes' {
         | '/frontoffice'
         | '/frontoffice/'
         | '/frontoffice/dashboard'
+        | '/frontoffice/todos/'
+        | '/frontoffice/todos/[id]'
       views:
         | 'default'
       pathParamNames:
@@ -269,6 +269,8 @@ declare module 'vue-router/auto-routes' {
         | '/frontoffice'
         | '/frontoffice/'
         | '/frontoffice/dashboard'
+        | '/frontoffice/todos/'
+        | '/frontoffice/todos/[id]'
       views:
         | 'default'
       pathParamNames:
@@ -289,6 +291,22 @@ declare module 'vue-router/auto-routes' {
         | never
       pathParamNames:
         | never
+    }
+    'src/pages/frontoffice/todos/index.vue': {
+      routes:
+        | '/frontoffice/todos/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/frontoffice/todos/[id].vue': {
+      routes:
+        | '/frontoffice/todos/[id]'
+      views:
+        | never
+      pathParamNames:
+        | 'id'
     }
   }
 

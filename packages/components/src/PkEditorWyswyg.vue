@@ -1,45 +1,73 @@
 <script setup lang="ts">
-    import { ref, watch, onBeforeUnmount } from 'vue'
-    import {
-        VvButton,
-        VvButtonGroup,
-        VvInputText,
-    } from '@volverjs/ui-vue/components'
+    /*
+     * A rich text field. `v-model` is HTML, or tiptap JSON with
+     * `output-format="json"`. The editor parses what it is given through its
+     * schema, which drops scripts and unknown attributes, so stored HTML is
+     * safe here and nowhere else: never render it with `v-html`. In a form,
+     * bind it through the VvFormField default slot
+     * (apps/frontend/src/pages/frontoffice/todos/[id].vue).
+     */
+    import type { JSONContent } from '@tiptap/core'
+    import { watch, onBeforeUnmount, useId } from 'vue'
+    import { useI18n } from 'vue-i18n'
+    import { VvButton, VvButtonGroup } from '@volverjs/ui-vue/components'
     import { useEditor, EditorContent } from '@tiptap/vue-3'
     import StarterKit from '@tiptap/starter-kit'
 
-    enum OutputFormats {
-        html = 'html',
-        json = 'json',
-    }
-
     const props = withDefaults(
         defineProps<{
-            modelValue?: string
+            modelValue?: string | JSONContent | null
             label?: string
-            outputFormat?: OutputFormats
+            outputFormat?: 'html' | 'json'
             readonly?: boolean
+            invalid?: boolean
+            invalidLabel?: string | string[]
         }>(),
         {
             modelValue: '',
             label: '',
-            outputFormat: OutputFormats.html,
+            outputFormat: 'html',
             readonly: false,
+            invalid: false,
+            invalidLabel: undefined,
         },
     )
-    const emits = defineEmits(['update:modelValue'])
+    const emit = defineEmits<{
+        'update:modelValue': [string | JSONContent]
+    }>()
 
-    const fontSize = ref(10)
+    const { t: $t } = useI18n({ useScope: 'global' })
+    const id = useId()
+
+    // An empty editor holds `<p></p>`: the model gets '' instead, so a cleared
+    // field is stored empty.
+    const currentValue = () => {
+        if (!editor.value) {
+            return undefined
+        }
+        if (props.outputFormat === 'json') {
+            return editor.value.getJSON()
+        }
+        return editor.value.isEmpty ? '' : editor.value.getHTML()
+    }
 
     const editor = useEditor({
         extensions: [StarterKit],
         editable: !props.readonly,
         content: props.modelValue,
+        editorProps: {
+            // The content is a contenteditable div, which a <label for> does
+            // not name: the label is linked by id instead.
+            attributes: {
+                role: 'textbox',
+                'aria-multiline': 'true',
+                'aria-labelledby': `${id}-label`,
+            },
+        },
         onUpdate: () => {
-            if (props.outputFormat === OutputFormats.json) {
-                emits('update:modelValue', editor.value?.getJSON())
-            } else {
-                emits('update:modelValue', editor.value?.getHTML())
+            const value = currentValue()
+            if (value !== undefined) {
+                emit('update:modelValue', value)
             }
         },
     })
@@ -47,70 +75,65 @@
     watch(
         () => props.modelValue,
         (newValue) => {
-            const isSame =
-                props.outputFormat === OutputFormats.json
-                    ? JSON.stringify(editor.value?.getJSON()) ===
+            const same =
+                props.outputFormat === 'json'
+                    ? JSON.stringify(currentValue()) ===
                       JSON.stringify(newValue)
-                    : editor.value?.getHTML() === newValue
-
-            if (isSame) {
-                return
+                    : currentValue() === (newValue ?? '')
+            if (!same) {
+                editor.value?.commands.setContent(newValue ?? '')
             }
-
-            editor.value?.commands.setContent(newValue)
         },
+    )
+
+    watch(
+        () => props.readonly,
+        (readonly) => editor.value?.setEditable(!readonly),
     )
 
     const buttons = [
         {
-            icon: 'octicon:bold-16',
-            title: 'Bold',
+            icon: 'bold',
+            title: 'editor.bold',
             action: () => editor.value?.chain().focus().toggleBold().run(),
             isActive: () => editor.value?.isActive('bold'),
         },
         {
             icon: 'italic',
-            title: 'Italic',
+            title: 'editor.italic',
             action: () => editor.value?.chain().focus().toggleItalic().run(),
             isActive: () => editor.value?.isActive('italic'),
         },
         {
-            icon: 'lucide:heading-1',
-            title: 'Heading 1',
-            action: () =>
-                editor.value?.chain().focus().toggleHeading({ level: 1 }).run(),
-            isActive: () => editor.value?.isActive('heading', { level: 1 }),
-        },
-        {
-            icon: 'lucide:heading-2',
-            title: 'Heading 2',
+            icon: 'text-style',
+            title: 'editor.heading',
             action: () =>
                 editor.value?.chain().focus().toggleHeading({ level: 2 }).run(),
             isActive: () => editor.value?.isActive('heading', { level: 2 }),
         },
         {
-            icon: 'ri:paragraph',
-            title: 'Paragraph',
+            icon: 'text-body',
+            title: 'editor.paragraph',
             action: () => editor.value?.chain().focus().setParagraph().run(),
             isActive: () => editor.value?.isActive('paragraph'),
         },
         {
-            icon: 'ri:list-unordered',
-            title: 'Bullet List',
+            icon: 'bulleted-list',
+            title: 'editor.bulletList',
             action: () =>
                 editor.value?.chain().focus().toggleBulletList().run(),
             isActive: () => editor.value?.isActive('bulletList'),
         },
         {
-            icon: 'ri:list-ordered',
-            title: 'Ordered List',
+            icon: 'numbered-list',
+            title: 'editor.orderedList',
             action: () =>
                 editor.value?.chain().focus().toggleOrderedList().run(),
             isActive: () => editor.value?.isActive('orderedList'),
         },
         {
             icon: 'clear-style',
-            title: 'Clear Format',
+            title: 'editor.clearFormat',
             action: () =>
                 editor.value
                     ?.chain()
@@ -121,68 +144,68 @@
         },
     ]
 
-    const selectedButtons = ref([])
     onBeforeUnmount(() => editor.value?.destroy())
 </script>
 
 <template>
-    <div class="vv-input-text wysiwyg">
-        <label v-if="label" :for="label" class="vv-input-text__label">
+    <div
+        class="vv-input-text pk-editor-wyswyg"
+        :class="{ 'vv-input-text--invalid': invalid }">
+        <label v-if="label" :id="`${id}-label`" class="vv-input-text__label">
             {{ label }}
         </label>
         <div class="vv-input-text__wrapper flex-col items-start">
             <EditorContent
-                :id="label"
-                class="wysiwyg__content light-scrollbar preflight"
+                class="pk-editor-wyswyg__content light-scrollbar"
                 :editor="editor" />
             <VvButtonGroup
                 v-if="!readonly"
-                v-model="selectedButtons"
                 modifiers="compact"
                 item-modifiers="action-quiet"
-                class="wysiwyg__actions"
-                multiple>
+                class="pk-editor-wyswyg__actions">
                 <VvButton
-                    v-for="(button, index) in buttons"
-                    :key="`${button.title}_${index}`"
-                    :title="button.title"
+                    v-for="button in buttons"
+                    :key="button.title"
+                    :title="$t(button.title)"
+                    :aria-label="$t(button.title)"
                     :icon="button.icon"
                     :pressed="button.isActive?.()"
                     @click="button.action" />
-                <div>
-                    <VvInputText
-                        v-model="fontSize"
-                        min="5"
-                        name="font-size"
-                        type="number"
-                        class="wysiwyg__font-size" />
-                </div>
             </VvButtonGroup>
         </div>
+        <small v-if="invalid && invalidLabel" class="vv-input-text__hint">
+            {{ Array.isArray(invalidLabel) ? invalidLabel[0] : invalidLabel }}
+        </small>
     </div>
 </template>
 
 <style lang="scss">
-    .tiptap {
-        flex-grow: 1;
-
-        h1,
-        h2,
-        h3,
-        p {
-            margin: 0;
-            vertical-align: middle;
-        }
-    }
-
-    .wysiwyg {
+    .pk-editor-wyswyg {
         position: relative;
-
-        .selectedCell {
-            background: var(--color-surface-4);
-        }
-
         font-size: var(--text-sm);
+
+        .tiptap {
+            flex-grow: 1;
+            outline: none;
+
+            h2,
+            p {
+                margin: 0;
+            }
+
+            ul,
+            ol {
+                padding-left: var(--spacing-md);
+            }
+
+            ul {
+                list-style: disc;
+            }
+
+            ol {
+                list-style: decimal;
+            }
+        }
 
         &__content {
             min-height: var(--spacing-80);
@@ -197,46 +220,10 @@
             }
         }
 
-        &__font-size {
-            margin: 0;
-
-            &.vv-input-text {
-                height: 35px;
-
-                .vv-input-text__wrapper {
-                    border: unset;
-
-                    .vv-input-text__inner {
-                        height: 100%;
-
-                        input {
-                            width: 25px;
-                            min-height: unset;
-                            padding: 0;
-                            text-align: center;
-                        }
-                    }
-
-                    .vv-input-text__actions-group {
-                        height: 100%;
-                        width: var(--spacing-26);
-
-                        button {
-                            width: unset;
-                        }
-                    }
-                }
-            }
-        }
-
-        th {
-            background-color: var(--color-surface-2);
-        }
-
         &__actions {
             justify-content: start;
             width: 100%;
-            box-shadow: 0 0px 10px 2px
+            box-shadow: 0 0 10px 2px
                 hsl(
                     var(--color-shadow-hue) var(--color-shadow-saturation)
                         var(--color-shadow-lightness) / 10%

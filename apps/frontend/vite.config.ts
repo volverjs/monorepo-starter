@@ -125,6 +125,7 @@ export default defineConfig(({ command, mode }) => {
                     name: env.VITE_APP_NAME,
                     short_name: env.VITE_APP_SHORT_NAME,
                     description: env.VITE_APP_DESCRIPTION,
+                    lang: env.VITE_I18N_DEFAULT_LOCALE,
                     theme_color: '#ffffff',
                     icons: [
                         {

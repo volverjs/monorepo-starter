@@ -31,7 +31,7 @@
         :placeholder="$t('placeholder.search')"
         type="search"
         class="pj-search-fulltext mb-0 max-w-384"
-        :icon="{ name: 'search', prefix: 'orthofix' }" />
+        icon="search" />
 </template>
 
 <style lang="scss">

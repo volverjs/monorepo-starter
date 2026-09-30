@@ -24,6 +24,15 @@
         "unbanUser": "Togli il divieto ",
         "update": "Aggiorna"
     },
+    "editor": {
+        "bold": "Grassetto",
+        "italic": "Corsivo",
+        "heading": "Titolo",
+        "paragraph": "Paragrafo",
+        "bulletList": "Elenco puntato",
+        "orderedList": "Elenco numerato",
+        "clearFormat": "Rimuovi formattazione"
+    },
     "errors": {
         "passwordsDoNotMatch": "Le password non corrispondono"
     },
@@ -43,6 +52,7 @@
         "confirmPassword": "Conferma password",
         "createdAt": "Creato il",
         "description": "Descrizione",
+        "done": "Fatto",
         "email": "Email",
         "emailVerified": "Email verificata",
         "en": "EN",
@@ -51,11 +61,13 @@
         "it": "IT",
         "itemsPerPage": "Per pagina",
         "locale": "Lingua",
+        "notes": "Note",
         "passphrase": "Inserisci la parola chiave",
         "password": "Password",
         "rememberMe": "Ricordami",
         "role": "Ruolo",
         "setUserPassword": "Cambia la password ",
+        "title": "Titolo",
         "totalItemsCount": "Elementi: {total}",
         "totalPages": "di {total}",
         "updatedAt": "Aggiornato il",
@@ -79,11 +91,20 @@
         "search": "Cerca...",
         "select": "Seleziona"
     },
+    "problems": {
+        "entity-not-found": "Questo elemento non esiste, oppure è stato eliminato.",
+        "forbidden": "Non hai i permessi per farlo.",
+        "internal-server-error": "Qualcosa è andato storto sul server. Riprova più tardi.",
+        "not-found": "Questo indirizzo non esiste.",
+        "unauthorized": "La sessione è scaduta: accedi di nuovo.",
+        "validation-error": "Alcuni campi non sono validi."
+    },
     "route": {
         "backoffice": "Backoffice",
         "dashboard": "Dashboard",
         "frontoffice": "Frontoffice",
         "home": "Home",
+        "todos": "Todo",
         "users": "Utenti"
     }
 }
