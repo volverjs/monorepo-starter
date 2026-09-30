@@ -1,11 +1,12 @@
 {
+    "name": "volverjs-monorepo-starter",
     "description": "Scaffold a new full-stack project from @volverjs/monorepo-starter: Nx + pnpm, Vue 3 on the Volver design system, Fastify, Drizzle and PostgreSQL, better-auth, and an AI-first setup.",
+    "author": {
+        "name": "8 wave S.r.l.",
+        "url": "https://github.com/volverjs"
+    },
     "homepage": "https://github.com/volverjs/monorepo-starter",
     "license": "MIT",
-    "lspServers": {},
-    "monitors": [],
-    "name": "volverjs-monorepo-starter",
-    "settings": {},
     "skills": [
         "./skills/"
     ]
