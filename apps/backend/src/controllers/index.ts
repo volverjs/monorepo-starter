@@ -1,4 +1,5 @@
 import type { Subject, Action, AppAbility } from 'ability'
+import type { Actor } from '~/services'
 import type { RouteConfig } from 'fastify-decorators'
 import type { FastifyRequest } from 'fastify'
 import {
@@ -10,18 +11,19 @@ import {
 } from 'fastify-decorators'
 import * as z from 'zod'
 import { ForbiddenError, UnauthorizedError } from '~/plugins/fastifyProblemJson'
-import { subject } from 'ability'
 
 export * from 'fastify-decorators'
 
 export type RouteConfigWithPermissions = RouteConfig & {
     /**
      * Who may call the route. An anonymous request is refused first, with a
-     * 401. A map is then checked action by action against the request body when
-     * there is one (so conditions see the payload, which the client controls),
-     * against the bare subject otherwise, and refuses with a 403. A function
-     * receives the request's ability and throws or rejects to refuse, usually
-     * with a `ForbiddenError`: it is awaited before the handler runs.
+     * 401. A map then names the actions the route needs on a subject type, and
+     * refuses with a 403 a role that has no rule for them at all. Conditions
+     * (a user edits only their own todos) are not judged here, where there is
+     * no row yet: the service judges the stored row (`utils/permissions.ts`).
+     * A function receives the request's ability and throws or rejects to
+     * refuse, usually with a `ForbiddenError`: it is awaited before the
+     * handler runs.
      */
     permissions?:
         | Partial<Record<Action, Subject>>
@@ -48,17 +50,22 @@ const checkPermissions = async (
         if (!actionSubject) {
             continue
         }
-        if (
-            !request.ability.can(
-                action,
-                request.body
-                    ? subject(actionSubject, request.body as object)
-                    : actionSubject,
-            )
-        ) {
+        if (!request.ability.can(action, actionSubject)) {
             throw new ForbiddenError("You're not allowed to do this")
         }
     }
+}
+
+/**
+ * The signed-in user and their ability, for a service call. Throws a 401 when
+ * there is none, which a route with `permissions` has already refused: the
+ * check is what narrows the type.
+ */
+export const getActor = (request: FastifyRequest): Actor => {
+    if (!request.user) {
+        throw new UnauthorizedError("You're not authorized to access this")
+    }
+    return { user: request.user, ability: request.ability }
 }
 
 /**

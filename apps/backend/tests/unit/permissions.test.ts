@@ -24,7 +24,9 @@ describe('withPermissions', () => {
             request.user = role
                 ? ({ role } as FastifyRequest['user'])
                 : undefined
-            request.ability = createAbility(role)
+            request.ability = createAbility(
+                role ? { id: 'someone', role } : null,
+            )
         })
     })
 
@@ -49,6 +51,7 @@ describe('withPermissions', () => {
         })
 
     const createTodo = { create: Subject.Todo }
+    const createUser = { create: Subject.User }
 
     it('refuses an anonymous request with a 401', async () => {
         route({ permissions: createTodo })
@@ -58,7 +61,7 @@ describe('withPermissions', () => {
     })
 
     it('refuses a signed-in role without the capability with a 403', async () => {
-        route({ permissions: createTodo })
+        route({ permissions: createUser })
         const response = await post('user')
         expect(response.statusCode).toBe(403)
         expect(response.headers['content-type']).toContain(

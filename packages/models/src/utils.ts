@@ -9,6 +9,31 @@ export type Querystring = {
     [otherKeys: string]: unknown
 }
 
+/**
+ * The columns of `entityDefaultColumns` the server writes itself, for
+ * `.omit()` on an insert schema: a client never sends them.
+ */
+export const serverManagedColumns = {
+    id: true,
+    createdAt: true,
+    createdBy: true,
+    updatedAt: true,
+    updatedBy: true,
+    deleted: true,
+    deletedAt: true,
+    deletedBy: true,
+} as const
+
+/**
+ * The soft delete columns, for `.omit()` on a select schema: the API never
+ * returns a deleted row, so the flags say nothing to a client.
+ */
+export const softDeleteColumns = {
+    deleted: true,
+    deletedAt: true,
+    deletedBy: true,
+} as const
+
 export const makeSortEnum = <const T extends string>(input: T) => {
     return [`${input}`, `-${input}`] as [T, `-${T}`]
 }
@@ -24,8 +49,17 @@ export const zodQs = {
             'page[size]': z.string().default(defaultSize.toString()),
         }
     },
-    filter: <const T extends string>(input: T) => {
-        return { [`filter[${input}]`]: z.string().optional() }
+    /**
+     * A querystring value is always a string: give a non-text column its own
+     * schema (`z.stringbool()`, `z.coerce.number()`). postgres-js serializes a
+     * boolean parameter as `value === true`, so the string 'true' would match
+     * the rows where the column is false.
+     */
+    filter: <const T extends string>(
+        input: T,
+        schema: z.ZodType = z.string(),
+    ) => {
+        return { [`filter[${input}]`]: schema.optional() }
     },
     range: <const T extends string>(input: T) => {
         return {
@@ -34,7 +68,7 @@ export const zodQs = {
         }
     },
     has: <const T extends string>(input: T) => {
-        return { [`has[${input}]`]: z.boolean().optional() }
+        return { [`has[${input}]`]: z.stringbool().optional() }
     },
     fullText: () => {
         return { [`filter[fullText]`]: z.string().optional() }
@@ -43,18 +77,21 @@ export const zodQs = {
         return { ids: z.union([z.string(), z.array(z.string())]).optional() }
     },
     deleted: () => {
-        return { 'filter[isDeleted]': z.boolean().default(false) }
+        return { 'filter[isDeleted]': z.stringbool().default(false) }
     },
     filters: <const T extends string>(input: readonly T[]) => {
         return input
             .map((i) => zodQs.filter(i))
             .reduce((a, b) => ({ ...a, ...b }))
     },
-    sort: <const S extends string>(sort: S[]) => {
+    sort: <const S extends string>(
+        sort: S[],
+        defaultSort: S | `-${S}` = sort[0],
+    ) => {
         const sortEnums = makeSortEnums(sort) as [S, ...`-${S}`[]]
         return {
             // @ts-expect-error workaround for zod issue
-            sort: z.enum(sortEnums).optional().default(sortEnums[0]),
+            sort: z.enum(sortEnums).optional().default(defaultSort),
         }
     },
 }

@@ -5,4 +5,6 @@ export const todo = pgTable('todo', {
     ...entityDefaultColumns,
     title: text('title').notNull(),
     done: boolean('done').notNull().default(false),
+    // HTML written by PkEditorWyswyg (packages/components)
+    notes: text('notes'),
 })
