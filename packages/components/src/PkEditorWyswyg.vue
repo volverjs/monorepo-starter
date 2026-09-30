@@ -57,11 +57,11 @@
         content: props.modelValue,
         editorProps: {
             // The content is a contenteditable div, which a <label for> does
-            // not name: the label is linked by id instead.
+            // not name: the label is linked by id instead, when there is one.
             attributes: {
                 role: 'textbox',
                 'aria-multiline': 'true',
-                'aria-labelledby': `${id}-label`,
+                ...(props.label ? { 'aria-labelledby': `${id}-label` } : {}),
             },
         },
         onUpdate: () => {
