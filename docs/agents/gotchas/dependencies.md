@@ -31,10 +31,10 @@ rejected entry rebuild it with `pnpm clean --lockfile --yes && pnpm install`. Th
 
 A `@volverjs` release needed the day it ships (2026-09-30: `@volverjs/style` 0.1.29 and
 `@volverjs/query-vue` 2.1.0, published by the team an hour earlier) is the one exception, and
-it is Alessandro's call. Installed once with the age check off, pnpm writes the exact versions
-into `minimumReleaseAgeExclude`, and without that list the lockfile fails every install, a
-`--frozen-lockfile` one included, with `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION` until the
-release is a day old. Keep the list out of the commit, say in the pull request when the
+it is the project owner's call: a person runs that install, not an agent. Installed once with
+the age check off, pnpm writes the exact versions into `minimumReleaseAgeExclude`, and without
+that list the lockfile fails every install, a `--frozen-lockfile` one included, with
+`ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION` until the release is a day old. Keep the list out of the commit, say in the pull request when the
 lockfile starts to install, and merge after that.
 
 ## better-auth is pinned exactly, and its CLI is another package

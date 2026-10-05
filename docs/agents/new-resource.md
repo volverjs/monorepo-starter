@@ -116,9 +116,11 @@ Invoke `volverjs-style`, `volverjs-ui-vue` and `volverjs-form-vue` first. Copy t
   `can('update', subject(...))` is false, a custom component (`PkEditorWyswyg`) through the
   `VvFormField` slot;
 - `submit()` and `remove()` created once with `{ immediate: false }` and called with
-  `await execute(...)`, so the page has one `isLoading` to disable its buttons with. Since
-  query-vue 2.1.0 `await remove({ id })` resolves to plain values too, but every call is a new
-  query with a loading state of its own;
+  `await execute(...)`, so the page has one `isLoading` to disable its buttons with. With
+  `{ immediate: false }`, awaiting the action itself starts no request: the DELETE is sent by
+  `execute({ id })`. A plain `await remove({ id })`, which executes at once, also resolves to
+  plain values since query-vue 2.1.0, but every call is a new query with a loading state of its
+  own;
 - a sidebar entry in `pages/frontoffice@sidebar.vue`;
 - every label in both locales: global ones in `packages/i18n/src/*.json`, page ones in the
   `<i18n>` block.
