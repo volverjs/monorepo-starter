@@ -8,6 +8,6 @@
         "./*.scss"
     ],
     "dependencies": {
-        "@volverjs/style": "0.1.28"
+        "@volverjs/style": "0.1.29"
     }
 }

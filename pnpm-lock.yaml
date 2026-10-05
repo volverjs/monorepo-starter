@@ -171,13 +171,13 @@ importers:
         version: 2.0.5(typescript@6.0.3)
       '@volverjs/form-vue':
         specifier: 1.1.7
-        version: 1.1.7(@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.28)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(dot-prop@10.2.0)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
+        version: 1.1.7(@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(dot-prop@10.2.0)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
       '@volverjs/query-vue':
-        specifier: 2.0.8
-        version: 2.0.8(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))
+        specifier: 2.1.1
+        version: 2.1.1(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))
       '@volverjs/ui-vue':
         specifier: 0.0.24
-        version: 0.0.24(@volverjs/style@0.1.28)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
+        version: 0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
       '@volverjs/zod-vue-i18n':
         specifier: 0.0.10
         version: 0.0.10(vue-i18n@11.4.12(vue@3.5.43(typescript@6.0.3)))(zod@4.6.5)
@@ -549,8 +549,8 @@ importers:
   packages/style:
     dependencies:
       '@volverjs/style':
-        specifier: 0.1.28
-        version: 0.1.28
+        specifier: 0.1.29
+        version: 0.1.29
 
   packages/tsconfig: {}
 
@@ -2911,8 +2911,8 @@ packages:
       vue: ^3.5.0
       zod: ^3.25.0 || ^4.0.0
 
-  '@volverjs/query-vue@2.0.8':
-    resolution: {integrity: sha512-kzEHX835RR6+WRkB+stYk1UZiLmDnjbNKX5O8LNJE2TtmLTvBZ03PlgXqbvcIMLMZ0CufAEJDNsSg9XsruWzrg==}
+  '@volverjs/query-vue@2.1.1':
+    resolution: {integrity: sha512-+wyHBttQrYe1SFMzjeiEpRsmGYmXOZVmUBpe5aYkfyGjigIMUsfB37/vqesIixojdxsaXeQq7iE2jTbnlVNpXw==}
     engines: {node: '>= 19.x'}
     peerDependencies:
       '@volverjs/data': ^2.0.0
@@ -2920,8 +2920,8 @@ packages:
       pinia: ^4.0.0
       vue: ^3.5.0
 
-  '@volverjs/style@0.1.28':
-    resolution: {integrity: sha512-P8/ISF8G1Gj6p8AT9fvkKmSFI5N1BGr4CGD0b4ZfaWAki5UNAYuoxkuJv+WKCHqL09GIpYpO9cWKDQ4ApAkehQ==}
+  '@volverjs/style@0.1.29':
+    resolution: {integrity: sha512-+FlVXQ6i14XW3JFAYvLKdPQ/hG4V/3vFc5uyqKNgHAc1JxylxCb4ofBhf4X9xBdIz9OBHl0gq6J1hugfdCLmZg==}
     engines: {node: '>= 20.x'}
 
   '@volverjs/ui-vue@0.0.24':
@@ -8599,31 +8599,31 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@volverjs/form-vue@1.1.7(@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.28)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(dot-prop@10.2.0)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)':
+  '@volverjs/form-vue@1.1.7(@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(dot-prop@10.2.0)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)':
     dependencies:
-      '@volverjs/ui-vue': 0.0.24(@volverjs/style@0.1.28)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
+      '@volverjs/ui-vue': 0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
       '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
       dot-prop: 10.2.0
       vue: 3.5.43(typescript@6.0.3)
       zod: 4.6.5
 
-  '@volverjs/query-vue@2.0.8(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))':
+  '@volverjs/query-vue@2.1.1(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))':
     dependencies:
       '@volverjs/data': 2.0.5(typescript@6.0.3)
       '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
       pinia: 4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))
       vue: 3.5.43(typescript@6.0.3)
 
-  '@volverjs/style@0.1.28': {}
+  '@volverjs/style@0.1.29': {}
 
-  '@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.28)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)':
+  '@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)':
     dependencies:
       '@floating-ui/core': 1.8.0
       '@floating-ui/dom': 1.8.0
       '@floating-ui/vue': 2.0.1(vue@3.5.43(typescript@6.0.3))
       '@iconify/vue': 5.0.3(vue@3.5.43(typescript@6.0.3))
       '@tanstack/vue-virtual': 3.13.39(vue@3.5.43(typescript@6.0.3))
-      '@volverjs/style': 0.1.28
+      '@volverjs/style': 0.1.29
       '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
       blurhash: 2.0.5
       comlink: 4.4.2
