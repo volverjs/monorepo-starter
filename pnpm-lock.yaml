@@ -173,8 +173,8 @@ importers:
         specifier: 1.1.7
         version: 1.1.7(@volverjs/ui-vue@0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(dot-prop@10.2.0)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
       '@volverjs/query-vue':
-        specifier: 2.1.0
-        version: 2.1.0(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))
+        specifier: 2.1.1
+        version: 2.1.1(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))
       '@volverjs/ui-vue':
         specifier: 0.0.24
         version: 0.0.24(@volverjs/style@0.1.29)(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))(zod@4.6.5)
@@ -2911,8 +2911,8 @@ packages:
       vue: ^3.5.0
       zod: ^3.25.0 || ^4.0.0
 
-  '@volverjs/query-vue@2.1.0':
-    resolution: {integrity: sha512-W2o+7Z+vEayk3TqQLznm9vpcDGKfLjQoSx7hJvz5JsP8rWnctXL3/mCK5Tnn4OT5WcSa+ov6Lx7AildLpOSzrg==}
+  '@volverjs/query-vue@2.1.1':
+    resolution: {integrity: sha512-+wyHBttQrYe1SFMzjeiEpRsmGYmXOZVmUBpe5aYkfyGjigIMUsfB37/vqesIixojdxsaXeQq7iE2jTbnlVNpXw==}
     engines: {node: '>= 19.x'}
     peerDependencies:
       '@volverjs/data': ^2.0.0
@@ -8607,7 +8607,7 @@ snapshots:
       vue: 3.5.43(typescript@6.0.3)
       zod: 4.6.5
 
-  '@volverjs/query-vue@2.1.0(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))':
+  '@volverjs/query-vue@2.1.1(@volverjs/data@2.0.5(typescript@6.0.3))(@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3)))(pinia@4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))':
     dependencies:
       '@volverjs/data': 2.0.5(typescript@6.0.3)
       '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
