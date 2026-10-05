@@ -10,8 +10,8 @@
     ],
     "dependencies": {
         "@tiptap/core": "^3.31.3",
-        "@tiptap/starter-kit": "^3.31.3",
-        "@tiptap/vue-3": "^3.31.3",
+        "@tiptap/starter-kit": "^3.31.4",
+        "@tiptap/vue-3": "^3.31.4",
         "composables": "workspace:*",
         "models": "workspace:*",
         "ts-dot-prop": "^2.1.4"

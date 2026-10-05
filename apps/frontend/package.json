@@ -15,7 +15,7 @@
     },
     "dependencies": {
         "@casl/vue": "^3.0.1",
-        "@unhead/vue": "^3.4.1",
+        "@unhead/vue": "^3.4.2",
         "ability": "workspace:*",
         "auth": "workspace:*",
         "components": "workspace:*",
@@ -33,7 +33,7 @@
         "vite-plugin-pwa": "^1.3.0",
         "vite-plugin-stylelint": "^6.3.0",
         "vite-plugin-webfont-dl": "^3.13.1",
-        "vue-tsc": "^3.3.11",
+        "vue-tsc": "^3.3.12",
         "workbox-window": "^7.4.1"
     }
 }

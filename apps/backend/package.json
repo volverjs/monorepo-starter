@@ -18,9 +18,9 @@
     "dependencies": {
         "@fastify/cors": "^11.3.0",
         "@fastify/multipart": "^10.1.2",
-        "@fastify/swagger": "^9.9.0",
+        "@fastify/swagger": "^9.9.1",
         "@fastify/swagger-ui": "^6.1.1",
-        "@scalar/fastify-api-reference": "^1.72.0",
+        "@scalar/fastify-api-reference": "^1.72.4",
         "ability": "workspace:*",
         "auth": "workspace:*",
         "better-auth": "1.7.6",
@@ -34,15 +34,15 @@
         "handlebars": "^4.7.9",
         "logger": "workspace:*",
         "models": "workspace:*",
-        "nodemailer": "^10.0.12",
+        "nodemailer": "^10.0.14",
         "openapi-types": "^12.1.3",
         "postgres": "^3.4.9",
         "zod": "^4.6.5"
     },
     "devDependencies": {
-        "@types/node": "^26.6.3",
+        "@types/node": "^26.6.4",
         "tsconfig": "workspace:*",
         "vite-plugin-node": "^8.0.0",
-        "vitest": "^5.0.2"
+        "vitest": "^5.0.3"
     }
 }
