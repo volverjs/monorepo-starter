@@ -29,6 +29,19 @@ enough), never commit `minimumReleaseAgeExclude`, and when the lockfile already 
 rejected entry rebuild it with `pnpm clean --lockfile --yes && pnpm install`. Then run
 `pnpm deps:duplicates`, since a fresh resolution can move anything.
 
+A `@volverjs` release needed the day it ships (2026-09-30: `@volverjs/style` 0.1.29 and
+`@volverjs/query-vue` 2.1.0, published by the team an hour earlier) is the one exception, and
+it is the project owner's call: a person runs that install, not an agent. It needs no flag, and
+`minimumReleaseAge: 0` is not the way: that turns the cutoff off for every package. With
+`minimumReleaseAge` left at its default, pnpm 12.6 runs with `minimumReleaseAgeStrict: false`,
+so a plain `pnpm install` that meets an exact pin younger than the cutoff installs it anyway and
+appends that exact version to `minimumReleaseAgeExclude` (it logs "Added N entries to
+minimumReleaseAgeExclude in pnpm-workspace.yaml"), while the cutoff stays active for everything
+else. Without that list the lockfile fails every install, a `--frozen-lockfile` one included,
+with `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION` until the release is a day old. Keep the list out
+of the commit, say in the pull request when the lockfile starts to install, and merge after
+that.
+
 ## better-auth is pinned exactly, and its CLI is another package
 
 Moving better-auth is not a plain bump: the tables it expects change between minors (see

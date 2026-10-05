@@ -262,7 +262,10 @@ a function of the user, so a rule can be limited to the user's own rows
 
 Upgrading: `pnpm dlx npm-check-updates` lists what moved, then `pnpm install`,
 `pnpm deps:duplicates` and `pnpm verify`. pnpm refuses versions published less than a day ago:
-do not add `minimumReleaseAgeExclude` entries to get around it.
+do not add `minimumReleaseAgeExclude` entries to get around it, and never commit one. The only
+exception is a `@volverjs` release needed the day it ships: the project owner decides and runs
+that install, the list it writes stays out of the commit, and the pull request waits until the
+release is a day old ([the dependency gotchas](docs/agents/gotchas/dependencies.md)).
 
 ### Writing and commits
 
