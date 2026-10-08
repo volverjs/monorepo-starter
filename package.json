@@ -41,7 +41,7 @@
         "@vueuse/router": "^15.0.0",
         "better-auth": "1.7.6",
         "drizzle-orm": "^0.45.3",
-        "handlebars": "^4.7.9",
+        "handlebars": "^4.7.10",
         "nodemailer": "^10.0.12",
         "pinia": "^4.0.3",
         "postgres": "^3.4.9",
