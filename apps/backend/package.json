@@ -34,7 +34,7 @@
         "handlebars": "^4.7.9",
         "logger": "workspace:*",
         "models": "workspace:*",
-        "nodemailer": "^10.0.12",
+        "nodemailer": "^10.0.16",
         "openapi-types": "^12.1.3",
         "postgres": "^3.4.9",
         "zod": "^4.6.5"
